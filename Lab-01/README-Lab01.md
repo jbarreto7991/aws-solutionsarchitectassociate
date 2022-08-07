@@ -6,7 +6,13 @@
 * Construcción de una VPC usando subnet públicas (ruteando a través de un Internet Gateway) y subnets privadas (ruteando a través de un NAT Instances)
 * Configuración de un NAT Instances
 
+### Tópico:
+* Networking
+
+<br>
+
 ---
+
 <br>
 
 ### A - Actividades Técnicas
