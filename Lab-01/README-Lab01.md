@@ -291,7 +291,7 @@
   chmod 400 aws-solutionsarchitectassociate.pem
   nano aws-solutionsarchitectassociate.pem
   [Copiar el contenido de la llave a este archivo]
-  ssh -i .\aws-solutionsarchitectassociate.pem ubuntu@192.168.3.120
+  ssh -i aws-solutionsarchitectassociate.pem ubuntu@192.168.3.120
 
   #Comandos a ejecutar
   sudo su
