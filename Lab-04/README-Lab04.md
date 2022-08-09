@@ -17,8 +17,6 @@
 
 ---
 
-<br>
-
 ### A - Análisis y configuración de Security Groups
 
 <br>
@@ -33,7 +31,6 @@
 Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
 ```
 
-<br>
 
 2. Los recursos desplegados en AWS tienen asignados los siguientes security groups. Todos los security groups tienen asignados ALL TRAFFIC al 0.0.0.0/0 tanto en entrada (Inbound rules) como en salida (Outbound rules):
 
@@ -41,7 +38,6 @@ Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
     * PROD DB (sg_app)
     * NAT Instances (sg_nat)
 
-<br>
 
 3. Generaremos los siguientes security groups. Además, crearemos la instancia "PROD BASTION"
 
@@ -49,49 +45,44 @@ Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
     * PROD DB (sg_db, sg_ssh)
     * PROD BASTION (sg_prodbastion,sg_ssh)
 
-<br>
 
 4. Respecto al sg_app de PROD BACKEND configuraremos lo siguiente:
 
-    * Inbound rules
+    * **Inbound rules**
         * Type: HTTP
         * Source: 0.0.0.0/0
-    * Outbound rules
+    * **Outbound rules**
         * Type: MySQL/Aurora
         * Destination: sg_db (ID) 
-<br>
+
 
 5. Respecto al sg_db de PROD DB configuraremos lo siguiente:
 
-    * Inbound rules
+    * **Inbound rules**
         * Type: MySQL/Aurora
         * Source: sg_app (ID) 
-    * Outbound rules
+    * **Outbound rules**
         * Sin reglas
 
-<br>
 
 6. Respecto al sg_ssh de las instancias PROD DB y PROD BACKEND configuraremos lo siguiente:
 
-    * Inbound rules
+    * **Inbound rules**
         * Type: SSH
         * Source: sg_prodbastion
-    * Outbound rules
+    * **Outbound rules**
         * Sin reglas
 
 
-<br>
-
 7. Respecto al sg_prodbastion de la instancia PROD BASTION configuraremos lo siguiente:
 
-    * Inbound rules
+    * **Inbound rules**
         * Type: SSH
         * Source: MY_IP
-    * Outbound rules
+    * **Outbound rules**
         * Type: SSH
         * Source: 192.168.0.0/16
 
-<br>
 
 8. Después de realizar las configuraciones anteriormente mencionadas validaremos los siguientes casos:
 
@@ -99,7 +90,6 @@ Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
     * Validar que desde la intstancia PROD BACKEND no podemos ingresar vía SSH a PROD DB
     * Validar que desde la instancia PROD BASTION podemos ingresar por SHH hacia las instancias PROD BACKEND y PROD DB
 
-<br>
 
 <img src="images/Lab04_01.jpg">
 
