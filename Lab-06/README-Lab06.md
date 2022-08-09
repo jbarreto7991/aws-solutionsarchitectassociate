@@ -4,7 +4,8 @@
 
 ### Objetivo: 
 * Configuración de System Manager - Session Manager en instancias Linux/Ubuntu
-* Eliminación de las reglas SSH de los Security Groups
+* Eliminación del security group sg_ssh de las instancias EC2
+* Eliminación de la instancia PROD BASTION
 
 ### Tópico:
 * Management & Governance
