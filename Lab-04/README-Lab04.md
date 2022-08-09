@@ -43,7 +43,7 @@ Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
 
     * PROD BACKEND (sg_app, sg_ssh)
     * PROD DB (sg_db, sg_ssh)
-    * PROD BASTION (sg_prodbastion,sg_ssh)
+    * PROD BASTION (sg_prodbastion)
 
 
 4. Respecto al sg_app de PROD BACKEND configuraremos lo siguiente:
