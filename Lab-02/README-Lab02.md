@@ -5,7 +5,7 @@
 ### Objetivo: 
 * Asociar volumen EBS
 * Aumentar tamaño del volumen EBS
-* Reconocimiento del servicio KMS (Key Mananagement Service)
+* Reconocimiento del servicio KMS (Key Management Service)
 
 ### Tópico:
 * Storage
@@ -45,7 +45,7 @@ sudo apt-get update
   * Size (GiB): 8
   * Availability Zone: us-east-1a. (La zona de disponibilidad debe corresponde con la zona de disponibilidad donde se encuentra la instancia PROD BACKEND)
   * Encryption: Encrypt this volume
-  * KMS Key: (default) awa/ebs
+  * KMS Key: (default) aws/ebs
 
 
 4. Se valida la creación del volumen EBS. El nuevo volumen presenta el estado "Available". Adjuntamos este volumen a la instancia PROD BACKEND. Modificamos el valor de "Device name" por "/dev/sdf"

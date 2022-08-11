@@ -1,0 +1,386 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'lab-ec2-s3-v1.0.0'
+
+#Se deberá crear un "Key Pair"
+
+Parameters:
+
+
+  InstancesFamily: 
+     Description: The Instances Family
+     Type: CommaDelimitedList
+     Default: "t2.micro,t2.medium,t2.large,t2.xlarge"
+    
+  KeyPair: 
+     Description: "Ingresar el nombre de un Key Pair"
+     Type: AWS::EC2::KeyPair::KeyName
+
+  
+Mappings: 
+
+  RegionAndInstanceEC2TypeToAMIID: 
+    us-east-1: 
+      "HVM64": "ami-02fe94dee086c0c37"
+
+  RegionAndInstanceNATTypeToAMIID: 
+    us-east-1: 
+      "HVM64": "ami-01623d7b"
+
+  RegionAndAvailabilityZoneToSubnet: 
+    us-east-1: 
+      "AZa": "us-east-1a"
+      "AZb": "us-east-1b"
+
+
+Resources:
+
+#Creacion del recurso IAM Role
+
+  BackendIAMPolicySSM:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+        Path: /
+        PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+                - Effect: Allow
+                  Action: 
+                  - 'ssm:ResumeSession'
+                  - 'ssm:UpdateInstanceInformation'
+                  - 'ssm:DescribeSessions'
+                  - 'ssm:TerminateSession'
+                  - 'ssm:StartSession'
+                  Resource: '*'
+                - Effect: Allow
+                  Action: 
+                  - 'ssmmessages:CreateControlChannel'
+                  - 'ssmmessages:CreateDataChannel'
+                  - 'ssmmessages:OpenControlChannel'
+                  - 'ssmmessages:OpenDataChannel'
+                  Resource: '*'
+                - Effect: Allow
+                  Action: 
+                  - 'cloudwatch:PutMetricData'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'cloudwatch:ListMetrics'
+                  - 'ec2:DescribeTags'
+                  Resource: '*'
+
+
+  BackendIAMPolicyAccessS3FromEC2:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+        Path: /
+        PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+                - Effect: Allow
+                  Action: 
+                  - 's3:*'
+                  Resource: '*'
+
+  BackendIAMPolicyAccessSecurityGroupFromEC2:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+        Path: /
+        PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+                - Effect: Allow
+                  Action: 
+                  - 'ec2:*'
+                  Resource: '*'
+
+
+  BackendIAMServerProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+        Path: /
+        Roles:
+            - !Ref BackendIAMRoleEC2
+                    
+  BackendIAMRoleEC2:
+    Type: AWS::IAM::Role
+    Properties:
+        Path: "/"  
+        AssumeRolePolicyDocument:
+            Version: 2012-10-17
+            Statement:
+                - Effect: Allow
+                  Principal:
+                    Service:
+                    - ec2.amazonaws.com
+                  Action:
+                    - 'sts:AssumeRole'
+        ManagedPolicyArns:
+          - !Ref BackendIAMPolicySSM
+          - !Ref BackendIAMPolicyAccessS3FromEC2
+          - !Ref BackendIAMPolicyAccessSecurityGroupFromEC2
+          - "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
+          - "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+        Tags: 
+        - Key: Enviroment
+          Value: PROD
+
+          
+#Creacion de la Instancia BACKEND
+
+
+  Ec2InstanceA:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Select [ 0, !Ref InstancesFamily]
+      ImageId: !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
+      IamInstanceProfile: !Ref BackendIAMServerProfile
+      KeyName: !Ref KeyPair
+      UserData:
+        'Fn::Base64': 
+          !Sub |
+            #!/bin/bash
+            
+            #Ubuntu 18.04
+            sudo su
+            sudo apt-get update
+            sudo apt-get install php libapache2-mod-php -y
+            sudo apt-get install php-mysqli -y
+            sudo apt-get install awscli -y
+            #sudo apt-get install jq -y
+            
+            #Descarga de código
+            cd /home/ubuntu
+            git clone https://github.com/jbarreto7991/aws_web_coffee.git
+            cd /home/ubuntu/aws_web_coffee
+            cp -r * /var/www/html
+            sudo /etc/init.d/apache2 restart
+            
+            #Editar archivo php.ini
+            chmod 777 /etc/php/7.2/apache2/php.ini
+            sed 's+;extension=mysqli+extension=mysqli+g' /etc/php/7.2/apache2/php.ini >> /etc/php/7.2/apache2/bk_php.ini
+            rm /etc/php/7.2/apache2/php.ini
+            mv /etc/php/7.2/apache2/bk_php.ini /etc/php/7.2/apache2/php.ini
+            sudo /etc/init.d/apache2 restart
+            
+            #Editar archivo /var/www/html/Model/Credentials.php
+            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+            DATABASE_IP=$(aws ec2 describe-instances --filter Name=tag:Name,Values="EC2 MYSQL BACKEND" --query Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress --output text --region $REGION)
+            sed 's+$host = "$DATABASE_IP";+$host = "'"$DATABASE_IP"'";+g' /var/www/html/Model/Credentials.php >> /var/www/html/Model/bk_Credentials.php
+            rm /var/www/html/Model/Credentials.php
+            mv /var/www/html/Model/bk_Credentials.php /var/www/html/Model/Credentials.php
+            sudo /etc/init.d/apache2 restart
+
+            #Obteniendo AMI
+            sleep 180
+            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+            INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+            #DATE=$(date | sed 's!:!!g' | awk '{print $4}')
+            aws ec2 create-image --instance-id $INSTANCE_ID --name AMI_COFFEE --no-reboot --region $REGION
+
+      SecurityGroupIds:
+      - !Ref EC2SecurityWeb
+      SourceDestCheck: true
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sda1"
+        Ebs:
+          VolumeSize: "8"
+          VolumeType: "gp2"
+          DeleteOnTermination: "true"
+          Encrypted: "true"
+      SubnetId: !ImportValue VpcSubnetPrivateAZa
+      Tags:
+      - Key: Name
+        Value: 'EC2 BACKEND'   
+      - Key: Enviroment
+        Value: PROD
+
+                    
+#Creacion de la Instancia EC2 MySQL Database
+
+  EC2MySQL:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Select [0, !Ref InstancesFamily]
+      ImageId: !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
+      IamInstanceProfile: !Ref BackendIAMServerProfile
+      KeyName: !Ref KeyPair
+      UserData:
+        'Fn::Base64': 
+          !Sub |
+            #!/bin/bash
+
+            #Ubuntu 18.04
+            sudo su
+            sudo apt-get update
+            
+            #Instalación Servidor MySQL
+            sudo apt-get install mysql-server -y
+            sudo service mysql status
+            sed -i -e '43s/^/# /' /etc/mysql/mysql.conf.d/mysqld.cnf
+            echo "bind-address            = 0.0.0.0" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+            sudo service mysql restart
+            
+            #Creación de usuario "coffee"
+            cat << EOF | mysql
+            CREATE USER 'coffee'@'%' IDENTIFIED BY '12345678-Aa'; 
+            GRANT ALL PRIVILEGES ON * . * TO 'coffee'@'%' IDENTIFIED BY '12345678-Aa';
+            FLUSH PRIVILEGES;
+            SELECT User, Host FROM mysql.user;
+            quit
+            EOF
+
+            #Crear archivo que contiene usuario y contraseña de la base de datos
+            touch /home/ubuntu/mysql_access
+            chmod 400 /home/ubuntu/mysql_access
+            echo "[client]" >> /home/ubuntu/mysql_access
+            echo "user=coffee" >> /home/ubuntu/mysql_access
+            echo "password=12345678-Aa" >> /home/ubuntu/mysql_access
+            #echo "host=localhost" >> /home/ubuntu/mysql_access
+            
+            #Crear de tabla "task" para la aplicación
+            mysql --defaults-extra-file=/home/ubuntu/mysql_access --batch << "EOF"
+            CREATE DATABASE coffee;
+            USE coffee;
+            CREATE TABLE IF NOT EXISTS `coffee` (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+              `name` varchar(255) DEFAULT NULL,
+              `type` varchar(255) DEFAULT NULL,
+              `price` double DEFAULT NULL,
+              `roast` varchar(255) DEFAULT NULL,
+              `country` varchar(255) DEFAULT NULL,
+              `image` varchar(255) DEFAULT NULL,
+              `review` text,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+            SHOW TABLES;
+            INSERT INTO `coffee` (`id`, `name`, `type`, `price`, `roast`, `country`, `image`, `review`) VALUES
+            (1, 'Cafe au Lait', 'Classic', 2.25, 'Medium', 'France', 'Images/Coffee/Cafe-Au-Lait.jpg', 'A coffee beverage consisting strong or bold coffee (sometimes espresso) mixed with scalded milk in approximately a 1:1 ratio.'')'),
+            (2, 'Caffe Americano', 'Espresso', 3.25, 'Medium', 'Italy', 'Images/coffee/caffe_americano.jpg', 'Similar in strength and taste to American-style brewed coffee, there are subtle differences achieved by pulling a fresh shot of espresso for the beverage base.'),
+            (3, 'Peppermint White Chocolate Mocha', 'Espresso', 3.25, 'Medium', 'Italy', 'Images/coffee/white-chocolate-peppermint-mocha.jpg', 'Espresso with white chocolate and peppermint flavored syrups and steamed milk. Topped with sweetened whipped cream and dark chocolate curls.'),
+            (4, 'Galao', 'Latte', 4.2, 'Light', 'Portugal', 'Images/Coffee/galao_kaffee_portugal.jpg', 'Galao is a hot drink from Portugal made of espresso and foamed milk');
+            select * from coffee;
+            quit
+            EOF
+
+            #Eliminando archivos temporales
+            rm /opt/mysql_access
+
+      SecurityGroupIds:
+      - !Ref EC2SecurityWeb
+      SourceDestCheck: true
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sda1"
+        Ebs:
+          VolumeSize: "8"
+          VolumeType: "gp2"
+          DeleteOnTermination: "true"
+          Encrypted: "true"
+      SubnetId: !ImportValue VpcSubnetDatabaseAZa
+      Tags:
+      - Key: Name
+        Value: 'EC2 MYSQL BACKEND'   
+      - Key: Enviroment
+        Value: PROD
+
+
+#Security Group general
+
+  EC2SecurityWeb:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: 'Allow Internal Connection' 
+        VpcId: !ImportValue Vpc
+        SecurityGroupIngress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+ 
+#Creacion del Recurso Application Load Balancer (ALB)
+
+  EC2ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+        IpAddressType: ipv4
+        Name: EC2ApplicationLoadBalancer
+        Scheme: internet-facing
+        SecurityGroups: 
+          - !Ref EC2SecurityWeb
+        Subnets: 
+          - !ImportValue VpcSubnetPublicAZa
+          - !ImportValue VpcSubnetPublicAZb
+        Tags:
+          - Key: Name
+            Value: 'ALB'
+          - Key: Enviroment
+            Value: PROD
+        Type: application 
+
+
+#Creacion del Recurso Listener HTTP de AutoScaling
+
+  EC2ALBListenerApp01:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:    
+        - Type: forward
+          TargetGroupArn: !Ref EC2LoadBalancerTargetGroupApp
+      LoadBalancerArn: !Ref EC2ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+#Creacion del Recurso Target Group
+
+  EC2LoadBalancerTargetGroupApp:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      Name: EC2LoadBalancerTargetGroupApp
+      TargetType: instance
+      HealthCheckIntervalSeconds: 5
+      HealthCheckPath: '/index.php'
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 2
+      HealthyThresholdCount: 3
+      UnhealthyThresholdCount: 2
+      Matcher:
+        HttpCode: '200'
+      Port: 80
+      Protocol: HTTP
+      VpcId: !ImportValue Vpc
+      TargetGroupAttributes:
+      - Key: deregistration_delay.timeout_seconds
+        Value: 10
+      Targets:
+      - Id: !Ref Ec2InstanceA
+        Port: 80
+
+
+# Creacion del recurso Elastic IP
+# Se asociará a la instancia EC2
+#
+#  EC2ElasticIPPivot:
+#    Type: AWS::EC2::EIP
+#    Properties:
+#        Domain: "vpc"
+#        
+#  EC2ElasticIPAssignment:
+#    Type: AWS::EC2::EIPAssociation
+#    Properties:
+#        EIP: !Ref EC2ElasticIPPivot
+#        InstanceId: !Ref Ec2InstanceA
+
+          
+Outputs: 
+
+  BackendIAMServerProfile: 
+    Value: !Ref "BackendIAMServerProfile"
+    Export:
+      Name: !Sub "BackendIAMServerProfile"
+  Ec2InstanceA:
+    Value: !Ref Ec2InstanceA
+    Export:
+      Name: !Sub "Ec2InstanceA"
+  EC2SecurityWeb:
+    Value: !Ref EC2SecurityWeb
+    Export:
+      Name: !Sub "EC2SecurityWeb"

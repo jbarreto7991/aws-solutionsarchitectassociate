@@ -1,0 +1,41 @@
+
+============================================
+     EJECUCIÓN - System Manager
+============================================
+
+
+1. Desde cada instancias EC2 usando System Manager, ejecutar:
+
+sudo apt-get install stress
+stress -c 4
+
+
+2. Validar las métricas de CloudWatch
+
+3. Validar los valores de AutoScaling Group
+
+
+============================================
+     EJECUCIÓN - Cloud9
+============================================
+
+4. Eliminar los siguientes recursos manualmente:
+   - EC2 | AutoScaling Group
+   - EC2 | ALB
+   - EC2 | Target Group
+   - EC2 | Launch Configuration
+   - EC2 | AMI
+   - EC2 | Snapshot
+   - CloudWatch | Alarma CloudWatch
+
+
+5. Eliminar los siguientes recursos a través de Cloud9
+
+CLOUDFORMATION_1=lab-networking
+CLOUDFORMATION_2=lab-ec2-coffee
+
+aws cloudformation delete-stack --stack-name $CLOUDFORMATION_2
+aws cloudformation delete-stack --stack-name $CLOUDFORMATION_1
+
+
+6. Eliminar Cloud9
