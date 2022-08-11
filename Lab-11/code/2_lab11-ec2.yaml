@@ -138,17 +138,10 @@ Resources:
       SecurityGroupIds:
       - !Ref EC2SecurityWeb
       SourceDestCheck: true
-      BlockDeviceMappings:
-      - DeviceName: "/dev/sda1"
-        Ebs:
-          VolumeSize: "8"
-          VolumeType: "gp2"
-          DeleteOnTermination: "true"
-          Encrypted: "true"
       SubnetId: !ImportValue VpcSubnetPrivateAZa
       Tags:
       - Key: Name
-        Value: 'EC2 BACKEND AZ A'   
+        Value: 'PROD BACKEND AZ A'   
       - Key: Enviroment
         Value: PROD
 
@@ -202,22 +195,13 @@ Resources:
       SecurityGroupIds:
       - !Ref EC2SecurityWeb
       SourceDestCheck: true
-      BlockDeviceMappings:
-      - DeviceName: "/dev/sda1"
-        Ebs:
-          VolumeSize: "8"
-          VolumeType: "gp2"
-          DeleteOnTermination: "true"
-          Encrypted: "true"
       SubnetId: !ImportValue VpcSubnetPrivateAZb
       Tags:
       - Key: Name
-        Value: 'EC2 BACKEND AZ B'   
+        Value: 'PROD BACKEND AZ B'   
       - Key: Enviroment
         Value: PROD
 
-
-        
   EC2SecurityWeb:
     Type: AWS::EC2::SecurityGroup
     Properties:

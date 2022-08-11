@@ -95,7 +95,7 @@ Resources:
       InstanceTenancy: default
       Tags:
       - Key: Name
-        Value: 'VPC'
+        Value: 'PROD VPC'
       - Key: Enviroment
         Value: PROD
         
@@ -106,7 +106,7 @@ Resources:
     Properties:
       Tags:
       - Key: Name
-        Value: 'IG'
+        Value: 'PROD IG'
       - Key: Enviroment
         Value: PROD
             
@@ -129,7 +129,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
       - Key: Name
-        Value: 'SUBNET PUBLIC AZ A'
+        Value: 'PROD SUBNET PUBLIC AZ A'
       - Key: Enviroment
         Value: PROD
 
@@ -142,7 +142,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
       - Key: Name
-        Value: 'SUBNET PUBLIC AZ B'
+        Value: 'PROD SUBNET PUBLIC AZ B'
       - Key: Enviroment
         Value: PROD
 
@@ -155,7 +155,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE BACKEND AZ A'
+        Value: 'PROD SUBNET PRIVATE BACKEND AZ A'
       - Key: Enviroment
         Value: PROD
 
@@ -168,7 +168,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE BACKEND AZ B'
+        Value: 'PROD SUBNET PRIVATE BACKEND AZ B'
       - Key: Enviroment
         Value: PROD
 
@@ -181,7 +181,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE DB AZ A'
+        Value: 'PROD SUBNET PRIVATE DB AZ A'
       - Key: Enviroment
         Value: PROD
 
@@ -194,7 +194,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE DB AZ B'
+        Value: 'PROD SUBNET PRIVATE DB AZ B'
       - Key: Enviroment
         Value: PROD
 
@@ -206,7 +206,7 @@ Resources:
       VpcId: !Ref Vpc
       Tags:
       - Key: Name
-        Value: 'RT PUBLIC'
+        Value: 'PROD RT PUBLIC'
       - Key: Enviroment
         Value: PROD
 
@@ -216,7 +216,7 @@ Resources:
       VpcId: !Ref Vpc
       Tags:
       - Key: Name
-        Value: 'RT PRIVATE'
+        Value: 'PROD RT PRIVATE'
       - Key: Enviroment
         Value: PROD
               
@@ -263,7 +263,7 @@ Resources:
       SubnetId: !Ref VpcSubnetPublicAZb
       Tags:
       - Key: Name
-        Value: 'EC2 NAT Instances'     
+        Value: 'PROD NAT Instances'     
       - Key: Enviroment
         Value: PROD
 
