@@ -57,3 +57,5 @@ aws cloudformation create-stack --stack-name lab13-ec2 --template-body file://~/
 ```bash
 aws cloudformation create-stack --stack-name lab13-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/3_lab13-alb-targetgroup.yaml
 ```
+
+10. 
