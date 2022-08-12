@@ -43,7 +43,7 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 aws cloudformation create-stack --stack-name lab11-vpc --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-11/code/1_lab11-vpc.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
-7. **2_lab11-ec2.yaml** (Esperar el despliegue total de esta plantilla cloudformation para continuar con la siguiente plantilla). En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará dos instancias EC2 ubicados, uno de ellos, en la subnet privada AZ A y el otro en la subnet privada AZ B.
+7. **2_lab11-ec2.yaml**. En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará dos instancias EC2 ubicados, uno de ellos, en la subnet privada AZ A y el otro en la subnet privada AZ B.
 
 ```bash
 aws cloudformation create-stack --stack-name lab11-ec2 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-11/code/2_lab11-ec2.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
