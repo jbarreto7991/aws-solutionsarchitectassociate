@@ -49,4 +49,11 @@ aws cloudformation create-stack --stack-name lab13-vpc --template-body file://~/
 aws cloudformation create-stack --stack-name lab13-ec2 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/2_lab13-ec2.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
-8. En el despliegue de recursos a través de CloudFormation se han generado 6 subnets: 2 subnets públicas (a ser usadas por el BALANCEADOR), 2 subnets privadas (donde han sido desplegado dos EC2 INSTANCES BACKEND) y otras 2 subnets privadas que actualmente no tiene uso, pero serán destinadas en los siguientes laboratorios para la base de datos.
+8. En el despliegue de recursos a través de CloudFormation se han generado 6 subnets: 2 subnets públicas (a ser usadas por el BALANCEADOR), 2 subnets privadas (donde han sido desplegadas dos EC2 INSTANCES BACKEND) y otras 2 subnets privadas que actualmente no tiene uso, pero serán destinadas en los siguientes laboratorios para la base de datos.
+
+
+9. **3_lab13-alb-targetgroup.yaml**. En la sección "Parameters", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará dos instancias EC2 ubicados, uno de ellos, en la subnet privada AZ A y el otro en la subnet privada AZ B. Cada subnet tendrá las siguientes páginas "index.php", "instanceid.php", "availabilityzone.php" y "mac.php"
+
+```bash
+aws cloudformation create-stack --stack-name lab13-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/3_lab13-alb-targetgroup.yaml
+```

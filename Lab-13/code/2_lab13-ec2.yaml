@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'lab-ec2-s3-v1.0.0'
+Description: '2_lab13-ec2'
 
 #Se deberá crear un "Key Pair previamente"
 

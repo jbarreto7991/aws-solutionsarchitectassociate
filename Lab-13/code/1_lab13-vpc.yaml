@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'lab-vpc-v1.0.0'
+Description: '1_lab13-vpc'
 
 #Pre-requisitos
 
