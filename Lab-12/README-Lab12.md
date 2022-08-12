@@ -4,7 +4,6 @@
 
 ### Objetivo: 
 * Configuración de Sticky Session en el Application Load Balancer (ALB)
-* Habilitación de Logs en el Application Load Balancer (ALB)
 
 ### Tópico:
 * Compute
