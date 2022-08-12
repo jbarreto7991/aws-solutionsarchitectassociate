@@ -176,7 +176,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
@@ -200,7 +200,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
@@ -262,7 +262,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
@@ -286,7 +286,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h1>EC2 Instance ID: <?php echo $instance_id ?></h1>
@@ -310,7 +310,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
@@ -334,7 +334,7 @@ Resources:
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 # Get the instance's mac from metadata and store it in the $mac variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $url = "http://169.254.169.254/latest/meta-data/mac";
                 $mac = file_get_contents($url);
                 ?>
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>

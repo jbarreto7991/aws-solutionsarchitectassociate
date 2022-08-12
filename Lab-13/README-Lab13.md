@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Configuración de Sticky Session en el Application Load Balancer (ALB)
+* Configuración del Listener Rules en el Application Load Balancer (ALB)
 
 ### Tópico:
 * Compute
@@ -15,7 +15,7 @@
 
 ---
 
-### A - Configuración de Sticky Session en el Application Load Balancer (ALB)
+### A - Configuración de Listener Rules en el Application Load Balancer (ALB)
 
 
 <br>
@@ -58,4 +58,59 @@ aws cloudformation create-stack --stack-name lab13-ec2 --template-body file://~/
 aws cloudformation create-stack --stack-name lab13-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/3_lab13-alb-targetgroup.yaml
 ```
 
-10. 
+10. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
+
+11. Navegar en las siguientes URLs. Reemplazar con el "DNS Name" respectivo, para este laboratorio el DNS Name corresponde a "ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com"
+
+    * http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/
+    * http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/instanceid.php
+    * http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/availabilityzone.php
+    * http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/mac.php
+
+<br>
+
+<img src="images/Lab13_01.jpg">
+
+<br>
+
+<img src="images/Lab13_02.jpg">
+
+<br>
+
+<img src="images/Lab13_03.jpg">
+
+<br>
+
+<img src="images/Lab13_04.jpg">
+
+<br>
+
+12. Accedemos a la sección "Listener" de nuestro balanceador de aplicaciones. Luego, accedemos al enlace "View/edit rules" para el listener HTTP:80. Damos clic en el icono "+", luego damos clic en el enlace "Insert Rule" e ingresamos los siguientes valores. Luego damos clic en los íconos "Checks" ubicados uno en cada columna. Finalmente damos clic en "Save".
+
+    * Sección **"IF (all match)"**, seleccionamos "Add condition - Path". Ingresamos el texto "ruta1"
+    * Sección **"THEN"**, seleccionamos "Add action - Redirect to". Ingresamos los siguientes valores:
+        * HTTP: 80
+        * Custom host, path, query
+        * Path: /instanceid.php
+
+
+<br>
+
+<img src="images/Lab13_05.jpg">
+
+<br>
+
+<img src="images/Lab13_06.jpg">
+
+<br>
+
+<img src="images/Lab13_07.jpg">
+
+<br>
+
+
+13. Realizamos las validaciones respectivas. 
+
+    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta1 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/instanceid.php
+    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta2 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/availabilityzone.php
+    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta3 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/mac.php
