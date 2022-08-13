@@ -84,6 +84,7 @@ Resources:
                     - 'sts:AssumeRole'
         ManagedPolicyArns:
           - !Ref BackendIAMPolicySSM
+          - arn:aws:iam::aws:policy/AmazonEC2FullAccess
         Tags: 
         - Key: Enviroment
           Value: PROD

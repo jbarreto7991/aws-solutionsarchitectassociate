@@ -36,7 +36,8 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 
 5. Desplegar cada plantilla CloudFormation ejecutando AWSCLI. Considerar los parámetros a ser ingresados.
 
-    <br>
+<br>
+
 6. **1_lab11-vpc.yaml** (Esperar el despliegue total de esta plantilla cloudformation para continuar con la siguiente plantilla). En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará la VPC "192.168.0.0/16", 06 Subnets dentro de este CIDR, un NAT Instances y demás componentes de red. No deberán existir redes existentes en este rango de IPs. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. El siguiente comando considera el valor "aws-solutionsarchitectassociate" para el KeyPair, reemplazar el nombre según la llave respectiva.
 
 ```bash
@@ -171,3 +172,11 @@ aws cloudformation create-stack --stack-name lab11-ec2 --template-body file://~/
 
 <br>
 
+---
+
+### Eliminación de recursos
+
+```bash
+aws cloudformation delete-stack --stack-name lab11-ec2
+aws cloudformation delete-stack --stack-name lab11-vpc
+```
