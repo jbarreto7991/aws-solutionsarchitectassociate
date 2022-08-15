@@ -32,15 +32,15 @@ sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
-3. Acceder al laboratorio 13 (Lab-13), carpeta "code". Validar que se cuenta con tres archivos CloudFormation: "1_lab13-vpc.yaml", "2_lab13-ec2.yaml" y "3_lab13_alb_targetgroup". Analizar el contenido de estos archivos.
+3. Acceder al laboratorio 16 (Lab-16), carpeta "code". Validar que se cuenta con un archivo CloudFormation: "1_lab16-cloudfront-s3.yaml" y un folder de nombre "2_lab16-s3-htmlresources". Analizar el contenido de estos elementos.
 
-5. Desplegar cada plantilla CloudFormation ejecutando AWSCLI. Considerar los parámetros a ser ingresados.
+5. Desplegar la plantilla CloudFormation ejecutando AWSCLI.
 
     <br>
-6. **1_lab13-vpc.yaml** (Esperar el despliegue total de esta plantilla cloudformation para continuar con las siguientes plantillas). En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará la VPC "192.168.0.0/16", 06 Subnets dentro de este CIDR, un NAT Instances y demás componentes de red. No deberán existir redes existentes en este rango de IPs. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. El siguiente comando considera el valor "aws-solutionsarchitectassociate" para el KeyPair, reemplazar el nombre según la llave respectiva.
+6. **1_lab16-cloudfront-s3.yaml** Esta plantilla no contiene parámetros de despliegue. 
 
 ```bash
-aws cloudformation create-stack --stack-name lab13-vpc --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/1_lab13-vpc.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
+aws cloudformation create-stack --stack-name lab16-cloudfront-s3 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-16/code/1_lab16-cloudfront-s3.yaml 
 ```
 
 
