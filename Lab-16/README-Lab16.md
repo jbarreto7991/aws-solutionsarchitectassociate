@@ -18,7 +18,7 @@
 
 ---
 
-### A - Restringir el acceso al contenido de S3 usando OAI (Origin Access Identities) en CloudFront 
+### A - Despliegue de contenido estático en ClodFront
 
 
 <br>
@@ -102,7 +102,9 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 <br>
 
 
-11. Identificar el componente OAI  (Origin Access Identities) en las siguientes características:
+### B - Restringir el acceso al contenido de S3 usando OAI (Origin Access Identities) en CloudFront 
+
+11. Identificar el componente OAI  (Origin Access Identities) en los componentes desplegados (CloudFront y S3)
 
 * CloudFront > Distributions > $DISTRIBUTIONID > Edit origin
 
@@ -112,9 +114,7 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 
 <br>
 
-
 * S3 > Bucket S3 > Permissions > Bucket Policy
-
 
 <br>
 
@@ -122,7 +122,7 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 
 <br>
 
-12. Identificación del compoenente TTL en la distribución CloudFront (CloudFront > Distributions > $DISTRIBUTIONID > Edit behavior > "Cache key and origin requests")
+12. Identificación del componente TTL en la distribución CloudFront (CloudFront > Distributions > $DISTRIBUTIONID > Edit behavior > "Cache key and origin requests")
 
 <br>
 
