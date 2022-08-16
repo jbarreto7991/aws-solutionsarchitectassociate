@@ -103,7 +103,7 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 
 11. Identificar el componente OAI  (Origin Access Identities) en las siguientes características:
 
-    * CloudFront > Distributions > $DISTRIBUTIONID > Edit origin
+* CloudFront > Distributions > $DISTRIBUTIONID > Edit origin
 
 <br>
 
@@ -111,7 +111,9 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 
 <br>
 
-    * S3 > Bucket S3 > Permissions > Bucket Policy
+
+* S3 > Bucket S3 > Permissions > Bucket Policy
+
 
 <br>
 
