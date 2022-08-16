@@ -3,8 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Despliegue de contenido estático en ClodFront
-* Restringir el acceso al contenido de S3 usando OAI (Origin Access Identities) en CloudFront 
+* Despliegue de contenido dinámico en ClodFront
+
 
 
 ### Tópico:
