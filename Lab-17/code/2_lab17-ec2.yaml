@@ -182,7 +182,7 @@ Resources:
             REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 
             #Identificando la IP Privada de la instancia "PROD DB" y almacenarla como variable
-            DB_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PROD DB" --query 'Reservations[*].Instances[*].[PrivateIpAddress]' --region $REGION --output text)
+            DB_IP=$(aws ec2 describe-instances --filters "Name=tag:Type,Values=DB" --query 'Reservations[*].Instances[*].[PrivateIpAddress]' --region $REGION --output text)
             echo $DB_IP
 
             #Reemplazando parámetro en archivo de configuración de la carpeta backend del proyecto
