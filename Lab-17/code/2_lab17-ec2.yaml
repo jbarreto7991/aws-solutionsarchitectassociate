@@ -177,15 +177,17 @@ Resources:
             #Instalación del Backend
             cd /opt/aws-solutionsarchitectassociate/App/backend/
 
+            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+
             #Identificando la IP Privada de la instancia "PROD DB" y almacenarla como variable
             DB_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PROD DB" --query 'Reservations[*].Instances[*].[PrivateIpAddress]' --region $REGION --output text)
             echo $DB_IP
 
             #Reemplazando parámetro en archivo de configuración de la carpeta backend del proyecto
-            sed 's+DB_URI=127.0.0.1+DB_URI=$DB_IP+g' /opt/aws-solutionsarchitectassociate/App/backend/.env >> /opt/aws-solutionsarchitectassociate/App/backend/.bk_env
+            sed 's+DB_URI=127.0.0.1+DB_URI='"$DB_IP"'+g' /opt/aws-solutionsarchitectassociate/App/backend/.env >> /opt/aws-solutionsarchitectassociate/App/backend/.bk_env
             rm /opt/aws-solutionsarchitectassociate/App/backend/.env
             mv /opt/aws-solutionsarchitectassociate/App/backend/.bk_env /opt/aws-solutionsarchitectassociate/App/backend/.env
-            cat //opt/aws-solutionsarchitectassociate/App/backend/.env
+            cat /opt/aws-solutionsarchitectassociate/App/backend/.env
 
             #Inicio del servicio
             npm install
@@ -327,7 +329,7 @@ Resources:
       Name: EC2LoadBalancerTargetGroupApp
       TargetType: instance
       HealthCheckIntervalSeconds: 5
-      HealthCheckPath: '/'
+      HealthCheckPath: '/v1/api/tasks/'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 2
       HealthyThresholdCount: 3
