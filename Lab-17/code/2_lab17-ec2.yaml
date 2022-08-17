@@ -152,12 +152,14 @@ Resources:
             #node --version
             #npm --version
 
+            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+
             #Identificando el dominio del ALB y almacenarla como variable
-            DNS_ALB=$(aws elbv2 describe-load-balancers | jq -r '.LoadBalancers[] .DNSName')
+            DNS_ALB=$(aws elbv2 describe-load-balancers --region $REGION | jq -r '.LoadBalancers[] .DNSName')
             echo $DNS_ALB
 
             #Reemplazando parámetro en archivo de configuración de la carpeta frontend del proyecto
-            sed 's+http://$DNS_ALB/v1+http://'"$DNS_ALB"'/v1+g' /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js >> /opt/aws-solutionsarchitectassociate/App/frontend/src/config/bk_axios.js
+            sed 's+http://$PUBLIC_IP/v1+http://'"$DNS_ALB"'/v1+g' /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js >> /opt/aws-solutionsarchitectassociate/App/frontend/src/config/bk_axios.js
             rm /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js
             mv /opt/aws-solutionsarchitectassociate/App/frontend/src/config/bk_axios.js /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js
             cat /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js
@@ -166,7 +168,7 @@ Resources:
             cd /opt/aws-solutionsarchitectassociate/App/frontend
             npm install
             npm run build
-            sleep 10
+            #sleep 10
 
             #Carga de archivos a S3
             cd /opt/aws-solutionsarchitectassociate/App/frontend/build/
