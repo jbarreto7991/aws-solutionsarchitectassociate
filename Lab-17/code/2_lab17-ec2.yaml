@@ -186,9 +186,9 @@ Resources:
             echo $DB_IP
 
             #Reemplazando parámetro en archivo de configuración de la carpeta backend del proyecto
-            sed 's+DB_URI=127.0.0.1+DB_URI='"$DB_IP"'+g' /opt/aws-solutionsarchitectassociate/App/backend/.env >> /opt/aws-solutionsarchitectassociate/App/backend/.bk_env
+            sed 's+DB_URI=127.0.0.1+DB_URI='"$DB_IP"'+g' /opt/aws-solutionsarchitectassociate/App/backend/.env >> /opt/aws-solutionsarchitectassociate/App/backend/bk_env
             rm /opt/aws-solutionsarchitectassociate/App/backend/.env
-            mv /opt/aws-solutionsarchitectassociate/App/backend/.bk_env /opt/aws-solutionsarchitectassociate/App/backend/.env
+            mv /opt/aws-solutionsarchitectassociate/App/backend/bk_env /opt/aws-solutionsarchitectassociate/App/backend/.env
             cat /opt/aws-solutionsarchitectassociate/App/backend/.env
 
             #Inicio del servicio
