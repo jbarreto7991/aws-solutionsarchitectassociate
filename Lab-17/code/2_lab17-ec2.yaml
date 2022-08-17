@@ -15,10 +15,6 @@ Parameters:
      Description: "Ingresar el nombre de un Key Pair"
      Type: AWS::EC2::KeyPair::KeyName
 
-  BucketName:
-    Type: String
-    Default: mysite.example.com
-  
 Mappings: 
 
   RegionAndInstanceEC2TypeToAMIID: 
@@ -100,7 +96,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       # Bucket names must be globally unique
-      BucketName: !Ref BucketName
+      BucketName: !Sub 'aws-solutionsarchitectassociate-${AWS::AccountId}'
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -130,7 +126,7 @@ Resources:
   Ec2Instance:
     Type: AWS::EC2::Instance
     DependsOn: 
-     - EC2LoadBalancerTargetGroupApp
+     - EC2ApplicationLoadBalancer
      - S3Bucket
      - DBInstance
     Properties:
@@ -224,9 +220,6 @@ Resources:
 
   DBInstance:
     Type: AWS::EC2::Instance
-    DependsOn: 
-     - EC2LoadBalancerTargetGroupApp
-     - S3Bucket
     Properties:
       InstanceType: !Select [ 0, !Ref InstancesFamily]
       ImageId: !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
@@ -329,7 +322,7 @@ Resources:
 
   EC2LoadBalancerTargetGroupApp:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
-    DependsOn: Ec2Instance
+    #DependsOn: Ec2Instance
     Properties:
       Name: EC2LoadBalancerTargetGroupApp
       TargetType: instance
@@ -357,10 +350,18 @@ Outputs:
     Value: !Ref "BackendIAMServerProfile"
     Export:
       Name: !Sub "BackendIAMServerProfile"
-  Ec2InstanceBackend:
-    Value: !Ref Ec2InstanceBackend
+  Ec2Instance:
+    Value: !Ref Ec2Instance
     Export:
-      Name: !Sub "Ec2InstanceBackend"
+      Name: !Sub "Ec2Instance"
+  DBInstance:
+    Value: !Ref DBInstance
+    Export:
+      Name: !Sub "DBInstance"
+  EC2ApplicationLoadBalancer:
+    Value: !Ref EC2ApplicationLoadBalancer
+    Export:
+      Name: !Sub "EC2ApplicationLoadBalancer"
   EC2SecurityWeb:
     Value: !Ref EC2SecurityWeb
     Export:
