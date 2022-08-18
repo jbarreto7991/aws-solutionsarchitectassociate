@@ -3,11 +3,13 @@
 <br>
 
 ### Objetivo: 
-* Despliegue de paso a paso de una distribución ClodFront usando como origen un balanceador de aplicaciones
+* Despliegue de una distribución CloudFront usando como origen un bucket de S3
+* Configurar OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
 
 ### Tópico:
 * Content Delivery
-* Compute
+* Storage
+* Security, Identity & Compliance
 
 ### Dependencias:
 * Ninguna
@@ -128,6 +130,64 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 <img src="images/Lab17_11.jpg">
 
 <br>
+
+10. También será posible acceder al contenido de nuestra aplicación desde la URL generada por el bucket S3 (Static website hosting). Los siguientes pasos tendrán por objetivo desactivar determinadas configuraciones en el bucket S3 y habilitar OAI desde CloudFront.
+
+11. Accedemos al bucket S3 respectivo y:
+    * Desactivamos Static website hosting (Properties)
+    * Habilitar "Block public access (bucket settings)" (Permissions)
+    * Eliminar Bucket Policy (Permissions)
+
+
+<br>
+
+<img src="images/Lab17_12.jpg">
+
+<br>
+
+<img src="images/Lab17_13.jpg">
+
+<br>
+
+<img src="images/Lab17_14.jpg">
+
+<br>
+
+12. Accedemos al servicio de CloudFront, luego a la sección "Origins". Seleccionamos nuestro origen creado y damos clic en "Edit". Nos direccionamos a la sección "S3 bucket access" y seleccionamos la opción "Yes use OAI (bucket can restrict access to only CloudFront)". Luego damos clic en el botón "Create new OAI". Finalmente, dar clic en la opción "Yes, update the bucket policy". Guardar los cambios y esperar unos minutos.
+
+<br>
+
+<img src="images/Lab17_15.jpg">
+
+<br>
+
+13. Validaremos que seguimos teniendo acceso a nuestra aplicación desde CloudFront, pero no desde S3 (debido a la eliminación de configuraciones previadas). En S3, analizar la política S3 generada (ubicada en la sección "Permissions") 
+
+```bash
+{
+    "Version": "2008-10-17",
+    "Id": "PolicyForCloudFrontPrivateContent",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2UOFZ0447CMWV"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::aws-solutionsarchitectassociate-641996252641/*"
+        }
+    ]
+}
+```
+
+<br>
+
+<img src="images/Lab17_16.jpg">
+
+<br>
+
+
 
 ### Eliminación de recursos
 
