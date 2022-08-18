@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Despliegue de contenido dinámico en ClodFront
+* Despliegue de paso a paso de una distribución ClodFront usando como origen un balanceador de aplicaciones
 
 ### Tópico:
 * Content Delivery
@@ -16,7 +16,7 @@
 
 ---
 
-### A - Despliegue de contenido dinámico en ClodFront
+### A - Despliegue de paso a paso de una distribución ClodFront usando como origen un balanceador de aplicaciones
 
 <br>
 
@@ -49,15 +49,89 @@ aws cloudformation create-stack --stack-name lab17-vpc --template-body file://~/
 aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-17/code/2_lab17-ec2.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
+8. Accedemos al servicio de Amazon CloudFront y damos clic en el botón "Create distribution". Ingresamos/seleccionamos los siguientes valores. Luego, dar clic en el botón "Create distribution"
+
+    * **Origin**
+        * Origin domain: S3 Bucket
+        * Origin path - optional: None
+        * Name: Valor pre-cargado automáticamente
+        * S3 bucket access: Don't use OAI (bucket must allow public access)
+        * Add custom header - optional: None
+        * Enable Origin Shield: No
+    * **Default cache behavior**
+        * Path pattern: Default(*)
+        * Compress objects automatically: Yes
+    * **Viewer**
+        * Viewer protocol policy: HTTP and HTTPS
+        * Allowed HTTP methods: GET, HEAD
+        * Restrict viewer access: No
+    * **Cache key and origin requests**
+        * Cache policy and origin request policy (recommended)
+            * Cache policy: Caching Optimized
+            * Origin request policy - optional: None
+        * Response headers policy - optional: None
+    * **Function associations - optional:** None
+    * **Settings**
+        * Price class: Use all edge locations (best performance)
+        * AWS WAF web ACL - optional: None
+        * Alternate domain name (CNAME) - optional: None
+        * Custom SSL certificate - optional: None
+        * Supported HTTP versions: HTTP/2
+        * Default root object - optional: index.html
+        * Standard logging: Off
+        * IPv6: On
+        * Description - optional: None
+
+
+<br>
+
+<img src="images/Lab17_01.jpg">
+
+<br>
+
+<img src="images/Lab17_02.jpg">
+
+<br>
+
+<img src="images/Lab17_04.jpg">
+
+<br>
+
+<img src="images/Lab17_05.jpg">
+
+<br>
+
+<img src="images/Lab17_06.jpg">
+
+<br>
+
+<img src="images/Lab17_07.jpg">
+
+<br>
+
+<img src="images/Lab17_08.jpg">
+
+<br>
+
+<img src="images/Lab17_09.jpg">
+
+<br>
+
+9. Después de unos minutos accedemos a la URL que genera CloudFront. Cargamos la página en HTTP (no en HTTPS). Por ejemplo: http://diu952y35t7z7.cloudfront.net/. Validamos la carga de nuestra aplicación.
+
+<br>
+
+<img src="images/Lab17_10.jpg">
+
+<br>
+
+<img src="images/Lab17_11.jpg">
+
+<br>
 
 ### Eliminación de recursos
 
 ```bash
-aws cloudformation delete-stack --stack-name lab16-cloudfront-s3
+aws cloudformation delete-stack --stack-name lab17-vpc
+aws cloudformation delete-stack --stack-name lab17-ec2
 ```
-
----
-
-### Enlaces
-
- - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/UpdatingExistingObjects.html
