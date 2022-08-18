@@ -4,7 +4,8 @@
 
 ### Objetivo: 
 * Despliegue de contenido estático en ClodFront
-* Restringir el acceso al contenido de S3 usando OAI (Origin Access Identities) en CloudFront 
+* Configuración de Cache con TTL 0 en CloudFront
+* Identificar la configuración OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
 
 
 ### Tópico:
@@ -65,7 +66,7 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-9. Desde Cloud9, realizamos modificaciones en el archivo index.html (línea 59, guardar con CTRL+S). Movemos este cambio a nuestro bucket de S3.
+9. Desde Cloud9, realizamos modificaciones en el archivo index.html (línea 59, por ejemplo agregar v2, luego guardar con CTRL+S). Movemos este cambio a nuestro bucket de S3.
 
 ```bash
 cd ~/environment/aws-solutionsarchitectassociate/Lab-16/code/2_lab16-s3-html-resources
@@ -102,9 +103,42 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 <br>
 
 
-### B - Restringir el acceso al contenido de S3 usando OAI (Origin Access Identities) en CloudFront 
+### B - Configuración de Cache con TTL 0 en CloudFront
 
-11. Identificar el componente OAI  (Origin Access Identities) en los componentes desplegados (CloudFront y S3)
+11. Ingresamos a la distribución CloudFront, nos dirigimos a la opción "Behaviors", editamos el registro y nos posicionamos sobre la sección "Cache key and origin requests". En la opción "Object caching", seleccionar "Customize" y agregar los siguientes valores. Luegos guardar los cambios. Esperar unos minutos.
+
+    * Minimum TTL: 0
+    * Maximum TTL: 0
+    * Default TTL: 0
+
+
+<br>
+
+<img src="images/Lab16_10.jpg">
+
+<br>
+
+<img src="images/Lab16_11.jpg">
+
+<br>
+
+
+12. Desde Cloud9, realizamos modificaciones en el archivo index.html (línea 59, por ejemplo agregar v3, luego guardar con CTRL+S). Movemos este cambio a nuestro bucket de S3.
+
+```bash
+cd ~/environment/aws-solutionsarchitectassociate/Lab-16/code/2_lab16-s3-html-resources
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+echo $BUCKET
+aws s3 sync . s3://$BUCKET
+```
+
+13. Accedemos nuevamente a la dirección URL generada por CloudFront. Validaremos que nuestro cambio realizado se visualiza sin la necesidad de realizar una invalidación. Esto debido a que se ha configurado el TTL de CloudFront para su cache en 0 (ideal para contenido dinámico). 
+
+<br>
+
+### C - Identificar la configuración OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
+
+14. Identificar el componente OAI  (Origin Access Identities) en los componentes desplegados (CloudFront y S3)
 
 * CloudFront > Distributions > $DISTRIBUTIONID > Edit origin
 
@@ -122,7 +156,7 @@ aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/ind
 
 <br>
 
-12. Identificación del componente TTL en la distribución CloudFront (CloudFront > Distributions > $DISTRIBUTIONID > Edit behavior > "Cache key and origin requests")
+15. Identificación del componente TTL en la distribución CloudFront (CloudFront > Distributions > $DISTRIBUTIONID > Edit behavior > "Cache key and origin requests")
 
 <br>
 
