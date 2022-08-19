@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Despliegue de reglas en WAF asociado a la distribución CloudFront
+* Configuración de Route 53
 
 ### Tópico:
 * Security, Identity & Compliance
