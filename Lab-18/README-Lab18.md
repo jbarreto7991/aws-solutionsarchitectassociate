@@ -11,6 +11,11 @@
 
 ### Dependencias:
 * Implementación del Laboratorio 17
+* Será necesario contar con un Dominio creado previamente para completar la validación del certificado SSL/TLS. Esto se podrá realizar a través del servicio Route53 de AWS u otro proveedor de dominios (por ejemplo GoDaddy)
+
+### Costo:
+* El uso de Route 53 tiene un costo asociado
+
 
 <br>
 
