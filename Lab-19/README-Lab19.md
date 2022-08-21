@@ -280,6 +280,6 @@ weighted.jorge-barreto.com. 60  IN      A       3.210.177.190
 
 ```bash
 aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-nvirginia --region us-east-1
-aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-paris --eu-west-3
+aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-paris --region eu-west-3
 
 ```
