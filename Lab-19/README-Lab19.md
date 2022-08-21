@@ -3,7 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Configuración de los "Routing Policies Latency & Weighted" en Route 53
+* Configuración del "Routing Policies Latency" en Route 53
+* Configuración del "Routing Policies Weighted" en Route 53
 
 ### Tópico:
 * Networking
@@ -19,7 +20,7 @@
 
 ---
 
-### A - Configuración de los "Routing Policies Latency & Weighted" en Route 53
+### A - Configuración del "Routing Policies Latency" en Route 53
 
 <br>
 
@@ -62,13 +63,220 @@ aws cloudformation create-stack --stack-name lab19-vpc-ec2-alb-paris --template-
 <br>
 
 
-8. Accedemos al servicio de Route53
+8. Accedemos al servicio de Route53, accedemos a nuestro "Hosted Zones" configurado. Este laboratorio usará "jorge-barreto.com". Dar clic en el botón "Create Record". 
+
+<br>
+
+<img src="images/Lab19_03.jpg">
+
+<br>
+
+<img src="images/Lab19_03.jpg">
+
+<br>
+
+9. Seleccionamos/ingresamos las siguientes configuraciones. Se realizará una configuración para la región N.Virginia y otra configuración para la región de París. Guardar los cambios.
+
+    * **N.Virginia**
+        * Record name: latency.jorge-barreto.com
+        * Record Type: A - Routes traffic to an IPv4 address and some AWS resources
+        * Alias: On
+        * Route traffic to: Alias to Application and Classic Load Balancer
+            * US East (N.Virginia) [us-east-1]
+            * Seleccionar $DNS_Name_ALB de la región N.Virginia
+        * Routing Policy: Latency
+        * Region: US East (N.Virginia)
+        * Evaluate target health: Off
+        * Record ID: us-east-1
+
+    * **Paris**
+        * Record name: latency.jorge-barreto.com
+        * Record Type: A - Routes traffic to an IPv4 address and some AWS resources
+        * Alias: On
+        * Route traffic to: Alias to Application and Classic Load Balancer
+            * Europe (Paris) [eu-west-3]
+            * Seleccionar $DNS_Name_ALB de la región N.Virginia
+        * Routing Policy: Latency
+        * Region: Europe (Paris)
+        * Evaluate target health: Off
+        * Record ID: eu-west-3
+
+<br>
+
+<img src="images/Lab19_04.jpg">
+
+<br>
+
+<img src="images/Lab19_05.jpg">
+
+<br>
+
+<img src="images/Lab19_06.jpg">
+
+<br>
+
+10. Ingresamos a la página web "Proton VPN" [https://protonvpn.com/es_la/] y nos creamos una cuenta. Una vez logueados desde la cuenta previamente creada, descargamos el instalador adeacuado. Nos logueamos y accedemos a la aplicación desde nuestras laptops.
+
+<br>
+
+<img src="images/Lab19_07.jpg">
+
+<br>
 
 
+11. Usando "Proto VPN", activamos la VPN y nos conectamos a un "United States". Luego, desde la web, accedemos a la URL registrada en Route53: "latency.jorge-barreto.com". Accedemos a la aplicación varias veces y observamos que el resultado de nuestra web corresponde al servicio de N.Virginia.
+
+<br>
+
+<img src="images/Lab19_08.jpg">
+
+<br>
+
+<img src="images/Lab19_09.jpg">
+
+<br>
+
+12. Nos desconectamos a "United States" y nos conectamos a "Netherlands". Luego, desde la web, accedemos nuevamente a la URL registrada en Route53: "latency.jorge-barreto.com". Accedemos a la aplicación varias veces y observamos que el resultado de nuestra web corresponde al servicio de Paris.  Consultado la URL "latency.jorge-barreto.com" validamos que nuestra aplicación responde de manera distinta, esta respuesta dependerá del país en donde nos encontremos conectados desde la VPN. Desactivamos la VPN.
+
+<br>
+
+<img src="images/Lab19_08.jpg">
+
+<br>
+
+<img src="images/Lab19_09.jpg">
+
+<br>
+
+---
+
+### B - Configuración del "Routing Policies Weighted" en Route 53
+
+<br>
 
 
+13. Accedemos al servicio de Route53, accedemos a nuestro "Hosted Zones" configurado. Este laboratorio usará "jorge-barreto.com". Dar clic en el botón "Create Record". 
+
+<br>
+
+<img src="images/Lab19_03.jpg">
+
+<br>
+
+<img src="images/Lab19_03.jpg">
+
+<br>
+
+14. Seleccionamos/ingresamos las siguientes configuraciones. Se realizará una configuración para la región N.Virginia y otra configuración para la región de París. Guardar los cambios.
+
+    * **N.Virginia**
+        * Record name: weighted.jorge-barreto.com
+        * Record Type: A - Routes traffic to an IPv4 address and some AWS resources
+        * Alias: On
+        * Route traffic to: Alias to Application and Classic Load Balancer
+            * US East (N.Virginia) [us-east-1]
+            * Seleccionar $DNS_Name_ALB de la región N.Virginia
+        * Routing Policy: Weighted
+        * Weight: 10
+        * Evaluate target health: Off
+        * Record ID: us-east-1
+
+    * **Paris**
+        * Record name: weighted.jorge-barreto.com
+        * Record Type: A - Routes traffic to an IPv4 address and some AWS resources
+        * Alias: On
+        * Route traffic to: Alias to Application and Classic Load Balancer
+            * Europe (Paris) [eu-west-3]
+            * Seleccionar $DNS_Name_ALB de la región N.Virginia
+        * Routing Policy: Weighted
+        * Weight: 30
+        * Evaluate target health: Off
+        * Record ID: eu-west-3
+
+<br>
+
+<img src="images/Lab19_10.jpg">
+
+<br>
+
+<img src="images/Lab19_11.jpg">
+
+<br>
+
+<img src="images/Lab19_06.jpg">
+
+<br>
+
+15. Ingresamos a nuestra instancia de Cloud9 y ejecutamos el siguiente comando. Obtendremos los siguientes resultados. Analizamos la sección "ANSWER SECTION" y buscaremos las IP Públicas resultantes en la sección "Network Interface" del servicio EC2. Se validará que las IP Públicas mostradas corresponden al balanceador de aplicaciones de la zona de N.Virginia y de Paris respectivamente. Consultado la URL "weighted.jorge-barreto.com" validamos que nuestra aplicación muestra distinto contenido. En vez del comando "dig" podremos usar la siguiente aplicación "http://www.kloth.net/services/nslookup.php" 
+
+
+```bash
+dig weighted.jorge-barreto.com
+```
+
+```bash
+#Primer tipo de resultado
+; <<>> DiG 9.11.3-1ubuntu1.17-Ubuntu <<>> weighted.jorge-barreto.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35729
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;weighted.jorge-barreto.com.    IN      A
+
+;; ANSWER SECTION:
+weighted.jorge-barreto.com. 1   IN      A       52.47.177.65
+weighted.jorge-barreto.com. 1   IN      A       35.181.123.137
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: X X X X:X:X UTC X
+;; MSG SIZE  rcvd: 87
+```
+
+```bash
+#Segundo tipo de resultado
+; <<>> DiG 9.11.3-1ubuntu1.17-Ubuntu <<>> weighted.jorge-barreto.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 50074
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;weighted.jorge-barreto.com.    IN      A
+
+;; ANSWER SECTION:
+weighted.jorge-barreto.com. 60  IN      A       54.162.42.27
+weighted.jorge-barreto.com. 60  IN      A       3.210.177.190
+
+;; Query time: 3 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: X X X X:X:X UTC X
+;; MSG SIZE  rcvd: 87
+```
+
+
+<br>
+
+<img src="images/Lab19_15.jpg">
+
+<br>
+
+<img src="images/Lab19_16.jpg">
+
+<br>
+
+
+---
 
 ### Eliminación de recursos
+
+<br>
 
 ```bash
 aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-nvirginia --region us-east-1
