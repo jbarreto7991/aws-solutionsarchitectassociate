@@ -41,7 +41,7 @@ Mappings:
 
   RegionAndInstanceEC2TypeToAMIID: 
     us-east-1: 
-      "HVM64": "ami-0c2b8ca1dad447f8a"
+      "HVM64": "ami-0729e439b6769d6ab"
   RegionAndAvailabilityZoneToSubnet:
     us-east-1:
       "AZa": "us-east-1a"
@@ -143,6 +143,31 @@ Resources:
       ImageId:  !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
       #IamInstanceProfile: !Ref IAMServerProfile
       KeyName: !Ref KeyPair
+      UserData:
+        'Fn::Base64': 
+          !Sub |
+            #!/bin/bash
+
+            #Install Python3 & Pip
+            sudo apt-get update
+            sudo apt-get install python3 -y
+            sudo apt install python3-pip -y
+            python3 --version
+            pip3 install boto3
+            pip3 install pandas
+            pip3 --version
+
+            #Install AWSCLI & Update to AWSCLIv2
+            sudo apt-get install awscli -y
+            pip3 install --upgrade awscli
+            aws --version
+
+            #Download python code
+            cd /home/ubuntu
+            git push https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
+            cp /aws-solutionsarchitectassociate/Lab-20/code/2_sdk_python_s3_with_accesskey.py .
+
+
       SecurityGroupIds:
       - !Ref EC2SecurityGroupInstances
       SourceDestCheck: true

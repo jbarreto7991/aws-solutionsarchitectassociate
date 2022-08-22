@@ -36,13 +36,17 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 4. **1_lab20-vpc-ec2-iam.yaml**. En la sección "ParameterValue", reemplazar el nombre del KeyPair creado en el paso 1. Esta plantilla creará una VPC, 02 subnets públicas y demás componentes de red; además de una instancia EC2. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. El siguiente comando considerar reemplazar el valor del Key Pair con el valor respectivo.
 
 ```bash
-aws cloudformation create-stack --stack-name lab20-vpc-ec2-iam --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-20/code/1_lab20-vpc-ec2-iam.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws" --capabilities CAPABILITY_IAM --region us-east-1
+aws cloudformation create-stack --stack-name lab20-vpc-ec2-iam --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-20/code/1_lab20-vpc-ec2-iam.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM --region us-east-1
 
 ```
 
+5. Accedemos por SSH a la instancia EC2.
 
 ```bash
-aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-nvirginia --region us-east-1
-aws cloudformation delete-stack --stack-name lab19-vpc-ec2-alb-paris --region eu-west-3
+ssh -i KeyPair.pem ubuntu@public_ip
 
+
+
+```bash
+aws cloudformation delete-stack --stack-name lab20-vpc-ec2-iam --region us-east-1
 ```
