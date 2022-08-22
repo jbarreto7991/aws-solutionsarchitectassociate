@@ -157,6 +157,8 @@ python3 2_sdk_python_s3_with_accesskey.py
 python3 2_sdk_python_s3_with_accesskey.py
 ```
 
+12. Si un atacante accede a nuestra instancia podrá obtener las credenciales almacenadas en los archivos python. De la misma manera como si subimos estos archivos python a algún repositorio como GitHub, Bitbucket. Los atacantes podrán usar estas credenciales de forma local si las obtienen. Debemos proteger siempre los "Access key ID" y "Secret access key" generados. Se deberá eligar siempre la configuración de roles en nuestras instancias EC2.
+
 
 ---
 
