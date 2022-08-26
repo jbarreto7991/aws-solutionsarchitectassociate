@@ -236,7 +236,8 @@ Resources:
   EC2SecurityGroupNATInstances:
     Type: AWS::EC2::SecurityGroup
     Properties:
-        GroupDescription: 'Allow External Connection' 
+        GroupDescription: 'Allow External Connection'
+        GroupName: 'sg_nat' 
         VpcId: !Ref Vpc
         SecurityGroupIngress:
         - IpProtocol: -1
@@ -341,7 +342,8 @@ Resources:
   EC2SecurityWeb:
     Type: AWS::EC2::SecurityGroup
     Properties:
-        GroupDescription: 'Allow External Connection' 
+        GroupDescription: 'Allow External Connection'
+        GroupName: 'sg_app'
         VpcId: !Ref Vpc
         SecurityGroupIngress:
         - IpProtocol: -1

@@ -12,6 +12,7 @@
 * Implementación del Laboratorio 01
 * Implementación del Laboratorio 02
 * Implementación del Laboratorio 03
+* Si queremos continuar con este laboratorio sin tener que implementar manualmente los laboratorios 01, 02 y 03, ejecutar la plantilla de CloudFormation "lab04_cloudformation_s3_ec2_db_withcode.yaml" ubicado en la carpeta "code".
 
 <br>
 

@@ -13,6 +13,7 @@
 
 ### Dependencias:
 * Implementación del Laboratorio 01
+* Si queremos continuar con este laboratorio sin tener que implementar manualmente el "Laboratorio 01", ejecutar la plantilla de CloudFormation "lab02_cloudformation_ec2_db.yaml" ubicado en la carpeta "code".
 
 <br>
 
@@ -131,7 +132,7 @@ lsblk -fm
 #Mount disk (EBS)
 df -hT
 lsblk -fm
-sudo resize2fs /dev/
+sudo resize2fs /dev/xvdf
 df -hT
 ```
 
