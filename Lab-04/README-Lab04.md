@@ -44,7 +44,7 @@ Usuario --(80)--> Bucket S3 --(80)--> PROD BACKEND --(3306)--> PROD DB MySQL
     * NAT Instances (sg_nat)
 
 
-3. Generaremos los siguientes security groups. Además, crearemos la instancia "PROD BASTION"
+3. Generaremos los siguientes security groups. Además, **crearemos la instancia "PROD BASTION"** en la "SUBNET PUBLICA B"
 
     * PROD BACKEND (sg_app, sg_ssh)
     * PROD DB (sg_db, sg_ssh)
