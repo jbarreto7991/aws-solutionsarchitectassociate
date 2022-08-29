@@ -19,13 +19,13 @@
 
 <br>
 
-1. Desplegamos la plantilla AWS CloudFormation ubicada en /code/1_lab23-sts-crossaccount.yaml en nuestra cuenta de AWS. Debido a que hemos desplegado varias plantilla en laboratorios anteriores, no se detallará el pasa a paso de este procedimiento.
+1. Desplegamos la plantilla AWS CloudFormation ubicada en /code/1_lab23-sts-crossaccount.yaml en nuestra cuenta de AWS. Debido a que hemos desplegado varias plantilla en laboratorios anteriores, no se detallará el pasa a paso de este procedimiento. Tenemos:
 
     * Despliegue manual a través de la consola AWS
-    * Despliegue usando AWSCLI en Cloud9
-        * En la sección "ParameterValue", seleccionar el valor de "KeyPair"
-        * Seleccionar el valor de "Subnet"
-        * Seleccionar el valor de "VPC"
+    * Despliegue usando AWSCLI en Cloud9, en la sección "ParameterValue": 
+        * Seleccionar el valor de "KeyPair", selecciónar la llave adecuada
+        * Seleccionar el valor de "Subnet", ingresar el id de la subnet donde se desplegará la instancia EC2
+        * Seleccionar el valor de "VPC", ingresar el id de la VPC donde se desplegará la instancia EC2 y se aprovisionará el Security Group respectivo.
 
 ```bash
 
@@ -33,85 +33,85 @@
 sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 
-aws cloudformation create-stack --stack-name lab23-sts-crossaccount --template-body file://~/environment/aws-cloudpractitioner/Lab-23/code/1_lab23-sts-crossaccount.yaml --parameters ParameterKey=KeyPair,ParameterValue="cloud-solutionsarchitect" ParameterKey=Subnet,ParameterValue="subnet-29b70f18"  ParameterKey=VPC,ParameterValue="vpc-dd59d8a0" --capabilities CAPABILITY_IAM
+aws cloudformation create-stack --stack-name lab23-sts-crossaccount --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-23/code/1_lab23-sts-crossaccount.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" ParameterKey=Subnet,ParameterValue="subnet-29b70f18"  ParameterKey=VPC,ParameterValue="vpc-dd59d8a0" --capabilities CAPABILITY_IAM
 ```
 
+2. Accedemos vía System Manager - Session Managear a la instancia EC2 desplegada "STS Challenge" y ejecutamos el siguiente comando. Reemplazar el valor ${AWSID-DestinationAccount} por el ID de la cuenta destino (según Laboratorio anterior)
 
+```bash
+aws sts assume-role --role-arn "arn:aws:iam::${AWSID-DestinationAccount}:role/RoleCrossAccount" --role-session-name CrossAccount
+```
 
+3. Resultado del comando anterior, tendremos un JSON con la siguiente estructura. Obtenemos los siguientes valores:
+    * AccessKeyId
+    * SecretAccessKey
+    * SessionToken
 
-2. 
-
-
-
-
-
-<br>
-
-2. Accedemos al servicio AWS Organizations y damos clic en el botón "Create an organization". 
-
-<br>
-
-<img src="images/Lab22_01.jpg">
-
-<br>
-
-
-================================
-   STS (Secure Token Service)
-================================
-
-
-5. En el origen, crear una instancia EC2:
-   - Asociar la política creada en los pasos anteriores. 
-   - La instancia deberá contar con la política "AmazonS3FullAccess".
-   - La instancia deberá tener instalado awscli: 
-     - "sudo apt-get update"
-	 - "sudo apt-get install awscli -y"
-
-
-6. Desde la instancia EC2, ubicada en la cuenta origen, ejecutar el siguiente comando:
-aws sts assume-role --role-arn "arn:aws:iam::AWSID-DestinationAccount:role/CrossAccount" --role-session-name CrossAccount
-
-
-7. Validar el resultado obtenido:
+```bash
 {
     "Credentials": {
-        "AccessKeyId": "ASIASFZMA3DECLOXCPAR",
-        "SecretAccessKey": "nJ6msnN/TxisM0y/ycIA0moBnPnyIGKxjKw9iWYn",
-        "SessionToken": "FwoGZXIvYXdzEAoaDDAg3NCx66w2Oz4n7SKyAag/VaCcbsHoAQxiMX5LgNeY5X0jaWgubAgWz+vG2REq0JYJfBqMC36El/WZ+Qv6fxX6sH6gs/Wf5IHNT8wFzXQV8jHU6X+j7sQ12U6wtAld+GHIJX7w7Js6teMwCmJVWz+l3yGza5hKW99GQLf7sLLpTkgvLjF4LXUoc+DAK2kEsGCeeGWGg3y6pLyVT+GVh55fJuDVRf6rcL34NJ53sewwVORqNQUM4XDLbwPrbxRtWj4o77eUiQYyLQhJq63C1J8/tP/2B3tCGZePYURdfwg20RDVaqm8j2LpWgEotqksK8Xv8s5V4w==",
-        "Expiration": "2021-08-24T17:18:55Z"
+        "AccessKeyId": "AAAAARJXFUDLJXMBBBBB",
+        "SecretAccessKey": "AAAAAiuUZweUtNHLwCdhiiAtblL2gks3QW2BBBBB",
+        "SessionToken": "AAAAAXIvYXdzEL///////////wEaDDsqJTQuBD27taY04SKwAad/V+jmcFFjF3Q4jzUhjXSjDyHTQMDGCCiPbj3dyHqHjgh7YxO3HKSQjvfCAelR6qMBfbe2IdgWCssyb9sPrwfi1pAKrORhSm2BBBBBxdbrJJve3kPQwqJPQYA01dp2j178giG9AFKLZ5x3qe0gWP1r9qSefXGrBVFNZYZNgoJ86HarP/ZnhiYg0JAoSk1KkFJ5hWnMblPPRbAvNHiBpBXNRWGitoyN/K2zopn31dp2KK7UtJgGMi3aB58/t9cQlQEtqfZoTOsaAlbfRsq9suUY/fJzRMaVnn9tSeCnKM6f79CCCCC=",
+        "Expiration": "XXXX-XX-XXTXX:XX:XXZ"
     },
     "AssumedRoleUser": {
-        "AssumedRoleId": "AROASFZMA3DEIBANOGYQ3:CrossAccount10",
-        "Arn": "arn:aws:sts::149879314632:assumed-role/CrossAccount10/CrossAccount10"
+        "AssumedRoleId": "AAAAARJXFUDLGNAMBBBBB:CrossAccount",
+        "Arn": "arn:aws:sts::XXXXXXXXXXXX:assumed-role/RoleCrossAccount/CrossAccount"
     }
 }
+```
 
+<br>
 
-8. Desde la instancia, ejecutar los siguientes comandos:
+<img src="images/Lab23_01.jpg">
+
+<br>
+
+4. Hacemos uso de AWSCLI e ingresamos los valores "AccessKeyId" y "SecretAccessKey" copiados en el paso anterior en el siguiente comando.
+
+```bash
+aws configure --profile crossaccount
+```
+<br>
+
+<img src="images/Lab23_02.jpg">
+
+<br>
+
+5. Accedemos al archivo ~/.aws/credentials y agregamos la sección "aws_session_token" con el valor obtenido anteriormente. El archivo ~/.aws/credentials tendrá el siguiente contenido:
+
+```bash
+#nano ~/.aws/credentials
+[crossaccount]
+aws_access_key_id = AAAAARJXFUDLJXMBBBBB
+aws_secret_access_key = AAAAAiuUZweUtNHLwCdhiiAtblL2gks3QW2BBBBB
+aws_session_token = AAAAAXIvYXdzEL///////////wEaDDsqJTQuBD27taY04SKwAad/V+jmcFFjF3Q4jzUhjXSjDyHTQMDGCCiPbj3dyHqHjgh7YxO3HKSQjvfCAelR6qMBfbe2IdgWCssyb9sPrwfi1pAKrORhSm2BBBBBxdbrJJve3kPQwqJPQYA01dp2j178giG9AFKLZ5x3qe0gWP1r9qSefXGrBVFNZYZNgoJ86HarP/ZnhiYg0JAoSk1KkFJ5hWnMblPPRbAvNHiBpBXNRWGitoyN/K2zopn31dp2KK7UtJgGMi3aB58/t9cQlQEtqfZoTOsaAlbfRsq9suUY/fJzRMaVnn9tSeCnKM6f79CCCCC=
+```
+
+6. Asimismo accedemos al archivo ~/.aws/config y validamos que contenga la siguiente información:
+
+```bash
+#nano ~/.aws/config
+[profile crossaccount]
+```
+
+7. Ejecutamos los siguientes comandos AWSCLI. El primer comando listará los buckets de la cuenta "Padre" (Cuenta que tiene configurado el AWS Organizations - Referencia: Laboratorio anterior). En el laboratorio anterior este bucket tenía por nombre "nombre-apellido-aws-account01". El segundo comando (haciendo uso del "profile") listará los buckets de la cuenta "Hija". En el laboratorio anterior este bucket tenúa por nombre "nombre-apellido-aws-account02".
+
+```bash
 aws s3 ls
+aws s3 ls --profile crossaccount
+```
+<br>
 
+<img src="images/Lab23_02.jpg">
 
-9. Validar que se muestran los buckets resultantes de la cuenta origen.
+<br>
 
+---
 
-10. Configurar el archivo "credentials" en la instancia EC2 origen. Se utilizarán los valores obtenidos en la ejecución del comando STS
+### Eliminación de recursos
 
-nano ~/.aws/credentials
-
-[account1]
-AWS_ACCESS_KEY_ID=ASIASFZXXXXXCLOXCPAR
-AWS_SECRET_ACCESS_KEY=nJ6msnN/TXXXXXXXXXXXXXXXnPnyIGKxjKw9iWYn
-AWS_SESSION_TOKEN=FwoGZXIvYXdzEAoaDDAg3NCx66w2Oz4n7SKyAag/VaCcbsHoAQxiMX5LgNeY5X0jaWgubAgWz+vG2REq0JYJfBqMC36El/WZ+Qv6fxX6sH6gs/Wf5IHNT8wFzXQV8jHU6X+j7sXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXyGza5hKW99GQLf7sLLpTkgvLjF4LXUoc+DAK2kEsGCeeGWGg3y6pLyVT+GVh55fJuDVRf6rcL34NJ53sewwVORqNQUM4XDLbwPrbxRtWj4o77eUiQYyLQhJq63C1J8/tP/2B3tCGZePYURdfwg20RDVaqm8j2LpWgEotqksK8Xv8s5V4w==
-
-
-11. Configurar el archivo "config" en la instancia EC2 origen. Se utilizarán los valores obtenidos en la ejecución del comando STS
-
-nano ~/.aws/config
-[account1]
-
-
-12. Ejecutar los siguientes comandos:
-
-aws s3 ls
-aws s3 ls --profile XXXXXXXXXX
+```bash
+aws cloudformation delete-stack --stack-name lab23-sts-crossaccount
+```
