@@ -1,4 +1,4 @@
-# AWS Solutions Architect Associate - Laboratorio 26
+# AWS Solutions Architect Associate - Laboratorio 25
 
 <br>
 

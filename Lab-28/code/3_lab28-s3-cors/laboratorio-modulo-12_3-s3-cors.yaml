@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'lab-s3-glue-v1.0.0'
+
+Parameters:
+
+  S3BucketName1:
+    Type: String
+    Description: The name for the S3 bucket - must be unique across all of AWS (3-63 lowercase letters,numbers or character(_,-))
+    Default: "default"
+    AllowedPattern: '^[a-zA-Z0-9][a-zA-Z0-9_-]{5,40}$'
+    ConstraintDescription: 3-63 characters; must contain only lowercase letters or numbers
+
+  S3BucketName2:
+    Type: String
+    Description: The name for the S3 bucket - must be unique across all of AWS (3-63 lowercase letters,numbers or character(_,-))
+    Default: "default"
+    AllowedPattern: '^[a-zA-Z0-9][a-zA-Z0-9_-]{5,40}$'
+    ConstraintDescription: 3-63 characters; must contain only lowercase letters or numbers
+    
+
+Resources:
+
+
+  MyS3Bucket1:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join
+        - '-'
+        - - !Ref S3BucketName1
+          - !Ref 'AWS::Region'
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+    
+  BucketPolicy1:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref MyS3Bucket1
+                - /*
+      Bucket: !Ref MyS3Bucket1
+
+
+  MyS3Bucket2:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join
+        - '-'
+        - - !Ref S3BucketName2
+          - !Ref 'AWS::Region'
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: loadpage.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+    
+  BucketPolicy2:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref MyS3Bucket2
+                - /*
+      Bucket: !Ref MyS3Bucket2
+

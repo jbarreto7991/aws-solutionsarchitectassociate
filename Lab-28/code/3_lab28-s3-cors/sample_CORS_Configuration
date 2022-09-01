@@ -1,0 +1,18 @@
+
+===========================
+         S3 CORS
+===========================
+
+1. Ejecutar la siguiente política CORS en el bucket que contiene la página "loadpage.html". 
+
+2. Reemplazar el campo "BUCKET_STATICWEBSITE_HOSTING_ORIGIN" por el dominio del bucket origen.
+
+
+[
+    {
+      "AllowedOrigins": ["http://BUCKET_STATICWEBSITE_HOSTING_ORIGIN"],
+      "AllowedHeaders": ["Authorization"],
+      "AllowedMethods": ["GET"],
+      "MaxAgeSeconds": 3000
+    }
+]

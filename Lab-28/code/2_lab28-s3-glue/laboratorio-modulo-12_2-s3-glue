@@ -1,0 +1,30 @@
+
+============================
+    S3 - Glue - Crawler
+============================
+
+1. Ejecutar el cloudformation "laboratorio-modulo-12_2-s3-glue"
+
+
+2. Subir el archivo "tripdata.csv" a S3
+
+
+3. Ir al servicio AWS Glue
+   - Validar la sección "Data catalog - Databases"
+   - Validar la sección "Data catalog - Crawlers"
+
+
+4. Ir a la sección "Data catalog - Crawlers". Seleccionar el crawler y dar clic en la opción "Run crawler"
+
+
+5. Validar que la columna "Tables added" muestre el valor de 1
+
+
+6. Ir a la sección  "Data catalog - Databases - Tables". Validar la creación de una tabla
+
+
+7. Ir al servicio "Athena" y configurar el "Query result location"
+
+
+8. Desde Athena, buscar el "Database" creado anteriormente y seleccionar la tabla respectiva. Luego dar clic en los 3 puntos y seleccionar "Preview Table".
+

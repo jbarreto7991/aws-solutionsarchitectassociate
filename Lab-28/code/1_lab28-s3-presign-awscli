@@ -1,0 +1,25 @@
+
+===============================
+        AWS S3 Presign
+===============================
+
+Genera una URL firmada previamente para un objeto de Amazon S3. Esto permite que cualquier persona que reciba la URL firmada previamente recupere el objeto S3 con una solicitud HTTP GET.
+Referencia: https://docs.aws.amazon.com/cli/latest/reference/s3/presign.html
+
+
+1. Acceder a Cloud9
+
+
+2. Identificar un bucket
+aws s3 ls
+
+
+3. Identificar un objeto a dar permiso. No se deben de dar permisos para que el objeto se deba descargar
+aws s3 ls s3://BUCKET_NAME --recursive
+
+
+4. Identificado el objeto, ejecutar el siguiente comando para dar permisos por 86400 segundos (1 dia)
+aws s3 presign s3://BUCKET_NAME/PATH/OBJECT --expires 604800
+
+https://BUCKET_NAME.s3.amazonaws.com/PATH/OBJECT?AWSAccessKeyId=ASIAQ7Y4QB4XMQNLKM5B&Signature=0VlSnhyc5boYvxMfdihctJuz6K4%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEKT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJIMEYCIQC2FR3EEx25%2FdZqm1WtcmY3ka7fVp8%2BPDfVTYa%2FZVkeEgIhAN474OCSzGimnGUyDtS7czc96TDtWbYQMLczzfQC63d8KtsDCN3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMDY4MjQyMzc4NTQyIgyqxk8ZJxrKu4aTXzEqrwOp%2FWtNsrPs1A%2FK2LwKeD3UFzM56SEB%2BQ6WBmEj89nZ83eDvRaek8ctbQteWneOacR8J0KcDZF8dRD0yj5NzrpCDNUSFxWim8aJ6IpUl6HK97pqVZe39AqMM9kSiHv3tVahTK2waGvVNv1nnshEJ9htxRIiKMBoXdvijZw9Kz%2FgX3IrC0OWF4SyXXpqBgbo9omAHdzUAKrB2hbcTgrOkWkXrbqWvqlvVirjFJV%2FnSaIECaV0n39FLoBwQ5j0o4sZRnGcW4qKMdDTzdI2kAsTqumhtpVPbq1BQc17vpuKLwGaZ9DYvVDV6pi%2F%2FFAjG1df41%2FySuWC5KkFsykD1v8XYT01kUJDNJkljoYd%2FL8CQLcxQB5AiWyvog6Wq9jNU%2BsWn7vqiKc54E%2BKLNmdnEh1lm07KJUKGfy3ah%2FlfbxJIMEAd5WHbYEx96SOt73N4iBeKwTLQjgcNUS%2B3O2NwfmVBDjM1K5tlIG3WUbvGRxucMSobKOCzaw80YiviFzJUl%2Fh%2BnKS3vjgLGHXkZbXvOVmm%2BQDXTO3rWAhBNT88KBtFGVbMsnd2H4OjodkcpROmH%2BmzDrzbiJBjqRAkPBLdpiThEq1HyQDKFK9ipRpQSKfq2wCBRs%2F2uPDxzMB4dymr%2F1DoEMKSFNIgGszhoj2Houxv%2FAX2sepBX0RmUEE7VIDPUoJ7D1NF9J0Tp8aLPhVS6crhwRHDlncdbrnSsdPuMc7qEywq%2F6RcZiy6Kh8io98I50b%2B4qfdCVdjdHuTEOEU3aF402pP7KxZoHpYUMRDW2M5F9q3%2FYhWORBouv5l71l9mlYlv%2Br%2FQuPs%2Bf00uk%2BS9eym97Z8BvqbWAKBM0Rxhi9HJQeMLZJAEm0SW7WQ%2BpJRqjCykteRujy5G7OQzX%2BOStRwye3BMuGqt2HqpIQ0Be6Bn9CBuOJGDAAKbBTN%2BlVcE8eXDnNand7YQPzg%3D%3D&Expires=1630440323
+
