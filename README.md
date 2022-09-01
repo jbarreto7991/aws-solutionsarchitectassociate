@@ -1,6 +1,6 @@
 # AWS Solutions Architect Associate
 
-### **Autor:** Jorge Barreto | [LinkedIn](https://www.linkedin.com/in/jorgebarretoolivos/)
+### **Autor:** Jorge Barreto | AWSx9 & AWS Community Builder | [LinkedIn](https://www.linkedin.com/in/jorgebarretoolivos/)
 <br>
 
 **Objetivo:**
