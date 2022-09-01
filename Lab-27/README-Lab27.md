@@ -43,7 +43,7 @@
 
 <br>
 
-<img src="images/lab27_01.jpg">
+<img src="images/Lab27_01.jpg">
 
 <br>
 
@@ -64,7 +64,7 @@
 
 <br>
 
-<img src="images/lab27_02.jpg">
+<img src="images/Lab27_02.jpg">
 
 <br>
 
@@ -127,7 +127,7 @@
 
 <br>
 
-<img src="images/lab27_03.jpg">
+<img src="images/Lab27_03.jpg">
 
 <br>
 
@@ -135,11 +135,11 @@
 
 <br>
 
-<img src="images/lab27_05.jpg">
+<img src="images/Lab27_05.jpg">
 
 <br>
 
-<img src="images/lab27_04.jpg">
+<img src="images/Lab27_04.jpg">
 
 <br>
 
@@ -147,11 +147,11 @@
 
 <br>
 
-<img src="images/lab27_06.jpg">
+<img src="images/Lab27_06.jpg">
 
 <br>
 
-<img src="images/lab27_07.jpg">
+<img src="images/Lab27_07.jpg">
 
 <br>
 
@@ -159,11 +159,11 @@
 
 <br>
 
-<img src="images/lab27_08.jpg">
+<img src="images/Lab27_08.jpg">
 
 <br>
 
-<img src="images/lab27_06.jpg">
+<img src="images/Lab27_06.jpg">
 
 <br>
 
