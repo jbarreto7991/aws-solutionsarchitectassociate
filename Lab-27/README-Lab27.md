@@ -166,3 +166,24 @@
 <img src="images/lab27_06.jpg">
 
 <br>
+
+11. Identificar las siguientes "Intrinsic functions" en la plantilla 1_lab27-cloudformation.yaml
+
+    * If
+    * Ref
+    * Select
+    * FindInMap
+    * Sub
+
+<br>
+
+12. Identificar las siguientes "Resource attribute" en la plantilla 1_lab27-cloudformation.yaml
+
+    * DependsOn
+
+<br>
+
+13. Identificar los siguientes "Pseudo parameters" en la plantilla 1_lab27-cloudformation.yaml
+
+    * AWS::Region
+    * AWS::NoValue
