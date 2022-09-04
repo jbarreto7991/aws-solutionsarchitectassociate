@@ -113,6 +113,10 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Configuración de Cross-origin resource sharing (CORS) en S3 (Permissions)
 
 
+#### **Laboratorio 30: S3 Glacier & AWSCLI** [README-Lab30.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-30/README-Lab30.md)
+* Subir archivos directamente a S3 Glacier usando AWSCLI
+
+
 
 
 
