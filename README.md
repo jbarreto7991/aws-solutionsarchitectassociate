@@ -112,9 +112,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 29: S3 CORS** [README-Lab29.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-29/README-Lab29.md)
 * Configuración de Cross-origin resource sharing (CORS) en S3 (Permissions)
 
-
 #### **Laboratorio 30: S3 Glacier & AWSCLI** [README-Lab30.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-30/README-Lab30.md)
 * Subir archivos directamente a S3 Glacier usando AWSCLI
+
+#### **Laboratorio 31: S3, Glue, Crawler & Athena** [README-Lab31.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-31/README-Lab31.md)
+* Integración de S3, Glue, Crawler y Athena
 
 
 
