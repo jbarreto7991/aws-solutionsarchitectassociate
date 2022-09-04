@@ -24,7 +24,7 @@
 
 <br>
 
-<img src="images/lab28_01.jpg">
+<img src="images/Lab28_01.jpg">
 
 <br>
 
@@ -32,11 +32,11 @@
 
 <br>
 
-<img src="images/lab28_02.jpg">
+<img src="images/Lab28_02.jpg">
 
 <br>
 
-<img src="images/lab28_03.jpg">
+<img src="images/Lab28_03.jpg">
 
 <br>
 
@@ -44,11 +44,11 @@
 
 <br>
 
-<img src="images/lab28_04.jpg">
+<img src="images/Lab28_04.jpg">
 
 <br>
 
-<img src="images/lab28_05.jpg">
+<img src="images/Lab28_05.jpg">
 
 <br>
 
@@ -60,11 +60,11 @@ https://s3-jorge-barreto-aws-solutionsarchitectassociate.s3.us-east-1.amazonaws.
 
 <br>
 
-<img src="images/lab28_06.jpg">
+<img src="images/Lab28_06.jpg">
 
 <br>
 
-<img src="images/lab28_07.jpg">
+<img src="images/Lab28_07.jpg">
 
 <br>
 
@@ -106,7 +106,7 @@ aws s3 presign s3://$BUCKET_NAME/s3-presign-file.tx --expires 120
 
 <br>
 
-<img src="images/lab28_08.jpg">
+<img src="images/Lab28_08.jpg">
 
 <br>
 
