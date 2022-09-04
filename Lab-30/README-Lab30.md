@@ -22,145 +22,163 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
 
-2. Ejecutar los siguinentes comandos en nuestro Cloud9
+2. Ejecutar los siguinentes comandos en Cloud9
 
 ```bash
-#Ubuntu 18.04
-sudo apt-get update
-git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
-```
+#Comando AWSCLI
+aws glacier create-vault --account-id - --vault-name aws-solutionsarchitectassociate
 
-3. Acceder al laboratorio 29 (Lab-29), carpeta "code". Validar que se cuenta con la carpeta lab29-s3-cors. Esta a su vez contendrá la plantilla de cloudformation "1_lab29-s3-cors.yaml". En esta misma carpeta encontraremos 3 simples archivos estáticos (error.html, index.html y loadpage.html). Analizar el contenido de estos elementos.
-
-4. Desplegar la plantilla CloudFormation ejecutando AWSCLI.
-
-<br>
-
-5. **1_lab29-s3-cors.yaml** Esta plantilla no contiene parámetros de despliegue. Después del despliegue analizar los recursos aprovisiones: dos buckets S3 y dos políticas basadas en recursos S3.
-
-```bash
-aws cloudformation create-stack --stack-name lab29-s3-cors --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/1_lab29-s3-cors.yaml 
-```
-
-6. Movemos todos los archivos que se encuentran en la carpeta Lab-29/code/lab29-s3-cors/ al bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}".
-
-```bash
-cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
-echo $BUCKET
-aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
+#Resultado
+{
+    "location": "/068242378542/vaults/aws-solutionsarchitectassociate"
+}
 ```
 
 <br>
 
-<img src="images/Lab29_02.jpg">
-
-<br>
-
-7. Ingresamos al servicio S3, a la propiedad "Static WebSite Hosting" del bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" y validamos la carga de nuestra aplicación.
-
-<br>
-
-<img src="images/Lab29_01.jpg">
-
-<br>
-
-8. Para comprender los permisos CORS moveremos el archivo "loadpage.html" del "Bucket 01" al "Bucket 02". Esto implica que el archivo "index.html" ahora apunte al archivo "loadpage.html" del "Bucket 02".
-
-<br>
-
-9. Desde Cloud9, ingresamos al archivo "index2.html" y modificamos el campo "BUCKET2_STATICWEBSITE_HOSTING_DESTINATION" por "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Obtenemos el valor de este segundo bucket ejecutando el siguiente comando:
+3. Generar un archivo de 3 MB en Cloud9
 
 ```bash
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
-echo $BUCKET
+#Comando
+dd if=/dev/urandom of=largefile bs=3145728 count=1
+
+#Resultado. Nombre del archivo "largefile"
+1+0 records in
+1+0 records out
+3145728 bytes (3.1 MB, 3.0 MiB) copied, 0.0201717 s, 156 MB/s
 ```
 
 <br>
 
-<img src="images/Lab29_03.jpg">
-
-<br>
-
-
-10. Realizamos modificaciones sobre nuestro archivo "index2.html" y subimos esta actualización al Bucket 01. Volvemos a revisar el contenido de nuestra aplicación. Con los cambios realizados anteriormente validaremos que sólo carga una parte de nuestra página. 
+4. Dividir el archivo en trozos de 1 MB. Validar que se hayan generado los siguientes 3 archivos: chunka, chunkb, chunkc
 
 ```bash
-cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
-rm index.html
-mv index2.html index.html
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
-echo $BUCKET
-aws s3 cp index.html s3://$BUCKET
-```
-<br>
+#Comando
+split -b 1048576 --verbose largefile chunk
 
-<img src="images/Lab29_04.jpg">
-
-<br>
-
-
-11. Con el objeto de asegurarnos que la lectura del archivo "loadpage.html" sea desde el segundo bucket, eliminamos el archivo "loadpage.html" del primer bucket S3 y subimos este al segundo bucket "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Inspeccionamos nuestra página y encontraremos problemas relacionados a CORS.
-
-```bash
-cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
-
-#Eliminando archivo loadpage.html del primer bucket S3
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
-echo $BUCKET
-aws s3api delete-object --bucket $BUCKET --key loadpage.html
-
-#Agregando archivo loadpage.html al segundo bucket S3
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
-echo $BUCKET
-aws s3 cp loadpage.html s3://$BUCKET
+#Resultado. Se generarán 03 archivos: chunkaa, chunkab y chunkac
+creating file 'chunkaa'
+creating file 'chunkab'
+creating file 'chunkac'
 ```
 
 <br>
 
-<img src="images/Lab29_05.jpg">
-
-<br>
-
-12. Accedemos al "Bucket 02" y agregamos la siguiente política CORS. Reemplazamos el valor BUCKET_STATICWEBSITE_HOSTING_ORIGIN por la URL generada por AWS en la sección "Static Website Hosting" (del "Bucket 02"). No debe ir un "/" al final de esta URL.
+5. Crear una carga de varias partes (multipart-upload) en Amazon S3 Glacier mediante el comando "initiate-multipart-upload"
 
 ```bash
-#Plantilla
-[
-    {
-      "AllowedOrigins": ["http://BUCKET_STATICWEBSITE_HOSTING_ORIGIN"],
-      "AllowedHeaders": ["Authorization"],
-      "AllowedMethods": ["GET"],
-      "MaxAgeSeconds": 3000
-    }
-]
+#Comando AWSCLI
+aws glacier initiate-multipart-upload --account-id - --archive-description "multipart upload test" --part-size 1048576 --vault-name aws-solutionsarchitectassociate
 
-#Ejemplo
-[
-    {
-        "AllowedHeaders": [
-            "Authorization"
-        ],
-        "AllowedMethods": [
-            "GET"
-        ],
-        "AllowedOrigins": [
-            "http://lab29-aws-solutionsarchitectassociate-bucket1-AAAAAAAAAAAA.s3-website-us-east-1.amazonaws.com"
-        ],
-        "ExposeHeaders": [],
-        "MaxAgeSeconds": 3000
-    }
-]
-
+#Resultado
+{
+    "location": "/068242378542/vaults/aws-solutionsarchitectassociate/multipart-uploads/9MA2n8fOy3JEeewr5jZVAS230NXO8rntvOaqjejKTHx4eV1gYZqIpdWAaVrcIvvNFhPQ1Nt8Kz99AnDLCqOvdXXsCzbR",
+    "uploadId": "9MA2n8fOy3JEeewr5jZVAS230NXO8rntvOaqjejKTHx4eV1gYZqIpdWAaVrcIvvNFhPQ1Nt8Kz99AnDLCqOvdXXsCzbR"
+}
 ```
 
 <br>
 
-13. Volvemos a cargar nuestra aplicación. Nuestra aplicación carga correctamente nuevamente.
+6. Setear el valor del campo "uploadId" en la variable de entorno UPLOADID
+
+```bash
+#Comando
+UPLOADID="9MA2n8fOy3JEeewr5jZVAS230NXO8rntvOaqjejKTHx4eV1gYZqIpdWAaVrcIvvNFhPQ1Nt8Kz99AnDLCqOvdXXsCzbR"
+echo $UPLOADID
+
+#Resultado
+9MA2n8fOy3JEeewr5jZVAS230NXO8rntvOaqjejKTHx4eV1gYZqIpdWAaVrcIvvNFhPQ1Nt8Kz99AnDLCqOvdXXsCzbR
+```
 
 <br>
 
-<img src="images/Lab29_06.jpg">
+7. Subir el archivo a S3 Glacier a través de los siguientes 03 comandos AWSCLI
+
+```bash
+#Comando AWSCLI
+aws glacier upload-multipart-part --upload-id $UPLOADID --body chunkaa --range 'bytes 0-1048575/*' --account-id - --vault-name aws-solutionsarchitectassociate
+
+aws glacier upload-multipart-part --upload-id $UPLOADID --body chunkab --range 'bytes 1048576-2097151/*' --account-id - --vault-name aws-solutionsarchitectassociate
+
+aws glacier upload-multipart-part --upload-id $UPLOADID --body chunkac --range 'bytes 2097152-3145727/*' --account-id - --vault-name aws-solutionsarchitectassociate
+
+#Resultado 01
+{
+    "checksum": "d35c8c03b6d096803338d112c7ec4dec8c60c4eb6a86ab4558a898cfcd78909c"
+}
+
+#Resultado 02
+{
+    "checksum": "a0753e30ccbba91096e3c81336e4a540837280d12e44493277301bc24f5815b8"
+}
+
+#Resultado 03
+{
+    "checksum": "db585fe5a24202d532823005145e69b071ffd11e578ac3ae515911913f2144f4"
+}
+```
 
 <br>
 
+8. Calculando el hash del árbol a través de la ejecución de los siguientes comandos.
+
+```bash
+#Comandos
+openssl dgst -sha256 -binary chunkaa > hash1
+openssl dgst -sha256 -binary chunkab > hash2
+openssl dgst -sha256 -binary chunkac > hash3
+
+cat hash1 hash2 > hash12
+openssl dgst -sha256 -binary hash12 > hash12hash
+
+cat hash12hash hash3 > hash123
+openssl dgst -sha256 hash123
+
+#Resultado
+SHA256(hash123)= a78d89ed7938c9f975a3912ed983dc7e52946ac63df2e3e713cbc5d0e6b30366
+```
+
+<br>
+
+9. Setear el valor del hash en la variable de entorno TREEHASH
+
+```bash
+TREEHASH=a78d89ed7938c9f975a3912ed983dc7e52946ac63df2e3e713cbc5d0e6b30366
+echo $TREEHASH
+```
+
+10. Completar la carga hacia AWS S3 Glacier usando el comando "complete-multipart-upload"
+
+```bash
+#Comando AWSCLI
+aws glacier complete-multipart-upload --checksum $TREEHASH --archive-size 3145728 --upload-id $UPLOADID --account-id - --vault-name aws-solutionsarchitectassociate
+
+#Resultado
+{
+    "location": "/068242378542/vaults/aws-solutionsarchitectassociate/archives/6okecr4Y_lL8wq8EINur-vcJJgRzVzqufr6wi_i6EDkZ2g9vSBqNELPnRGZnBG3OKAcAGEKLLfjAOUDXYv5wmPn8Igh5w05i3lSDD2vxLfuYvuF_FWc43k0IAB8OubFvOsZPf15DEg",
+    "checksum": "a78d89ed7938c9f975a3912ed983dc7e52946ac63df2e3e713cbc5d0e6b30366",
+    "archiveId": "6okecr4Y_lL8wq8EINur-vcJJgRzVzqufr6wi_i6EDkZ2g9vSBqNELPnRGZnBG3OKAcAGEKLLfjAOUDXYv5wmPn8Igh5w05i3lSDD2vxLfuYvuF_FWc43k0IAB8OubFvOsZPf15DEg"
+}
+```
+
+<br>
+
+11. Verificar el estado de la bóveda. **El estado de la bóveda se actualiza aproximadamente una vez al día**. 
+
+```bash
+#Comando AWSCLI
+aws glacier describe-vault --account-id - --vault-name aws-solutionsarchitectassociate
+```
+
+<br>
+
+<img src="images/Lab30_01.jpg">
+
+<br>
+
+12. Eliminar los archivos fragmentados y hash que se generaron
+
+```bash
+#Comando
+rm chunk* hash*
+```
