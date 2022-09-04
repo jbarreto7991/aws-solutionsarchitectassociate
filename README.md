@@ -109,6 +109,10 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 28: S3 Presign - GetObject** [README-Lab28.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-28/README-Lab28.md)
 * Entendimiento de AWS S3 Presign (GetObject)
 
+#### **Laboratorio 29: S3 CORS** [README-Lab29.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-29/README-Lab29.md)
+* Configuración de Cross-origin resource sharing (CORS) en S3 (Permissions)
+
+
 
 
 
