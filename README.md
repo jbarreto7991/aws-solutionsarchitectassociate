@@ -106,6 +106,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 27: CloudFormation - Mappings, Conditions & Parameters** [README-Lab27.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-27/README-Lab27.md)
 * Desplegar un stack de CloudFormation multi-región usando "Mappings", "Conditions" y "Parameters"
 
+#### **Laboratorio 28: S3 Presign - GetObject** [README-Lab28.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-28/README-Lab28.md)
+* Entendimiento de AWS S3 Presign (GetObject)
+
+
+
 
 
 

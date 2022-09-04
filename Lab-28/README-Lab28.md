@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Entendimiento de AWS S3 Presign
+* Entendimiento de AWS S3 Presign (GetObject)
 
 ### Tópico:
 * Storage
