@@ -112,3 +112,4 @@ aws s3 presign s3://$BUCKET_NAME/s3-presign-file.tx --expires 120
 
 8. El comando "S3 presign" sólo genera URL GET prefirmadas (descarga de objetos), si se desea cargar archivos en un bucket de S3 usando POST URL prefirmadas o PUT URL prefirmadas, se deberá usar el SDK de AWS.
 
+
