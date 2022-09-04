@@ -1,189 +1,114 @@
-# AWS Solutions Architect Associate - Laboratorio 27
+# AWS Solutions Architect Associate - Laboratorio 28
 
 <br>
 
 ### Objetivo: 
-* Desplegar un stack de CloudFormation multi-región usando "Mappings", "Conditions" y "Parameters"
+* Entendimiento de AWS S3 Presign
 
 ### Tópico:
-* Management & Governance
+* Storage
 
 ### Dependencias:
 * Ninguna
-
-### Costo:
- * Al seleccionar la opción "prod" en el parámetro "EnvironmentType" se desplegará un NAT Gateway, recurso que tiene un precio de 0,045 USD/hora y 0,045 USD por GB de datos procesados. Cada hora parcial consumida de gateway NAT se factura como una hora completa. 
 
 <br>
 
 
 ---
 
-### A - Desplegar un stack de CloudFormation multi-región usando "Mappings", "Conditions" y "Parameters"
+### A - Entendimiento de AWS S3 Presign
 
 <br>
 
-1. Este laboratorio usará las regiones de N.Virginia y Ohio. Será necesario tener una KeyPair creada en cada región. Este laboratorio nombrará a las KeyPair como "aws-solutionsarchitectassociate" y "aws-solutionsarchitectassociate-ohio"
+1. Creamos un bucket S3 con valores por defecto y agregamos un objeto al bucket. El objeto tendrá por nombre "s3-presign-file.txt" el cual tendrá como contenido la palabra "test"
 
 <br>
 
-2. Desplegamos la plantilla AWS CloudFormation ubicada en /code/1_lab27-cloudformation.yaml en la región de **N.Virginia (us-east-1)** en nuestra cuenta de AWS. Ingresamos/seleccionamos los siguientes valores:
-
-    * Stack name: Lab27-Virginia
-    * EnvironmentType: **dev**
-    * InstancesFamily: t2.micro,t2.medium,t2.large,t2.xlarge
-    * KeyPair: aws-solutionsarchitectassociate
-    * SubnetCIDR1: 192.168.1.0/24
-    * SubnetCIDR2: 192.168.2.0/24
-    * SubnetCIDR3: 192.168.3.0/24
-    * SubnetCIDR4: 192.168.4.0/24
-    * SubnetCIDR5: 192.168.5.0/24
-    * SubnetCIDR6: 192.168.6.0/24
-    * VPCCIDR: 192.168.0.0/16 
+<img src="images/lab28_01.jpg">
 
 <br>
 
-<img src="images/Lab27_01.jpg">
+2. Accedemos al objeto (dando clic sobre este) y luego damos clic en "Object URL" (sección "Properties"). Al tratar de acceder a la URL nos veremos imposibilitados debido a que tanto el bucket como el objeto son privados y no es posible acceder a estos de forma pública. La pantalla mostrará el mensaje "AccessDenied".
 
 <br>
 
-
-3. Desplegamos la plantilla AWS CloudFormation ubicada en /code/1_lab27-cloudformation.yaml en la región de **Ohio (us-east-2)** en nuestra cuenta de AWS. Ingresamos/seleccionamos los siguientes valores:
-
-    * Stack name: Lab27-Ohio
-    * EnvironmentType: **prod**
-    * InstancesFamily: t2.micro,t2.medium,t2.large,t2.xlarge
-    * KeyPair: aws-solutionsarchitectassociate-ohio
-    * SubnetCIDR1: 192.168.1.0/24
-    * SubnetCIDR2: 192.168.2.0/24
-    * SubnetCIDR3: 192.168.3.0/24
-    * SubnetCIDR4: 192.168.4.0/24
-    * SubnetCIDR5: 192.168.5.0/24
-    * SubnetCIDR6: 192.168.6.0/24
-    * VPCCIDR: 192.168.0.0/16 
+<img src="images/lab28_02.jpg">
 
 <br>
 
-<img src="images/Lab27_02.jpg">
+<img src="images/lab28_03.jpg">
 
 <br>
 
-
-4. Una vez que los Stacks se han aprovisionado correctamente, analizamos los recursos generados en cada una de ellas. 
-
-
-    |                 N. Virginia                     |                      Ohio                       |
-    |-------------------------------------------------|-------------------------------------------------|
-    |                                                 | EC2ElasticIPAssignment	                        |
-    |                                                 | EC2ElasticIPNATGateway                          |
-    |                                                 | EC2ElasticIPPivot                               |
-    | EC2SecurityBastionRemoteConnection	          | EC2SecurityBastionRemoteConnection	            |
-    | EC2SecurityGroupNatConnection	                  | EC2SecurityGroupNatConnection                   |
-    | EC2SecurityGroupRemoteConnection	              | EC2SecurityGroupRemoteConnection	            |
-    | Ec2InstanceNat	                              | 	                                            |
-    |                                                 | Ec2InstancePivot                                |
-    | IAMPolicySSM                                    | IAMPolicySSM                                    |
-    | IAMRoleEC2                                      | IAMRoleEC2                                      |
-    | IAMServerProfile	                              | IAMServerProfile                                |
-    | Vpc                                             | Vpc                                             |
-    | VpcInternetGateway                              | VpcInternetGateway	                            |
-    | VpcInternetGatewayAttachment	                  | VpcInternetGatewayAttachment	                |
-    | VpcInternetRoutePublicAttachment	              | VpcInternetRoutePublicAttachment                |
-    |                                                 | VpcNATGateway                                   |
-    | VpcNatInstanceRoutePrivateAttachment            | VpcNatInstanceRoutePrivateAttachment		    |
-    | VpcRouteTablePrivate	                          | VpcRouteTablePrivate                            |
-    | VpcRouteTablePublic                             | VpcRouteTablePublic                             |
-    | VpcSubnetPrivateAZa	                          | VpcSubnetPrivateAZa                             |
-    | VpcSubnetPrivateAZaRouteTablePrivateAttachment  | VpcSubnetPrivateAZaRouteTablePrivateAttachment  |	
-    | VpcSubnetPrivateAZb                             | VpcSubnetPrivateAZb                             |
-    | VpcSubnetPrivateAZbRouteTablePrivateAttachment  | VpcSubnetPrivateAZbRouteTablePrivateAttachment  |	
-    | VpcSubnetPrivateDBAZa	                          | VpcSubnetPrivateDBAZa	                        |
-    | VpcSubnetPrivateDBAZaRouteTablePrivateAttachment| VpcSubnetPrivateDBAZaRouteTablePrivateAttachment|	
-    | VpcSubnetPrivateDBAZb                           | VpcSubnetPrivateDBAZb                           |
-    | VpcSubnetPrivateDBAZbRouteTablePrivateAttachment| VpcSubnetPrivateDBAZbRouteTablePrivateAttachment|	
-    | VpcSubnetPublicAZa                              | VpcSubnetPublicAZa                              |
-    | VpcSubnetPublicAZaRouteTablePublicAttachment    | VpcSubnetPublicAZaRouteTablePublicAttachment	|
-    | VpcSubnetPublicAZb	                          | VpcSubnetPublicAZb                              |
-    | VpcSubnetPublicAZbRouteTablePublicAttachment	  | VpcSubnetPublicAZbRouteTablePublicAttachment    |
+3. A nivel de Bucket, seleccionamos el objeto, damos clic en la opción "Actions" y luego damos clic en la opción "Share with a presigned URL". Ingresamos el intervalo de tiempo adecuado para que nuestro objeto sea público (por ejemplo 2 minutos, según la imagen) y creamos una URL prefirmarda ("Presigned URL"). 
 
 <br>
 
-5. Al seleccionar el ambiente de "prod" en la región de Ohio, este stack desplegará únicamente los siguientes recursos. El ambiente de producción (prod) usará un NAT Gateway y una instancia EC2 como Bastion (Pivot).
-
-    * EC2ElasticIPAssignment
-    * EC2ElasticIPNATGateway
-    * EC2ElasticIPPivot
-    * Ec2InstancePivot
+<img src="images/lab28_04.jpg">
 
 <br>
 
-6. Al seleccionar el ambiente de "dev" en la región de N.Virginia, este stack desplegará únicamente los siguientes recursos. El ambiente de desarrollo (dev) usará un NAT Instances.
-
-    * Ec2InstanceNat
+<img src="images/lab28_05.jpg">
 
 <br>
 
-7. La misma plantilla de CloudFormation permite crear diferentes recursos según el ambiente seleccionado, para esto CloudFormation hace uso de los componentes "Mappings", "Conditions" y "Parameters". Analizamos directamente la plantilla "yaml" almacenada en /code/1_lab27-cloudformation.yaml 
+4. Copiamos la URL prefirmada y pegamos esta sobre el navegador. Validaremos que a pesar que el bucket y el objeto son privado, podemos acceder de forma pública al contenido del objeto. La URL obtenida será similar a:
+
+
+https://s3-jorge-barreto-aws-solutionsarchitectassociate.s3.us-east-1.amazonaws.com/s3-presign-file.txt?response-content-disposition=inline&X-Amz-Security-Token=AAAAAAAAAAluX2VjEAUaCXNhLWVhc3QtMSJIMEYCIQDoNkSf2AArxJ9ag5Xap3TsmhlWAr%2FWZT89gC9F3MMIHQIhAPcUrsZpBLnAXCwiV033NV9LmWl3bMKYXb%2BdePXowQzmKvECCI7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMMDY4MjQyMzc4NTQyIgz%2Fxdkej0khic%2F%2BaCoqxQI0QkPz8UQtDxm9GZ6TxZoWVj5d8B5F%2FJrLamua%2BiHfZgxNbd0yEc%2Bp9XW%2BukOht%2BBtiE4QX7vGlk5lNKc4CkncIl1uEvoi%2B%2FV7OG7sB%2Bj9gbCag%2F60utOpc7gUhVHFsqPVxiS2Ha%2BupMBssRar46SR0rVWHZCV0GEstc0dUdVmb4OZ0SpuKUrUGcXkZ5Gy7GQyVRuU0tSkKIpCNqGAOhJHmCGqU0m68wxMsSQO4Au6PdQMeobldx13ctHPTSz7FhAt40mRxzeKMOxqZlZ4XX0P%2BQyHu7G8JCCCCCCCCCCz2lJuwh7h27vaXH7Kn%2BN8AgIKxaFMLsCzru%2BFI33rn6ob0jDQQa%2BZWwutlaL3jEPxARiwn1%2FMfCMoL6j8yN1i%2BQIGM3dDwdEeT%2F3V%2B2BGzu3%2FhzTlS%2B8seR3FghCcNMrAqeQAzSqmMK74x5gGOrIC4JqeuE0Uno%2FuMXMdUAvdQHq2lGue%2BroO2nBGic%2BGdrkdejLQhs%2B09aj%2BNgAfoOtRleCJtd6niK4bNBWWCLV6OeKPkp0lrY%2BROa0whBtNsLn7KXs2MQ8%2FVLGQKiwK2kK20hj7QV5MqXvWMgzcI9IgpKBQD4yQncWA%2BISC2EDc%2BuAiZzsmdqf5ULk2o38g0yOv7kdUxDDDDDDDDDDaBDikl7SNBPSHc1fQkmYrU0gQnSO22DXfuxYq%2BNdk4CdsC9xXvdoBuiHCtXO5phGvFsXGjRWg1TTevRu0I%2BJ21B9K%2F5hUsCGr3LeVEcBrxI7waKV8PgeEjloSw0%2B1RBM8peIYf8RmpNzlxHIg8xC5Zu7YPXtTelX5ieu50UvcR085uubr3A%2F3CJZB1P5FbQ44BBBBBBBBBB&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220902T162128Z&X-Amz-SignedHeaders=host&X-Amz-Expires=119&X-Amz-Credential=AAAAAAAAAA4XHF3VAMXZ%BBBBBBBBBB%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=aaaaaaaaaa4df181a2cb179dec960d831335528629170f340e9570bbbbbbbbbb
+
 
 <br>
 
-<img src="images/Lab27_03.jpg">
+<img src="images/lab28_06.jpg">
 
 <br>
 
-8. La sección opcional **Mappings** hace coincidir una clave con un conjunto correspondiente de valores con nombre. Por ejemplo, si se desea establecer valores en función de una región, se puede crear una asignación que utilice el nombre de la región como clave y contenga los valores que desea especificar para cada región específica. En la sección "RegionAndInstanceEC2TypeToAMIID" de la siguiente imagen, los 03 IDs de AMIs corresponden a la imagen "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20210128 (Canonical, Ubuntu, 18.04 LTS, amd64 bionic image build on 2021-01-28)". La misma imagen tendrá IDs distintos por región. El valor "RegionAndInstanceEC2TypeToAMIID" será usado en el despliegue de la instancia "Ec2InstancePivot". Es decir, si está plantilla se despliega en la región de N. Virginia (us-east-1), Ohio (us-east-2) o N.California (us-west-1) se estará desplegando la misma instancia Ubuntu 18.04 LTS a pesar de tener AMI IDs distintos. 
+<img src="images/lab28_07.jpg">
 
 <br>
 
-<img src="images/Lab27_05.jpg">
+5. La URL tendrá la siguiente estructura:
+
+https://s3-jorge-barreto-aws-solutionsarchitectassociate.s3.us-east-1.amazonaws.com/s3-presign-file.txt?
+<br>
+response-content-disposition=inline
+<br>& **X-Amz-Security-Token=** AAAAAAAAAAluX2VjEAUaCXNhLWVhc3QtMSJIMEYCIQDoNkSf2AArxJ9ag5Xap3TsmhlWAr%2FWZT89gC9F3MMIHQIhAPcUrsZpBLnAXCwiV033NV9LmWl3bMKYXb%2BdePXowQzmKvECCI7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMMDY4MjQyMzc4NTQyIgz%2Fxdkej0khic%2F%2BaCoqxQI0QkPz8UQtDxm9GZ6TxZoWVj5d8B5F%2FJrLamua%2BiHfZgxNbd0yEc%2Bp9XW%2BukOht%2BBtiE4QX7vGlk5lNKc4CkncIl1uEvoi%2B%2FV7OG7sB%2Bj9gbCag%2F60utOpc7gUhVHFsqPVxiS2Ha%2BupMBssRar46SR0rVWHZCV0GEstc0dUdVmb4OZ0SpuKUrUGcXkZ5Gy7GQyVRuU0tSkKIpCNqGAOhJHmCGqU0m68wxMsSQO4Au6PdQMeobldx13ctHPTSz7FhAt40mRxzeKMOxqZlZ4XX0P%2BQyHu7G8JCCCCCCCCCCz2lJuwh7h27vaXH7Kn%2BN8AgIKxaFMLsCzru%2BFI33rn6ob0jDQQa%2BZWwutlaL3jEPxARiwn1%2FMfCMoL6j8yN1i%2BQIGM3dDwdEeT%2F3V%2B2BGzu3%2FhzTlS%2B8seR3FghCcNMrAqeQAzSqmMK74x5gGOrIC4JqeuE0Uno%2FuMXMdUAvdQHq2lGue%2BroO2nBGic%2BGdrkdejLQhs%2B09aj%2BNgAfoOtRleCJtd6niK4bNBWWCLV6OeKPkp0lrY%2BROa0whBtNsLn7KXs2MQ8%2FVLGQKiwK2kK20hj7QV5MqXvWMgzcI9IgpKBQD4yQncWA%2BISC2EDc%2BuAiZzsmdqf5ULk2o38g0yOv7kdUxDDDDDDDDDDaBDikl7SNBPSHc1fQkmYrU0gQnSO22DXfuxYq%2BNdk4CdsC9xXvdoBuiHCtXO5phGvFsXGjRWg1TTevRu0I%2BJ21B9K%2F5hUsCGr3LeVEcBrxI7waKV8PgeEjloSw0%2B1RBM8peIYf8RmpNzlxHIg8xC5Zu7YPXtTelX5ieu50UvcR085uubr3A%2F3CJZB1P5FbQ44BBBBBBBBBB
+<br> & **X-Amz-Algorithm=**
+AWS4-HMAC-SHA256
+<br> & **X-Amz-Date=**
+20220902T162128Z
+<br> & **X-Amz-SignedHeaders=**
+host
+<br> & **X-Amz-Expires=**
+119
+<br> &  **X-Amz-Credential=** 
+AAAAAAAAAA4XHF3VAMXZ%BBBBBBBBBB%2Fus-east-1%2Fs3%2Faws4_request
+<br> & **X-Amz-Signature=**
+aaaaaaaaaa4df181a2cb179dec960d831335528629170f340e9570bbbbbbbbbb
 
 <br>
 
-<img src="images/Lab27_04.jpg">
+6. Luego que haya pasado el tiempo configurado (2 minutos) accedemos nuevamente al objeto a través de la URL. Validaremos que no contamos con acceso.
 
 <br>
 
-9. La sección opcional **Conditions** contiene declaraciones que definen las circunstancias bajo las cuales se crean o configuran las entidades. Por ejemplo, se puede crear una condición y luego asociarla con un recurso o salida para que AWS CloudFormation solo cree el recurso o la salida si la condición es verdadera. De manera similar, se puede asociar la condición con una propiedad para que AWS CloudFormation solo establezca la propiedad en un valor específico si la condición es verdadera. Si la condición es falsa, AWS CloudFormation establece la propiedad en un valor diferente al que especifique. En la sección "Conditions" se visualiza la creación de dos condiciones, uno asociada al ambiente dev y otro asociada al ambiente prod. Además, visualizamos que el recurso NAT Gateway sólo se aprovisionará en el ambiente de prod.
+7. Será posible realizar estos pasos a través de AWSCLI. Aprovisionamos una instancia de Cloud9 y ejecutamos los siguientes comandos:
+
+```bash
+#Guardar el nombre del último bucket creado en una variable
+BUCKET_NAME=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+#Identificar el objeto donde se generará la URL Presigned. Para este laboratorio el objeto será "s3-presign-file.txt"
+aws s3 ls s3://$BUCKET_NAME --recursive
+#Generar URL Presigned. El valor 120 hace referencia a los 2 minutos (en segundos)
+aws s3 presign s3://$BUCKET_NAME/s3-presign-file.tx --expires 120
+```
 
 <br>
 
-<img src="images/Lab27_06.jpg">
+<img src="images/lab28_08.jpg">
 
 <br>
 
-<img src="images/Lab27_07.jpg">
+8. El comando "S3 presign" sólo genera URL GET prefirmadas (descarga de objetos), si se desea cargar archivos en un bucket de S3 usando POST URL prefirmadas o PUT URL prefirmadas, se deberá usar el SDK de AWS.
 
-<br>
-
-10. La sección opcional **Parameters** permite personalizar las plantillas de CloudFormation. Los parámetros permiten ingresar valores personalizados a su plantilla cada vez que crea o actualiza una pila. La imagen detalla la creación de dos parámetros "dev" y "prod" a su vez estos parámetros están asociados a las condiciones "CreateProdResources" y "CreateDevResources".
-
-<br>
-
-<img src="images/Lab27_08.jpg">
-
-<br>
-
-<img src="images/Lab27_06.jpg">
-
-<br>
-
-11. Identificar las siguientes "Intrinsic functions" en la plantilla 1_lab27-cloudformation.yaml
-
-    * If
-    * Ref
-    * Select
-    * FindInMap
-    * Sub
-
-<br>
-
-12. Identificar las siguientes "Resource attribute" en la plantilla 1_lab27-cloudformation.yaml
-
-    * DependsOn
-
-<br>
-
-13. Identificar los siguientes "Pseudo parameters" en la plantilla 1_lab27-cloudformation.yaml
-
-    * AWS::Region
-    * AWS::NoValue
