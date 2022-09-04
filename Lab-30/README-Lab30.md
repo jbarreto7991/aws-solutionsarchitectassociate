@@ -22,7 +22,7 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
 
-2. Ejecutar los siguinentes comandos en Cloud9
+2. Ejecutar los siguientes comandos en Cloud9
 
 ```bash
 #Comando AWSCLI
