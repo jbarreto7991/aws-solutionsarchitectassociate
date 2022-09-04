@@ -44,8 +44,8 @@ aws cloudformation create-stack --stack-name lab29-s3-cors --template-body file:
 6. Movemos todos los archivos que se encuentran en la carpeta Lab-29/code/lab29-s3-cors/ al bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}".
 
 ```bash
-cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/2lab29-s3-cors/1_lab29-s3-cors/
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
+cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
 echo $BUCKET
 aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 ```
