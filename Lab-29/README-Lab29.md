@@ -34,7 +34,8 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 
 4. Desplegar la plantilla CloudFormation ejecutando AWSCLI.
 
-    <br>
+<br>
+
 5. **1_lab29-s3-cors.yaml** Esta plantilla no contiene parámetros de despliegue. Después del despliegue analizar los recursos aprovisiones: dos buckets S3 y dos políticas basadas en recursos S3.
 
 ```bash
@@ -50,8 +51,13 @@ echo $BUCKET
 aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 ```
 
-7. Ingresamos al servicio S3, a la propiedad "Static WebSite Hosting" del bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" y validamos la carga de nuestra aplicación.
+<br>
 
+<img src="images/Lab29_02.jpg">
+
+<br>
+
+7. Ingresamos al servicio S3, a la propiedad "Static WebSite Hosting" del bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" y validamos la carga de nuestra aplicación.
 
 <br>
 
@@ -59,6 +65,102 @@ aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 
 <br>
 
-<img src="images/Lab29_02.jpg">
+8. Para comprender los permisos CORS moveremos el archivo "loadpage.html" del "Bucket 01" al "Bucket 02". Esto implica que el archivo "index.html" ahora apunte al archivo "loadpage.html" del "Bucket 02".
 
 <br>
+
+9. Desde Cloud9, ingresamos al archivo "index2.html" y modificamos el campo "BUCKET2_STATICWEBSITE_HOSTING_DESTINATION" por "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Obtenemos el valor de este segundo bucket ejecutando el siguiente comando:
+
+```bash
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
+echo $BUCKET
+```
+
+<br>
+
+<img src="images/Lab29_03.jpg">
+
+<br>
+
+
+10. Realizamos modificaciones sobre nuestro archivo "index2.html" y subimos esta actualización al Bucket 01. Volvemos a revisar el contenido de nuestra aplicación. Con los cambios realizados anteriormente validaremos que sólo carga una parte de nuestra página. 
+
+```bash
+cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
+rm index.html
+mv index2.html index.html
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+echo $BUCKET
+aws s3 cp index.html s3://$BUCKET
+```
+<br>
+
+<img src="images/Lab29_04.jpg">
+
+<br>
+
+
+11. Con el objeto de asegurarnos que la lectura del archivo "loadpage.html" sea desde el segundo bucket, eliminamos el archivo "loadpage.html" del primer bucket S3 y subimos este al segundo bucket "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Inspeccionamos nuestra página y encontraremos problemas relacionados a CORS.
+
+```bash
+cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
+
+#Eliminando archivo loadpage.html del primer bucket S3
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+echo $BUCKET
+aws s3api delete-object --bucket $BUCKET --key loadpage.html
+
+#Agregando archivo loadpage.html al segundo bucket S3
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
+echo $BUCKET
+aws s3 cp loadpage.html s3://$BUCKET
+```
+
+<br>
+
+<img src="images/Lab29_05.jpg">
+
+<br>
+
+12. Accedemos al "Bucket 02" y agregamos la siguiente política CORS. Reemplazamos el valor BUCKET_STATICWEBSITE_HOSTING_ORIGIN por la URL generada por AWS en la sección "Static Website Hosting" (del "Bucket 02"). No debe ir un "/" al final de esta URL.
+
+```bash
+#Plantilla
+[
+    {
+      "AllowedOrigins": ["http://BUCKET_STATICWEBSITE_HOSTING_ORIGIN"],
+      "AllowedHeaders": ["Authorization"],
+      "AllowedMethods": ["GET"],
+      "MaxAgeSeconds": 3000
+    }
+]
+
+#Ejemplo
+[
+    {
+        "AllowedHeaders": [
+            "Authorization"
+        ],
+        "AllowedMethods": [
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "http://lab29-aws-solutionsarchitectassociate-bucket1-AAAAAAAAAAAA.s3-website-us-east-1.amazonaws.com"
+        ],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 3000
+    }
+]
+
+```
+
+<br>
+
+13. Volvemos a cargar nuestra aplicación. Nuestra aplicación carga correctamente nuevamente.
+
+<br>
+
+<img src="images/Lab29_06.jpg">
+
+<br>
+
