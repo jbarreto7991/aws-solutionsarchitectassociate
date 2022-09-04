@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Configuración de CORS en S3
+* Configuración de Cross-origin resource sharing (CORS) en S3 (Permissions)
 
 ### Tópico:
 * Storage
