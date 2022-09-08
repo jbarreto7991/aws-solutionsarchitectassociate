@@ -236,6 +236,8 @@ Resources:
             #quit
             #EOF
             
+            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+
             #Consultar el usuario y contraseña almacenado en Secret Manager
             SECRETMANAGER_NAME=$(aws secretsmanager list-secrets --region $REGION | jq -r '.SecretList[] | .Name')
             #aws secretsmanager describe-secret --secret-id MySecretForRDS --region $REGION            
