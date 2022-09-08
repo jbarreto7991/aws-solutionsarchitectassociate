@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-*  Configuración y análisis de las propiedades "Read Replica" y "Multi-AZ" en la instancia de RDS.
+*  Configuración y análisis de la propiedad "Read Replica" en la instancia de RDS.
 
 ### Tópico:
 * Database
@@ -16,61 +16,89 @@
 
 ---
 
-### A - Configuración y análisis de las propiedades "Read Replica" y "Multi-AZ" en la instancia de RDS.
+### A - Configuración y análisis de la propiedad "Read Replica" en la instancia de RDS.
 
 <br>
 
-1. Debemos tener una llave Key Pair disponible. De no ser así, acceder al servicio EC2 y luego a la opción "Key Pair". Generar llave RSA y .pem 
 
-2. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
-
-3. Ejecutar los siguinentes comandos en nuestro Cloud9
-
-```bash
-#Ubuntu 18.04
-sudo apt-get update
-git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
-```
-
-4. Acceder al laboratorio 33 (Lab-33), carpeta "code". Validar que se cuenta con tres archivos CloudFormation: "1_lab33-vpc.yaml", "2_lab33-secret-manager-rds.yaml" y "3_lab33-ec2-s3.yaml". Analizar el contenido de estos archivos.
-
-5. Desplegar cada plantilla CloudFormation ejecutando AWSCLI. Considerar los parámetros a ser ingresados.
-
-    <br>
-6. **1_lab33-vpc.yaml** (Esperar el despliegue total de esta plantilla cloudformation para continuar con las siguientes plantillas). En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará la VPC "192.168.0.0/16", 06 Subnets dentro de este CIDR, un NAT Instances y demás componentes de red. No deberán existir redes existentes en este rango de IPs. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. El siguiente comando considera el valor "aws-solutionsarchitectassociate" para el KeyPair, reemplazar el nombre según la llave respectiva.
-
-```bash
-aws cloudformation create-stack --stack-name lab33-vpc --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-33/code/1_lab33-vpc.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
-```
-
-7. **2_lab33-secret-manager.yaml** (Esperar el despliegue total de esta plantilla cloudformation para continuar con la siguiente plantilla. Debido al aprovisionamiento de una instancia de base de datos, el despliegue demorará varios minutos). La plantilla cargará 3 parámetros por defecto. Esta plantilla aprovisionará secretos en el servicio de Secrets Manager, un Subnet Group y una instancia de base de datos RDS
-
-```bash
-aws cloudformation create-stack --stack-name lab33-secret-manager-rds --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-33/code/2_lab33-secret-manager-rds.yaml
-```
-
-8. **3_lab33-ec2-s3.yaml**. Esta plantilla tiene como parámetro el valor "Key Pair". El siguiente comando considera el valor "aws-solutionsarchitectassociate" para el KeyPair, reemplazar el nombre según la llave respectiva. Esta plantilla desplegará principalmente una instancia EC2 (backend de la aplicación) y un bucket de S3 (Frontend de la aplicación). La instancia EC2 se asociará con la instancia RDS desplegada en la plantilla anterior.
-
-```bash
-aws cloudformation create-stack --stack-name lab33-ec2-s3 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-33/code/3_lab33-ec2-s3.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
-```
-
-9. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
-
-10. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validaciones la carga de nuestra aplicación. Generamos registros.
+1. Desde el servicio EC2 accedemos a la opción "Network Interfaces". Validaremos que sólo tenemos una tarjeta de red ENI (Ver columna "Description" el valor de "RDSNetworkInterface")
 
 <br>
 
-<img src="images/Lab33_01.jpg">
+<img src="images/Lab34_01.jpg">
 
 <br>
 
-11. Desde la instancia EC2 "EC2 BACKEND", usando System Manager - Session Manager, nos conectamos a la instancia RDS. Validamos la creación de nuestro registro.
+2. Accedemos al servicio de RDS, seleccionamos nuestra instancia de db, damos clic en la opción "Actions" y luego damos clic en la opción "Create read replica".
+
+<br>
+
+<img src="images/Lab34_02.jpg">
+
+<br>
+
+3. En la sección "Settings", ingresamos el siguiente valor en el campo "DB instance identifier". Dejamos los otros valores tal como han sido cargados, luego damos clic en "Create read replica". Esperamos unos minutos mientras la instancia de lectura de base de datos se aprovisiona.
+
+    * DB instance identifier: readreplica
+
+<br>
+
+<img src="images/Lab34_03.jpg">
+
+<br>
+
+4. Cuando el aprovisionamiento de la nueva instancia haya finalizado y el estado de la misma sea "Available". Ingresamos al "DB identifier: readreplica" y obtenemos el valor del endpoint.
+
+<br>
+
+<img src="images/Lab34_04.jpg">
+
+<br>
+
+<img src="images/Lab34_05.jpg">
+
+<br>
+
+5. Ingresamos a nuestra instancia EC2 "EC2 BACKEND" y modificamos el archivo .env con el objetivo de agregar el endpoint del RDS Read Replica. Reemplazamos el valor de "DB_URI" y reiniciamos el servicio. Se cargará un mensaje similar en nuestra instancia EC2.
+
+```bash
+nano /opt/aws-solutionsarchitectassociate/App/backend/.env
+cd /opt/aws-solutionsarchitectassociate/App/backend/
+sudo lsof -t -i:80
+#El comando anterior resolverá un ID
+kill -9 $ID
+npm start &
+```
+
+<br>
+
+<img src="images/Lab34_06.jpg">
+
+<br>
+
+
+6. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validamos la carga de nuestra aplicación. Generamos un nuevo registro. Se valida que se muestra el siguiente mensaje:
+
+```bash
+ "{"status":500,"message":"Internal Server Error","stack":{"code":"ER_OPTION_PREVENTS_STATEMENT","errno":1290,"sqlMessage":"The MySQL server is running with the --read-only option so it cannot execute this statement","sqlState":"HY000","index":0,"sql":"INSERT INTO tasks(name,description) VALUES('Task 02','Description 02')"}}"
+```
+
+<br>
+
+<img src="images/Lab34_07.jpg">
+
+<br>
+
+<img src="images/Lab34_08.jpg">
+
+<br>
+
+7. Desde la instancia EC2 "EC2 BACKEND", usando System Manager - Session Manager, nos conectamos a la instancia RDS Read Replica. Validamos la creación de nuestro registro.
 
 ```bash
 #Obtenemos el endpoint de nuestra instancia de DB
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
-RDS_HOST=$(aws rds describe-db-instances --region $REGION | jq -r '.DBInstances[] | .Endpoint | .Address')
+RDS_HOST=$(aws rds describe-db-instances --region $REGION | jq -r '.DBInstances[] | .Endpoint | .Address' | awk 'FNR == 2 {print}')
 echo $RDS_HOST
 
 #Obtenemos el usuario y contraseña para conectarnos
@@ -83,6 +111,7 @@ echo $SECRETMANAGER_PASSWORD
             
 #Conexión a la base de datos
 mysql -u $SECRETMANAGER_USER -h $RDS_HOST -p
+#Ingresamos contraseña obtenida
 
 #Validación de creación de registro
 use test;
@@ -91,11 +120,13 @@ select * from tasks;
 
 <br>
 
-<img src="images/Lab33_02.jpg">
+8. Ejecutamos los siguientes comandos desde MySQL. Validamos que nuestro usuario "administrator" está registrado correctamente:
+
+    * AWS para "RDS Read Replica" ha creado el usuario "rdsrepladmin". 
+    * El valor "@@global.read_only" en "1" indica que la instancia es de sólo lectura. 
+    * Al usuario "rdsrepladmin" se le ha generado un privilegio tipo "REPLICATION SLAVE"
 
 <br>
-
-12. Ejecutamos los siguientes comandos desde MySQL. Validamos que nuestro usuario "administrator" está registrado correctamente. El valor "@@global.read_only" en "0" indica que la instancia NO es de sólo lectura.
 
 ```bash
 #Comandos a ejecutar
@@ -109,18 +140,19 @@ mysql> SELECT user FROM mysql.user;
 | user             |
 +------------------+
 | administrator    |
+| rdsrepladmin     |
 | mysql.infoschema |
 | mysql.session    |
 | mysql.sys        |
 | rdsadmin         |
 +------------------+
-5 rows in set (0.00 sec)
+6 rows in set (0.00 sec)
 
 mysql> SELECT @@global.read_only;
 +--------------------+
 | @@global.read_only |
 +--------------------+
-|                  0 |
+|                  1 |
 +--------------------+
 1 row in set (0.00 sec)
 
@@ -200,47 +232,38 @@ mysql> select * from information_schema.user_privileges;
 | 'administrator'@'%'            | def           | CREATE USER                | YES          |
 | 'administrator'@'%'            | def           | EVENT                      | YES          |
 | 'administrator'@'%'            | def           | TRIGGER                    | YES          |
+| 'rdsrepladmin'@'%'             | def           | REPLICATION SLAVE          | NO           |
 +--------------------------------+---------------+----------------------------+--------------+
-72 rows in set (0.00 sec)
+73 rows in set (0.01 sec)
 ```
 
 <br>
 
-13. Accedemos al servicio RDS, luego a la instancia RDS aprovisionada y analizamos la siguiente información:
+9. Ejecutamos el siguiente comando desde MySQL sin éxito.
 
-    * DB identifier
-    * Class db.t2.micro
-    * Region & AZ
-    * **Connectivity & Security**
-        * Endpoint
-        * VPC
-        * Subnet group
-        * VPC security groups
-        * Public accessibility
-    * **Monitoring**
-        * CPU Utilization
-        * DB Connections
-        * Free Storage Space
-        * Freeable Memory
-    * **Logs & events**
-        * Recent events
-        * Logs
-    * **Configuration**
-        * Engine version
-        * DB name
-        * Option groups
-        * Parameter group
-        * Instance class
-        * Master username
-        * Multi-AZ
-        * Encryption
-        * Storage type
-        * Storage
-        * Performance Insights
+```bash
+SET GLOBAL read_only = OFF;
+```
 
 <br>
 
-<img src="images/Lab33_03.jpg">
+<img src="images/Lab34_09.jpg">
+
+<br>
+
+10. Desde la opción "Network Interfaces" (en el servicio EC2) validamos que se ha generado una segunda ENI. Hacemos ping a la URL de la instancia "Read Replica" con el objetivo de obtener la IP Privada (así está el security group abierto para ICMP, no es posible obtener un resultado éxitoso para ping). Podemos buscar está IP Privada en la sección de ENI.
+
+<br>
+
+<img src="images/Lab34_10.jpg">
+
+<br>
+
+<img src="images/Lab34_11.jpg">
+
+<br>
+
+<img src="images/Lab34_12.jpg">
 
 <br>
 

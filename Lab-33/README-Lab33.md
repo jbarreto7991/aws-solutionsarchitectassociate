@@ -58,7 +58,7 @@ aws cloudformation create-stack --stack-name lab33-ec2-s3 --template-body file:/
 
 9. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
 
-10. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validaciones la carga de nuestra aplicación. Generamos registros.
+10. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validamos la carga de nuestra aplicación. Generamos registros.
 
 <br>
 
@@ -84,6 +84,7 @@ echo $SECRETMANAGER_PASSWORD
             
 #Conexión a la base de datos
 mysql -u $SECRETMANAGER_USER -h $RDS_HOST -p
+#Ingresamos contraseña obtenida
 
 #Validación de creación de registro
 use test;
