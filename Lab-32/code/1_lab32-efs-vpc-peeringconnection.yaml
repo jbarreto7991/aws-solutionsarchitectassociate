@@ -533,6 +533,7 @@ Resources:
             #Ubuntu 18.04
             sudo su
             sudo apt-get update
+            sudo apt-get install jq -y
             sudo apt-get -y install git binutils
             
             #Instalador para soportar EFS en Ubuntu 18.04
@@ -577,6 +578,7 @@ Resources:
             #Ubuntu 18.04
             sudo su
             sudo apt-get update
+            sudo apt-get install jq -y
             sudo apt-get -y install git binutils
             
             #Instalador para soportar EFS en Ubuntu 18.04
@@ -622,6 +624,7 @@ Resources:
             #Ubuntu 18.04
             sudo su
             sudo apt-get update
+            sudo apt-get install jq -y
             sudo apt-get -y install git binutils
             
             #Instalador para soportar EFS en Ubuntu 18.04
@@ -670,6 +673,19 @@ Resources:
         GroupDescription: 'Allow External Connection'
         GroupName: 'sg_app'
         VpcId: !Ref VpcB
+        SecurityGroupIngress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  EC2SecurityEFS:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: 'Allow External Connection'
+        GroupName: 'sg_efs'
+        VpcId: !Ref VpcA
         SecurityGroupIngress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
