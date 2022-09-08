@@ -1,23 +1,22 @@
-# AWS Solutions Architect Associate - Laboratorio 33
+# AWS Solutions Architect Associate - Laboratorio 34
 
 <br>
 
 ### Objetivo: 
-* Aprovisionamiento de una instancia RDS desde CloudFormation usando Secrets Manager como generador de credenciales
+*  Configuración y análisis de las propiedades "Read Replica" y "Multi-AZ" en la instancia de RDS.
 
 ### Tópico:
 * Database
-* Security, Identity & Compliance
 
 ### Dependencias:
-* Ninguna
+* Implementación del Laboratorio 33
 
 <br>
 
 
 ---
 
-### A - Aprovisionamiento de una instancia RDS desde CloudFormation usando Secret Manager como generador de credenciales
+### A - Configuración y análisis de las propiedades "Read Replica" y "Multi-AZ" en la instancia de RDS.
 
 <br>
 
@@ -66,7 +65,7 @@ aws cloudformation create-stack --stack-name lab33-ec2-s3 --template-body file:/
 
 <br>
 
-11. Desde la instancia EC2 "EC2 BACKEND", usando System Manager - Session Manager, nos conectamos a la instancia RDS aprovisionada. Hacemos uso de AWSCLI para obtener los secretos en "Secrets Manager". Es posible obtener los secretos haciendo uso de la consola de AWS.
+11. Desde la instancia EC2 "EC2 BACKEND", usando System Manager - Session Manager, nos conectamos a la instancia RDS. Validamos la creación de nuestro registro.
 
 ```bash
 #Obtenemos el endpoint de nuestra instancia de DB
@@ -90,19 +89,9 @@ use test;
 select * from tasks;
 ```
 
-
-
 <br>
 
 <img src="images/Lab33_02.jpg">
-
-<br>
-
-<img src="images/Lab33_04.jpg">
-
-<br>
-
-<img src="images/Lab33_05.jpg">
 
 <br>
 
