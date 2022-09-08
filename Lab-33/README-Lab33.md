@@ -56,12 +56,192 @@ aws cloudformation create-stack --stack-name lab33-secret-manager-rds --template
 aws cloudformation create-stack --stack-name lab33-ec2-s3 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-33/code/3_lab33-ec2-s3.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
-10. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
+9. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
 
-11. Validar que se esté generando la ami AMI_PHP. Esperar a que el status cambie de "Pending" a "Available"
+10. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validaciones la carga de nuestra aplicación. Generamos registros.
+
+<br>
+
+<img src="images/Lab33_01.jpg">
 
 <br>
 
-<img src="images/Lab15_01.jpg">
+11. Desde la instancia EC2 "EC2 BACKEND", usando System Manager - Session Manager, nos conectamos a la instancia RDS. Validamos la creación de nuestro registro.
+
+```bash
+#Obtenemos el endpoint de nuestra instancia de DB
+REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+RDS_HOST=$(aws rds describe-db-instances --region $REGION | jq -r '.DBInstances[] | .Endpoint | .Address')
+echo $RDS_HOST
+
+#Obtenemos el usuario y contraseña para conectarnos
+SECRETMANAGER_NAME=$(aws secretsmanager list-secrets --region $REGION | jq -r '.SecretList[] | .Name')
+#aws secretsmanager describe-secret --secret-id MySecretForRDS --region $REGION            
+SECRETMANAGER_USER=$(aws secretsmanager get-secret-value --secret-id $SECRETMANAGER_NAME --version-stage AWSCURRENT --region $REGION | jq -r '.SecretString | fromjson | .username')            
+SECRETMANAGER_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRETMANAGER_NAME --version-stage AWSCURRENT --region $REGION | jq -r '.SecretString | fromjson | .password')
+echo $SECRETMANAGER_USER
+echo $SECRETMANAGER_PASSWORD
+            
+#Conexión a la base de datos
+mysql -u $SECRETMANAGER_USER -h $RDS_HOST -p
+
+#Validación de creación de registro
+use test;
+select * from tasks;
+```
 
 <br>
+
+<img src="images/Lab33_02.jpg">
+
+<br>
+
+12. Ejecutamos los siguientes comandos desde MySQL. Validamos que nuestro usuario "administrator" está registrado correctamente. El valor "@@global.read_only" en "0" indica que la instancia NO es de sólo lectura.
+
+```bash
+#Comandos a ejecutar
+SELECT user FROM mysql.user;
+SELECT @@global.read_only;
+select * from information_schema.user_privileges;
+
+#Resultado
+mysql> SELECT user FROM mysql.user;
++------------------+
+| user             |
++------------------+
+| administrator    |
+| mysql.infoschema |
+| mysql.session    |
+| mysql.sys        |
+| rdsadmin         |
++------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT @@global.read_only;
++--------------------+
+| @@global.read_only |
++--------------------+
+|                  0 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from information_schema.user_privileges;
++--------------------------------+---------------+----------------------------+--------------+
+| GRANTEE                        | TABLE_CATALOG | PRIVILEGE_TYPE             | IS_GRANTABLE |
++--------------------------------+---------------+----------------------------+--------------+
+| 'mysql.infoschema'@'localhost' | def           | SELECT                     | NO           |
+| 'mysql.infoschema'@'localhost' | def           | SYSTEM_USER                | NO           |
+| 'mysql.infoschema'@'localhost' | def           | AUDIT_ABORT_EXEMPT         | NO           |
+| 'mysql.session'@'localhost'    | def           | USAGE                      | NO           |
+| 'mysql.session'@'localhost'    | def           | SYSTEM_VARIABLES_ADMIN     | NO           |
+| 'mysql.session'@'localhost'    | def           | SYSTEM_USER                | NO           |
+| 'mysql.session'@'localhost'    | def           | SESSION_VARIABLES_ADMIN    | NO           |
+| 'mysql.session'@'localhost'    | def           | PERSIST_RO_VARIABLES_ADMIN | NO           |
+| 'mysql.session'@'localhost'    | def           | CONNECTION_ADMIN           | NO           |
+| 'mysql.session'@'localhost'    | def           | CLONE_ADMIN                | NO           |
+| 'mysql.session'@'localhost'    | def           | BACKUP_ADMIN               | NO           |
+| 'mysql.session'@'localhost'    | def           | AUDIT_ABORT_EXEMPT         | NO           |
+| 'mysql.sys'@'localhost'        | def           | USAGE                      | NO           |
+| 'mysql.sys'@'localhost'        | def           | SYSTEM_USER                | NO           |
+| 'mysql.sys'@'localhost'        | def           | AUDIT_ABORT_EXEMPT         | NO           |
+| 'rdsadmin'@'localhost'         | def           | SELECT                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | INSERT                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | UPDATE                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | DELETE                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | DROP                       | YES          |
+| 'rdsadmin'@'localhost'         | def           | RELOAD                     | YES          |
+| 'rdsadmin'@'localhost'         | def           | SHUTDOWN                   | YES          |
+| 'rdsadmin'@'localhost'         | def           | PROCESS                    | YES          |
+| 'rdsadmin'@'localhost'         | def           | FILE                       | YES          |
+| 'rdsadmin'@'localhost'         | def           | REFERENCES                 | YES          |
+| 'rdsadmin'@'localhost'         | def           | INDEX                      | YES          |
+| 'rdsadmin'@'localhost'         | def           | ALTER                      | YES          |
+| 'rdsadmin'@'localhost'         | def           | SHOW DATABASES             | YES          |
+| 'rdsadmin'@'localhost'         | def           | SUPER                      | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE TEMPORARY TABLES    | YES          |
+| 'rdsadmin'@'localhost'         | def           | LOCK TABLES                | YES          |
+| 'rdsadmin'@'localhost'         | def           | EXECUTE                    | YES          |
+| 'rdsadmin'@'localhost'         | def           | REPLICATION SLAVE          | YES          |
+| 'rdsadmin'@'localhost'         | def           | REPLICATION CLIENT         | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE VIEW                | YES          |
+| 'rdsadmin'@'localhost'         | def           | SHOW VIEW                  | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE ROUTINE             | YES          |
+| 'rdsadmin'@'localhost'         | def           | ALTER ROUTINE              | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE USER                | YES          |
+| 'rdsadmin'@'localhost'         | def           | EVENT                      | YES          |
+| 'rdsadmin'@'localhost'         | def           | TRIGGER                    | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE TABLESPACE          | YES          |
+| 'rdsadmin'@'localhost'         | def           | CREATE ROLE                | YES          |
+| 'rdsadmin'@'localhost'         | def           | DROP ROLE                  | YES          |
+| 'rdsadmin'@'localhost'         | def           | SYSTEM_USER                | YES          |
+| 'rdsadmin'@'localhost'         | def           | SET_USER_ID                | YES          |
+| 'rdsadmin'@'localhost'         | def           | SERVICE_CONNECTION_ADMIN   | YES          |
+| 'administrator'@'%'            | def           | SELECT                     | YES          |
+| 'administrator'@'%'            | def           | INSERT                     | YES          |
+| 'administrator'@'%'            | def           | UPDATE                     | YES          |
+| 'administrator'@'%'            | def           | DELETE                     | YES          |
+| 'administrator'@'%'            | def           | CREATE                     | YES          |
+| 'administrator'@'%'            | def           | DROP                       | YES          |
+| 'administrator'@'%'            | def           | RELOAD                     | YES          |
+| 'administrator'@'%'            | def           | PROCESS                    | YES          |
+| 'administrator'@'%'            | def           | REFERENCES                 | YES          |
+| 'administrator'@'%'            | def           | INDEX                      | YES          |
+| 'administrator'@'%'            | def           | ALTER                      | YES          |
+| 'administrator'@'%'            | def           | SHOW DATABASES             | YES          |
+| 'administrator'@'%'            | def           | CREATE TEMPORARY TABLES    | YES          |
+| 'administrator'@'%'            | def           | LOCK TABLES                | YES          |
+| 'administrator'@'%'            | def           | EXECUTE                    | YES          |
+| 'administrator'@'%'            | def           | REPLICATION SLAVE          | YES          |
+| 'administrator'@'%'            | def           | REPLICATION CLIENT         | YES          |
+| 'administrator'@'%'            | def           | CREATE VIEW                | YES          |
+| 'administrator'@'%'            | def           | SHOW VIEW                  | YES          |
+| 'administrator'@'%'            | def           | CREATE ROUTINE             | YES          |
+| 'administrator'@'%'            | def           | ALTER ROUTINE              | YES          |
+| 'administrator'@'%'            | def           | CREATE USER                | YES          |
+| 'administrator'@'%'            | def           | EVENT                      | YES          |
+| 'administrator'@'%'            | def           | TRIGGER                    | YES          |
++--------------------------------+---------------+----------------------------+--------------+
+72 rows in set (0.00 sec)
+```
+
+<br>
+
+13. Accedemos al servicio RDS, luego a la instancia RDS aprovisionada y analizamos la siguiente información:
+
+    * DB identifier
+    * Class db.t2.micro
+    * Region & AZ
+    * **Connectivity & Security**
+        * Endpoint
+        * VPC
+        * Subnet group
+        * VPC security groups
+        * Public accessibility
+    * **Monitoring**
+        * CPU Utilization
+        * DB Connections
+        * Free Storage Space
+        * Freeable Memory
+    * **Logs & events**
+        * Recent events
+        * Logs
+    * **Configuration**
+        * Engine version
+        * DB name
+        * Option groups
+        * Parameter group
+        * Instance class
+        * Master username
+        * Multi-AZ
+        * Encryption
+        * Storage type
+        * Storage
+        * Performance Insights
+
+<br>
+
+<img src="images/Lab33_03.jpg">
+
+<br>
+
