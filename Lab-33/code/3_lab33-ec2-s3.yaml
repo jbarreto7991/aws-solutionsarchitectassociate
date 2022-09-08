@@ -5,13 +5,6 @@ Description: 'lab-ec2-s3-v1.0.0'
 
 Parameters:
 
-  S3BucketName:
-    Type: String
-    Description: The name for the S3 bucket - must be unique across all of AWS (3-63 lowercase letters,numbers or character(_,-))
-    Default: "default"
-    AllowedPattern: '^[a-zA-Z0-9][a-zA-Z0-9_-]{5,40}$'
-    ConstraintDescription: 3-63 characters; must contain only lowercase letters or numbers
-    
   InstancesFamily: 
      Description: The Instances Family
      Type: CommaDelimitedList
@@ -134,10 +127,7 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Join
-        - '-'
-        - - !Ref S3BucketName
-          - !Ref 'AWS::Region'
+      BucketName: !Sub 'lab33-aws-solutionsarchitectassociate-rds-${AWS::AccountId}'
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
