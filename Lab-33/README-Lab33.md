@@ -53,7 +53,7 @@ aws cloudformation create-stack --stack-name lab33-secret-manager-rds --template
 8. **3_lab33-ec2-s3.yaml**. Esta plantilla tiene como parámetro el valor "Key Pair". El siguiente comando considera el valor "aws-solutionsarchitectassociate" para el KeyPair, reemplazar el nombre según la llave respectiva. Esta plantilla desplegará principalmente una instancia EC2 (backend de la aplicación) y un bucket de S3 (Frontend de la aplicación). La instancia EC2 se asociará con la instancia RDS desplegada en la plantilla anterior.
 
 ```bash
-aws cloudformation create-stack --stack-name lab15-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-15/code/3_lab15-alb-targetgroup.yaml
+aws cloudformation create-stack --stack-name lab33-ec2-s3 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-33/code/3_lab33-ec2-s3.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
 10. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
