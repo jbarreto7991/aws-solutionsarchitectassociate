@@ -118,6 +118,9 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 31: S3, Glue, Crawler & Athena** [README-Lab31.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-31/README-Lab31.md)
 * Integración de S3, Glue, Crawler y Athena
 
+#### **Laboratorio 32: EFS** [README-Lab32.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-32/README-Lab32.md)
+* Configuración de un File System usando EFS en instancias Linux aprovisionadas en distintas VPCs
+
 
 
 
