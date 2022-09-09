@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-*  Configuración de “Performance Insigth” en la instancia de RDS.
+*  Configuración de "Performance Insights" en la instancia de RDS.
 
 ### Tópico:
 * Database
