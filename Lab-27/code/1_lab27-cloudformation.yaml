@@ -255,7 +255,7 @@ Resources:
     Type: AWS::EC2::Instance
     Condition: CreateProdResources
     Properties:
-      InstanceType: !Select [ 1, !Ref InstancesFamily]
+      InstanceType: !Select [ 0, !Ref InstancesFamily]
       ImageId: !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
       IamInstanceProfile: !Ref IAMServerProfile
       #KeyName: !FindInMap [KeyPair, !Ref "AWS::Region", prod]

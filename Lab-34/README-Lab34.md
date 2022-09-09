@@ -251,7 +251,7 @@ SET GLOBAL read_only = OFF;
 
 <br>
 
-10. Desde la opción "Network Interfaces" (en el servicio EC2) validamos que se ha generado una segunda ENI. Hacemos ping a la URL de la instancia "Read Replica" con el objetivo de obtener la IP Privada (así está el security group abierto para ICMP, no es posible obtener un resultado éxitoso para ping). Podemos buscar está IP Privada en la sección de ENI.
+10. Desde la opción "Network Interfaces" (en el servicio EC2) validamos que se ha generado una segunda ENI. Hacemos ping a la URL de la instancia "Read Replica" con el objetivo de obtener la IP Privada (si el security group se encuentra abierto para ICMP, no es posible obtener un resultado éxitoso para ping. Es un atributo de los RDS). Buscamos la IP Privada en la sección de ENI.
 
 <br>
 
