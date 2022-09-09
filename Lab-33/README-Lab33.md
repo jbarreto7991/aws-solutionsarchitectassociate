@@ -10,7 +10,7 @@
 * Security, Identity & Compliance
 
 ### Dependencias:
-* Ninguna
+* No deben de existir secretos previos generados en el servicio de "Secrets Manager"
 
 <br>
 
