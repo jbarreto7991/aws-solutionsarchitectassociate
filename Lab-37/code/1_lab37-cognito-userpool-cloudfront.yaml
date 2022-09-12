@@ -37,7 +37,7 @@ Resources:
       BucketName: 
         Fn::Join:
           - '-'
-          - [!Ref ResourcePrefix, !Ref "AWS::AccountId", !Ref "AWS::Region",'wildrydes']
+          - [!Ref ResourcePrefix, !Ref "AWS::AccountId", !Ref "AWS::Region"]
       WebsiteConfiguration:
         IndexDocument: index.html
 
