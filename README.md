@@ -122,8 +122,18 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Configuración de un File System usando EFS en instancias Linux aprovisionadas en distintas VPCs
 
 
+#### **Laboratorio 33: RDS & Secrets Manager** [README-Lab33.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-33/README-Lab33.md)
+* Aprovisionamiento de una instancia RDS desde CloudFormation usando Secrets Manager como generador de credenciales
 
 
+#### **Laboratorio 34: RDS Read Replica** [README-Lab34.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-34/README-Lab34.md)
+* Configuración y análisis de la propiedad "Read Replica" en la instancia de RDS
+
+#### **Laboratorio 35: RDS Multi-AZ** [README-Lab35.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-35/README-Lab35.md)
+* Configuración y análisis de la propiedad "Multi-AZ" en la instancia de RDS
+
+#### **Laboratorio 36: RDS Performance Insights** [README-Lab36.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-36/README-Lab36.md)
+* Configuración de "Performance Insights" en la instancia de RDS.
 
 
 

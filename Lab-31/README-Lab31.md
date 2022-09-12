@@ -40,7 +40,7 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 5. **1_lab31-s3-glue.yaml** Esta plantilla no contiene parámetros de despliegue. Después del despliegue, analizar los recursos aprovisionados: dos buckets S3 (uno para ser usado por el Crawler de Glue y el otro para ser usado por Athena) y el AWS Glue Database "lab31-glue-database".
 
 ```bash
-aws cloudformation create-stack --stack-name lab31-s3-glue --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-31/code/1_lab31-s3-glue.yaml 
+aws cloudformation create-stack --stack-name lab31-s3-glue --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-31/code/1_lab31-s3-glue.yaml --capabilities CAPABILITY_IAM
 ```
 
 <br>
