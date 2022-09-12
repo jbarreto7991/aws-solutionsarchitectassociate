@@ -138,7 +138,7 @@ Resources:
           - [!Ref ResourcePrefix, 'content']
       Description: Copies objects from a source S3 bucket to a destination S3 bucket.
       Handler: index.handler
-      Runtime: python2.7
+      Runtime: python3.7
       Role: !GetAtt WebsiteContentLambdaRole.Arn
       Timeout: 120
       Code:
@@ -350,7 +350,7 @@ Resources:
           - [!Ref ResourcePrefix, 'content-update']
       Description: Updates object on S3 for client-side configuration
       Handler: index.handler
-      Runtime: python2.7
+      Runtime: python3.7
       Role: !GetAtt WebsiteContentUpdateLambdaRole.Arn
       Timeout: 120
       Code:
