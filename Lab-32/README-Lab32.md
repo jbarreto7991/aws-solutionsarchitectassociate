@@ -31,7 +31,7 @@
 aws configure --profile efs
 AWS Access Key ID [None]: AKIAQ7Y4QB4XC2ZWSMAW
 AWS Secret Access Key [None]: 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
-Default region name [us-east-1]: 
+Default region name [us-east-1]: us-east-1
 Default output format [None]: 
 #No forzar el update
 #Dar clic en la opción "Re-enable after refresh"

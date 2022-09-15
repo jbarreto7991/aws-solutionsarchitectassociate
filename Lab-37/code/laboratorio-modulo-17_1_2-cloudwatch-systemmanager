@@ -1,43 +1,22 @@
-# AWS Solutions Architect Associate - Laboratorio 37
 
-<br>
-
-### Objetivo: 
-*  Instalación del "Agente Unificado CloudWatch" (Memoria, Espacio en disco y Logs) a través de "System Manager - Parameter Store" y "Run Command"
-
-### Tópico:
-* Management & Governance
-
-### Dependencias:
-* Ninguno
-
-<br>
+=======================================================================
+   CloudWatch Agent & System Manager (Parameter Store, Run Command)
+=======================================================================
 
 
----
+1. Ingresar al servicio System Manager - Parameter Store y dar clic en "Create Paramter".
 
-### A - Instalación del "Agente Unificado CloudWatch" (Memoria, Espacio en disco y Logs) a través de "System Manager - Parameter Store" y "Run Command"
 
-<br>
-
-1. Accedemos al servicio "System Manager - Parameter Store". Dar clic en "Create Parameter". 
-
-<br>
-
-<img src="images/Lab37_01.jpg">
-
-<br>
-
-2. Ingresar y/o seleccionar los siguientes valores. Luego dar clic en el botón "Create parameter".
+2. Ingresar y/o seleccionar los siguientes valores. Crear el parámetro.
 
  - Name: AmazonCloudWatch-linux
  - Description: Amazon CloudWatch configuration
  - Tier: Standard
  - Type: String
  - Data Type: Text
- - Value: "Ingresar el siguiente JSON"
+ - Value: INGRESAR EL SIGUIENTE JSON
 
-```bash
+
 {
 	"agent": {
 		"metrics_collection_interval": 60,
@@ -90,46 +69,9 @@
 		}
 	}
 }
-```
 
 
-<br>
-
-<img src="images/Lab37_02.jpg">
-
-<br>
-
-<img src="images/Lab37_03.jpg">
-
-<br>
-
-
-3. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
-
-4. Ejecutar los siguinentes comandos en nuestro Cloud9
-
-```bash
-#Ubuntu 18.04
-sudo apt-get update
-git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
-```
-
-5. Acceder al laboratorio 37 (Lab-37), carpeta "code". Validar que se cuenta con la plantilla de cloudformation "1_lab37_cloudwatch-agent".
-
-6. Desplegar la respectiva plantilla CloudFormation ejecutando AWSCLI.
-
-<br>
-
-7. **1_lab37_cloudwatch-agent** Esta plantilla no contiene parámetros de despliegue. Después del despliegue, analizar los recursos aprovisionados: dos buckets S3 (uno para ser usado por el Crawler de Glue y el otro para ser usado por Athena) y el AWS Glue Database "lab31-glue-database".
-
-```bash
-aws cloudformation create-stack --stack-name lab37-cloudwatch-agent --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-37/code/1_lab37-cloudwatch-agent.yaml --capabilities CAPABILITY_NAMED_IAM
-```
-
-<br>
-
-8. 
-
+3. Ejecutar el template de CloudFormation "laboratorio-modulo-17_1_1-cloudwatch-agent.yaml"
 
 
 4. Ingresar a "System Manager - Run Command", dar clic en "Run Command". 
