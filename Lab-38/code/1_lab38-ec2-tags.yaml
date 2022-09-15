@@ -119,7 +119,7 @@ Resources:
       - Key: Name
         Value: 'EC2 Lab38'     
       - Key: Scheduled
-        Value: True
+        Value: "True"
 
 
   EC2InstanceB:
@@ -143,7 +143,7 @@ Resources:
       - Key: Name
         Value: 'EC2 Lab38'     
       - Key: Scheduled
-        Value: True
+        Value: "True"
 
 
 # Security Group EC2 Instances
