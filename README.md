@@ -135,6 +135,12 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 36: RDS Performance Insights** [README-Lab36.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-36/README-Lab36.md)
 * Configuración de "Performance Insights" en la instancia de RDS.
 
+#### **Laboratorio 37: Agente Unificado CloudWatch & System Manager (Parameter Store & Run Command)** [README-Lab37.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-37/README-Lab37.md)
+* Instalación del "Agente Unificado CloudWatch" (Memoria, Espacio en disco y Logs) a través de "System Manager - Parameter Store" y "Run Command".
+
+#### **Laboratorio 38: CloudWatch Event Rules, EC2, Tags & Lambda** [README-Lab38.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-38/README-Lab38.md)
+* Configuración de "CloudWatch Event Rules (Schedule)" y el apagado/encendido automático de instancias EC2 con Tags usando Lambdas.
+
 
 
 
