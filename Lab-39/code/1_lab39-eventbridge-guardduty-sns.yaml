@@ -91,6 +91,7 @@ Resources:
                     - 'sts:AssumeRole'
         ManagedPolicyArns:
           - !Ref IAMPolicySSM
+          - arn:aws:iam::aws:policy/AdministratorAccess
         Tags: 
         - Key: Enviroment
           Value: PROD
@@ -112,6 +113,8 @@ Resources:
             sudo su
             sudo apt-get update
             sudo apt-get install nmap -y
+            sudo apt-get install awscli -y
+            sudo apt-get install jq -y
       SecurityGroupIds:
       - !Ref EC2SecurityGroupInstances
       SourceDestCheck: true
@@ -133,7 +136,7 @@ Resources:
             #!/bin/bash
             sudo su
             sudo apt-get update
-            sudo apt-get apache2 -y
+            sudo apt-get install apache2 -y
       SecurityGroupIds:
       - !Ref EC2SecurityGroupInstances
       SourceDestCheck: true

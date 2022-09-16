@@ -185,10 +185,9 @@ Active: inactive (dead)
 
 <br>
 
-<img src="images/Lab37_09.jpg">
+<img src="images/Lab37_10.jpg">
 
 <br>
-
 
 12.  Repetir los pasos 8, 9, 10 y 11 para los siguientes comandos. Validar que el estado final del comando es "Success"
 
@@ -200,11 +199,6 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-c
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a start
 service amazon-cloudwatch-agent status
 ```
-
-<br>
-
-<img src="images/Lab37_10.jpg">
-
 <br>
 
 <img src="images/Lab37_11.jpg">
