@@ -147,6 +147,9 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 40: SQS (create,list,send,receive,delete & purge)** [README-Lab40.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-40/README-Lab40.md)
 * Configuración y gestión a través de los métodos create, send, receive, y delete de una cola SQS usando el SDK de NodeJS
 
+#### **Laboratorio 41: SQS (Visibility Timeout, Short Polling & Long Polling)** [README-Lab41.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-41/README-Lab41.md)
+* Configuración de las propiedades "Visibility Timeout", "Long-polling" y "Short-polling" en una cola SQS 
+
 
 
 

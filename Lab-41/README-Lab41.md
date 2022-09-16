@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-*  Configuración de las propiedades "Long-polling" y "Short-polling" en una cola SQS 
+*  Configuración de las propiedades "Visibility Timeout", "Long-polling" y "Short-polling" en una cola SQS 
 
 ### Tópico:
 * Application Integration
