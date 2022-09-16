@@ -13,6 +13,9 @@
 ### Dependencias:
 * Ninguno
 
+### Costo:
+* Durante el desarrollo del laboratorio (especialmente en el paso 10) se estarán desplegando instancias tipo "t2.nano" que hacen "crypto_mining". Estas instancias no están dentro de la capa gratutita (0,0058 USD	por hora)
+
 <br>
 
 
@@ -283,3 +286,7 @@ end of ./simulate_crypto_mining_activity.sh
 ```bash
 {"version":"0","id":"af02477f-d4ae-f42c-3bba-d36e657497c5","detail-type":"GuardDuty Finding","source":"aws.guardduty","account":"XXXXXXXXXXXX","time":"2022-09-16T12:45:00Z","region":"us-east-1","resources":[],"detail":{"schemaVersion":"2.0","accountId":"XXXXXXXXXXXX","region":"us-east-1","partition":"aws","id":"92c1a1d65b221e96d6a6fae27aaaae43","arn":"arn:aws:guardduty:us-east-1:XXXXXXXXXXXX:detector/e2c1a19ae1a4e786e58e2a5abed1340a/finding/92c1a1d65b221e96d6a6fae27aaaae43","type":"CryptoCurrency:EC2/BitcoinTool.B!DNS","resource":{"resourceType":"Instance","instanceDetails":{"instanceId":"i-00aa97663294ffbbd","instanceType":"t2.nano","launchTime":"2022-09-15T22:53:51.000Z","platform":null,"productCodes":[],"iamInstanceProfile":null,"networkInterfaces":[{"ipv6Addresses":[],"networkInterfaceId":"eni-0b2a816e2859d3b70","privateDnsName":"ip-172-31-32-167.ec2.internal","privateIpAddress":"172.31.32.167","privateIpAddresses":[{"privateDnsName":"ip-172-31-32-167.ec2.internal","privateIpAddress":"172.31.32.167"}],"subnetId":"subnet-19324346","vpcId":"vpc-dd59d8a0","securityGroups":[{"groupName":"default","groupId":"sg-2f266b2f"}],"publicDnsName":"ec2-3-81-58-153.compute-1.amazonaws.com","publicIp":"3.81.58.153"}],"outpostArn":null,"tags":[],"instanceState":"running","availabilityZone":"us-east-1c","imageId":"ami-02538f8925e3aa27a","imageDescription":"Amazon Linux 2 AMI 2.0.20220805.0 x86_64 HVM gp2"}},"service":{"serviceName":"guardduty","detectorId":"e2c1a19ae1a4e786e58e2a5abed1340a","action":{"actionType":"DNS_REQUEST","dnsRequestAction":{"domain":"pool.minergate.com","protocol":"UDP","blocked":false}},"resourceRole":"TARGET","additionalInfo":{"threatListName":"ProofPoint","value":"{\"threatListName\":\"ProofPoint\"}","type":"default"},"evidence":{"threatIntelligenceDetails":[{"threatListName":"ProofPoint","threatNames":[]}]},"eventFirstSeen":"2022-09-15T22:54:35.000Z","eventLastSeen":"2022-09-16T11:45:02.000Z","archived":false,"count":278},"severity":8,"createdAt":"2022-09-16T00:22:15.876Z","updatedAt":"2022-09-16T12:32:45.028Z","title":"Bitcoin-related domain name queried by EC2 instance i-00aa97663294ffbbd.","description":"EC2 instance i-00aa97663294ffbbd is querying a domain name that is associated with Bitcoin-related activity."}}
 ```
+
+<br>
+
+16. Eliminar la plantilla de CloudFormation "1_lab39-eventbridge-guardduty-sns" no eliminará las instancias EC2 que hacen "crypto_mining". Eliminar las instancias generadas en EC2 de forma independiente. 
