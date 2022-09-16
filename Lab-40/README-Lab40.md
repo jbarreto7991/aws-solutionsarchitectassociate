@@ -48,102 +48,210 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 <br>
 
 ```bash
-aws cloudformation create-stack --stack-name lab40-sqs --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-40/code/1_lab40-sqs.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" ParameterKey=Subnet,ParameterValue="subnet-43d4a125" ParameterKey=VPC,ParameterValue="vpc-dd59d8a0" --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation create-stack --stack-name lab40-sqs --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-40/code/1_lab40-sqs.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" ParameterKey=Subnet,ParameterValue="subnet-43d4a125" ParameterKey=Vpc,ParameterValue="vpc-dd59d8a0" --capabilities CAPABILITY_NAMED_IAM
 ```
 
 <br>
 
-6. Generar un usuario programático con la política asociada "AmazonSQSFullAccess"
-Access key ID: AKIAQ7Y4QB4XMYFMMXSP
-Secret access key: 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
+6. Ingresar a la instancia EC2 vía "System Manager - Session Manager" y modificar el archivo config.json según se detalla a continuación:
 
+<br>
 
-3. Configurar el usuario programático en la aplicación. Acceder al archivo config.json y reemplazar las secciones correspondientes.
-
+```bash
 cd /home/ubuntu/aws-sqs-node-js-example/
 nano config.json
 
+#Antes
 {
-    "accessKeyId": "AKIAQ7Y4QB4XMYFMMXSP",
-    "secretAccessKey": "wL50B8mHrdoZhRKH70QjeJPYHCNu+a5Yfdfd6RSo",
+    "accessKeyId": "AAAAQ7Y4QB4XMYFMAAAA",
+    "secretAccessKey": "AAAAB8mHrdoZhRKH70QjeJPYHCNu+a5YfdfdAAAA",
     "region": "us-east-1"
 }
 
+#Después
+{
+    "region": "us-east-1"
+}
+```
 
-4. Ejecutar los siguientes comandos:
+<br>
 
+7. Desde la instancia EC2, levantar el servicio de la aplicación. Acceder al mismo desde la IP Pública de la instancia EC2.
+
+```bash
+#Comando
 cd /home/ubuntu/aws-sqs-node-js-example/
-node app.js
+node app.js &
 
-#Respuesta
+#Respuesta del Comando
 AWS SQS example app listening at http://:::80
+```
+
+<br>
+
+<img src="images/Lab40_01.jpg">
+
+<br>
+
+<img src="images/Lab40_02.jpg">
+
+<br>
 
 
-5. Desde la IP Pública de la instancia validar el servicio. Se mostrará la siguiente respuesta:
-#Respuesta
-Cannot GET /
+8. Desde la instancia EC2, analizar la sección "/create" del archivo "/aws-sqs-node-js-example/app.js". Desde el navegador, acceder a "http://${PUBLIC_IP}/create"
 
-
-6. Creando mi primera cola SQS
- - Analizar el siguiente archivo "app.js". Validar los diferentes métodos existentes
- - Analizar la sección "/create" del archivo app.js
- - Desde el navegador acceder a PUBLIC_IP/create
-
+```bash
 #Resultado
-{"ResponseMetadata":{"RequestId":"6232757b-f740-5ee4-b827-2cd45a2a98b8"},"QueueUrl":"https://sqs.us-east-1.amazonaws.com/068242378542/MyFirstQueue"}
+{"ResponseMetadata":{"RequestId":"e22f6e7a-49d0-5b45-b32f-35e4af078995"},"QueueUrl":"https://sqs.us-east-1.amazonaws.com/068242378542/MyFirstQueue"}
+```
 
- 
-7. Desde el servicio de SQS de AWS, validar la creación del recurso. Desde la sección "Details" guardar el valor del campo "URL".
-URL = https://sqs.us-east-1.amazonaws.com/068242378542/MyFirstQueue
+<br>
 
+<img src="images/Lab40_03.jpg">
+
+<br>
+
+<img src="images/Lab40_04.jpg">
+
+<br>
+
+
+9. Accedemos al servicio SQS y validamos la existencia de la cola creada en el paso anterior. Obtenemos el valor del campo "URL" en la sección "Details". Podemos obtener el mismo valor (URL) ejecutando el siguiente comando de AWSCLI en la instancia EC2.
+
+```bash
 #Obteniendo la URL usando AWSCLI
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]'
+```
+
+<br>
+
+<img src="images/Lab40_05.jpg">
+
+<br>
+
+<img src="images/Lab40_06.jpg">
+
+<br>
 
 
-8. Desde la instancia EC2, modificar el archivo "app.js". Agregar valor en el campo "queueUrl" (valor obtenido en el paso anterior).
+10. Desde la instancia EC2, modificar el archivo "/aws-sqs-node-js-example/app.js". Agregar el valor de la "URL" (obtenida en el paso anterior) en el campo "queueUrl" Reiniciar el servicio.
 
+<br>
+
+```bash
+
+#Reemplazo de queueUrl
 // Require objects.
 var express  = require('express');
 var app      = express();
 var aws      = require('aws-sdk');
-var queueUrl = "https://sqs.us-east-1.amazonaws.com/068242378542/MyFirstQueue";
+var queueUrl = "https://sqs.us-east-1.amazonaws.com/XXXXXXXXXXXX/MyFirstQueue";
 var receipt  = "";
 
+#Reinicio del servicio
+sudo lsof -t -i:80 
+kill -9 $PID
+node app.js &
+```
 
-9. Analizar la sección "/send" del archivo app.js
+<br>
 
+<img src="images/Lab40_07.jpg">
 
-10. Desde el navegador acceder a PUBLIC_IP/send. Analizar el servicio SQS.
+<br>
 
+11. Desde la instancia EC2, analizar la sección "/send" del archivo "/aws-sqs-node-js-example/app.js". Desde el navegador acceder a "http://${PUBLIC_IP}/send". Analizar el servicio SQS.
+
+```bash
 #Resultado
-{"ResponseMetadata":{"RequestId":"3a7de4d5-361d-52e4-8bf2-bd6521b97d7b"},"MD5OfMessageBody":"86fb269d190d2c85f6e0468ceca42a20","MessageId":"e3dc20ec-7178-4e88-b059-4b00bec25b28"}
+{"ResponseMetadata":{"RequestId":"7d8d433d-8310-5491-9153-18a36f259de4"},"MD5OfMessageBody":"86fb269d190d2c85f6e0468ceca42a20","MessageId":"865a8399-09bc-4869-a100-26ca2dcf821a"}
+```
+<br>
 
+<img src="images/Lab40_10.jpg">
 
-11. Analizar la sección "/receive" del archivo app.js
+<br>
 
+<img src="images/Lab40_08.jpg">
 
-12. Desde el navegador acceder a PUBLIC_IP/receive. Analizar el servicio SQS.
+<br>
 
-#Resultado
-{"ResponseMetadata":{"RequestId":"9f71f403-cdcd-535a-871b-adb3d5b45083"},"Messages":[{"MessageId":"5fa43bc0-ef8e-4848-8ec3-373f544efbc0","ReceiptHandle":"AQEBjtMl+SJ8UgOrAETZPne8ZxPfaKzr1S5CF/iHcY5kgQolk7uV2VGOlMEOsA49PQBgFmvv/A6oYcKPLrTpLsd00K3VTXFjlpJn/fEMCdbCL21tK3yOaXF8sspCQOqZ7cabcYlXGg8x3rqSc/22I2Hc7qSHfcmyAl4QJeZo1kZOwCG5TU0fgQHpi52Iz/fWqS6LPHSVDfZaYYKhIGg0fMgJNSrXxv+T9Zou0o3Hfy4S/VvvRy//7AG3dL2uOYAMDIBDGFLLjwGgYMMcdHt25iJHYgdxilUfWLPH8omJhXOrCq6bO+UZATS9tgBWUQzrX9toNIXb8MSjnsYxd73ko6o8q4L6uxrZ2fZ5XaJm/sUGj0oHGtaAvYfGsoYVS+J0zI/EIlPQpJA8URMZkjlckbqwsg==","MD5OfBody":"86fb269d190d2c85f6e0468ceca42a20","Body":"Hello world!"}]}
+<img src="images/Lab40_09.jpg">
 
+<br>
 
-13. Analizar la sección "/delete" del archivo app.js. Agregar valor en el campo "receipt" (valor obtenido en el paso anterior).
+12. Desde la instancia EC2, analizar la sección "/receive" del archivo "/aws-sqs-node-js-example/app.js". Guardar el valor del campo "ReceiptHandle" (será usado en el siguiente paso). Desde el navegador acceder a "http://${PUBLIC_IP}/receive". Analizar el servicio SQS.
 
+<br>
+
+<img src="images/Lab40_11.jpg">
+
+<br>
+
+<img src="images/Lab40_12.jpg">
+
+<br>
+
+<img src="images/Lab40_13.jpg">
+
+<br>
+
+```bash
+#Resultado del comando "receive"
+{"ResponseMetadata":{"RequestId":"db88864d-791b-53ea-a847-ddd394286fd4"},"Messages":[{"MessageId":"865a8399-09bc-4869-a100-26ca2dcf821a","ReceiptHandle":"AQEBKb6BN5Dw3burpK2/yL/C9MrdcLoaaNNwnDJEu238pNlpNvYC/xCFkzvRcD8y3jk40Bg9DEHD4EeA5knEg/6fNYAbpa58e1R6HZSgOL7Ao4gKbGDzDITtAwBW0qWlIJG36fdqd5SBs2iSydHYAAUgZ4oh3bnkE2qwS9QKOpngBAubTbV1evsmthNMuCmq0FlUALr5kHGIfKq1WudpHXY6xH4IQsHAJmGxvUay6nfxx3dIU1GqztgRliEnOvNysLlk8qo7NwlT0TbVCCuTk1oISKKrY41ukOe0iqgpJQxflf/2OO/wJ5VYakLrqNOo/qdHPCzCwkAKnreMqtNcY5xNM+McFOb5YwtcitoM6Ix2XDgHjmhZrS1U2KqZPXBXV0lJxpoGTVV+4CfTlghnuPxg5Q==","MD5OfBody":"86fb269d190d2c85f6e0468ceca42a20","Body":"Hello world!"}]}
+```
+
+<br>
+
+13. Desde la instancia EC2, analizar la sección "/delete" del archivo "/aws-sqs-node-js-example/app.js". Agregar el valor obtenido (ReceiptHandle) en el paso anterior en la sección "receipt" de este archivo. Reiniciar el servicio. Desde el navegador acceder a "http://${PUBLIC_IP}/receive". Analizar el servicio SQS.
+
+```bash
+#Reemplazo de la variable receipt
 // Require objects.
 var express  = require('express');
 var app      = express();
 var aws      = require('aws-sdk');
-var queueUrl = "https://sqs.us-east-1.amazonaws.com/068242378542/MyFirstQueue";
-var receipt  = "";
+var queueUrl = "https://sqs.us-east-1.amazonaws.com/XXXXXXXXXXXX/MyFirstQueue";
+var receipt  = "AQEBKb6BN5Dw3burpK2/yL/C9MrdcLoaaNNwnDJEu238pNlpNvYC/xCFkzvRcD8y3jk40Bg9DEHD4EeA5knEg/6fNYAbpa58e1R6HZSgOL7Ao4gKbGDzDITtAwBW0qWlIJG36fdqd5SBs2iSydHYAAUgZ4oh3bnkE2qwS9QKOpngBAubTbV1evsmthNMuCmq0FlUALr5kHGIfKq1WudpHXY6xH4IQsHAJmGxvUay6nfxx3dIU1GqztgRliEnOvNysLlk8qo7NwlT0TbVCCuTk1oISKKrY41ukOe0iqgpJQxflf/2OO/wJ5VYakLrqNOo/qdHPCzCwkAKnreMqtNcY5xNM+McFOb5YwtcitoM6Ix2XDgHjmhZrS1U2KqZPXBXV0lJxpoGTVV+4CfTlghnuPxg5Q==";
+
+#Resultado del Comando "delete" ejecutado
+{"ResponseMetadata":{"RequestId":"bbc6c3d3-88a1-551e-9c67-984d74cbaa45"}}
+
+#Reinicio del servicio
+sudo lsof -t -i:80 
+kill -9 $PID
+node app.js &
+```
+<br>
+
+<img src="images/Lab40_17.jpg">
+
+<br>
+
+<img src="images/Lab40_14.jpg">
+
+<br>
+
+<img src="images/Lab40_15.jpg">
+
+<br>
+
+<img src="images/Lab40_16.jpg">
+
+<br>
 
 
+14. Desde la instancia EC2, analizar la sección "/purge" del archivo "/aws-sqs-node-js-example/app.js". Desde el navegador acceder a "http://${PUBLIC_IP}/purge". Analizar el servicio SQS.
 
-14. Desde el navegador acceder a PUBLIC_IP/delete. Analizar el servicio SQS. 
+<br>
 
-#Resultado
-{"ResponseMetadata":{"RequestId":"5ccfd7da-79e9-54be-9c33-8e6a60cfa978"}}
+<img src="images/Lab40_18.jpg">
+
+<br>
+
+<img src="images/Lab40_19.jpg">
+
+<br>
 
 
-15. Desde el navegador acceder a PUBLIC_IP/purge. Analizar el servicio SQS. 
