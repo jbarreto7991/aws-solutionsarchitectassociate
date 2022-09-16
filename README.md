@@ -141,6 +141,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 38: CloudWatch Event Rules, EC2, Tags & Lambda** [README-Lab38.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-38/README-Lab38.md)
 * Configuración de "CloudWatch Event Rules (Schedule)" y el apagado/encendido automático de instancias EC2 con Tags usando Lambdas.
 
+#### **Laboratorio 39: Event Bridge, EC2 (cripto-mining), GuardDuty y SNS** [README-Lab39.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-39/README-Lab39.md)
+* Configuración de "Event Bridge (Rule with an event pattern)", "GuardDuty" y notificaciones "SNS" para identificación de amenazas en nuestra cuenta de AWS.
+
+#### **Laboratorio 40: SQS (create,list,send,receive,delete & purge)** [README-Lab40.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-40/README-Lab40.md)
+* Configuración y gestión a través de los métodos create, send, receive, y delete de una cola SQS usando el SDK de NodeJS
 
 
 
