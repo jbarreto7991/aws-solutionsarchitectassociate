@@ -1,6 +1,6 @@
 # AWS Solutions Architect Associate
 
-### **Autor:** Jorge Barreto | AWSx9 & AWS Community Builder | [LinkedIn](https://www.linkedin.com/in/jorgebarretoolivos/)
+### **Autor:** Jorge Barreto | AWSx10 & AWS Community Builder | [LinkedIn](https://www.linkedin.com/in/jorgebarretoolivos/)
 <br>
 
 **Objetivo:**
@@ -149,6 +149,14 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 
 #### **Laboratorio 41: SQS (Visibility Timeout, Short Polling & Long Polling)** [README-Lab41.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-41/README-Lab41.md)
 * Configuración de las propiedades "Visibility Timeout", "Long-polling" y "Short-polling" en una cola SQS 
+
+#### **Laboratorio 42: SQS (Dead Letter Queue)** [README-Lab42.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-42/README-Lab42.md)
+* Configuración de la propiedad "Dead Letter Queue" en una cola SQS 
+
+
+
+
+
 
 
 
