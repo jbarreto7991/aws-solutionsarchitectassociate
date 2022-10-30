@@ -153,12 +153,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 42: SQS (Dead Letter Queue)** [README-Lab42.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-42/README-Lab42.md)
 * Configuración de la propiedad "Dead Letter Queue" en una cola SQS 
 
-
-
-
-
-
-
-
-
+#### **Laboratorio 43: SQS (Standard vs FIFO)** [README-Lab43.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-43/README-Lab43.md)
+*  Configuración de un cola SQS FIFO y visualización del orden de envío de los mensajes
+*  Configuración de una cola SQS Standard y visualización del orden de envío de los mensajes
 
