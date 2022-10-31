@@ -157,3 +157,8 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 *  Configuración de un cola SQS FIFO y visualización del orden de envío de los mensajes
 *  Configuración de una cola SQS Standard y visualización del orden de envío de los mensajes
 
+#### **Laboratorio 44: SNS (Subscripción SQS y Lambda)** [README-Lab44.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-44/README-Lab44.md)
+*  Creación de un tópico SNS y suscripción de una cola SQS y una función Lambda
+
+
+
