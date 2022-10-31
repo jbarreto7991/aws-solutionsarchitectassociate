@@ -166,6 +166,9 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 46: Cognito (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
 *  Integración entre Cognito User Pool & CloudFront
 
+#### **Laboratorio 47: Cognito Identity Pool y STS** [README-Lab47.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-47/README-Lab47.md)
+*  Obtención de credenciales temporales STS consumiendo el servicio de Cognito Identity Pool usando AWSCLIv2
+
 
 
 
