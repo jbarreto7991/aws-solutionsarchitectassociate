@@ -160,5 +160,8 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 44: SNS (Subscripción SQS y Lambda)** [README-Lab44.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-44/README-Lab44.md)
 *  Creación de un tópico SNS y suscripción de una cola SQS y una función Lambda
 
+#### **Laboratorio 45: Step Function (Integrando Lambda, DynamoDB y Amazon Rekognition)** [README-Lab45.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-45/README-Lab45.md)
+*  Creación de una máquina de estado orquestando funciones Lambdas, tablas en DynamoDB e invocaciones con Amazon Rekognition
+
 
 
