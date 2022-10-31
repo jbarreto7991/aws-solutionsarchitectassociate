@@ -16,7 +16,7 @@
 
 ---
 
-### A - Despliegue de paso a paso de una distribución ClodFront usando como origen un balanceador de aplicaciones
+### A - Integración entre Cognito User Pool & CloudFront
 
 <br>
 
@@ -212,7 +212,8 @@ aws cloudformation create-stack --stack-name lab46-ec2-s3-cloudfront --template-
 ### Eliminación de recursos
 
 ```bash
-Cognito User Pool
+Cognito - Domain Name
+Cognito - User Pool
 Contenido de bucket S3
 aws cloudformation delete-stack --stack-name lab46-ec2-s3-cloudfront
 aws cloudformation delete-stack --stack-name lab46-vpc
