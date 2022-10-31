@@ -163,5 +163,9 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 45: Step Function (Integrando Lambda, DynamoDB y Amazon Rekognition)** [README-Lab45.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-45/README-Lab45.md)
 *  Creación de una máquina de estado orquestando funciones Lambdas, tablas en DynamoDB e invocaciones con Amazon Rekognition
 
+#### **Laboratorio 46: Cognito (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
+*  Integración entre Cognito User Pool & CloudFront
+
+
 
 

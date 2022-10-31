@@ -3,12 +3,10 @@
 <br>
 
 ### Objetivo: 
-* Despliegue de una distribución CloudFront usando como origen un bucket de S3
-* Configurar OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
+* Integración entre Cognito User Pool & CloudFront
 
 ### Tópico:
 * Content Delivery
-* Storage
 * Security, Identity & Compliance
 
 ### Dependencias:
@@ -51,141 +49,161 @@ aws cloudformation create-stack --stack-name lab46-vpc --template-body file://~/
 aws cloudformation create-stack --stack-name lab46-ec2-s3-cloudfront --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-46/code/2_lab46-ec2-s3-cloudfront.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
+<br>
 
+8. Después de unos minutos accedemos a la URL que genera CloudFront. Cargamos la página en HTTP (no en HTTPS). Por ejemplo: http://dw1c6i4dj4lki.cloudfront.net	/. Validamos la carga de nuestra aplicación.
 
-8. Accedemos al servicio de Amazon CloudFront y damos clic en el botón "Create distribution". Ingresamos/seleccionamos los siguientes valores. Luego, dar clic en el botón "Create distribution"
+<br>
 
-    * **Origin**
-        * Origin domain: S3 Bucket
-        * Origin path - optional: None
-        * Name: Valor pre-cargado automáticamente
-        * S3 bucket access: Don't use OAI (bucket must allow public access)
-        * Add custom header - optional: None
-        * Enable Origin Shield: No
-    * **Default cache behavior**
-        * Path pattern: Default(*)
-        * Compress objects automatically: Yes
-    * **Viewer**
-        * Viewer protocol policy: HTTP and HTTPS
-        * Allowed HTTP methods: GET, HEAD
-        * Restrict viewer access: No
-    * **Cache key and origin requests**
-        * Cache policy and origin request policy (recommended)
-            * Cache policy: Caching Optimized
-            * Origin request policy - optional: None
-        * Response headers policy - optional: None
-    * **Function associations - optional:** None
-    * **Settings**
-        * Price class: Use all edge locations (best performance)
-        * AWS WAF web ACL - optional: None
-        * Alternate domain name (CNAME) - optional: None
-        * Custom SSL certificate - optional: None
-        * Supported HTTP versions: HTTP/2
-        * Default root object - optional: index.html
-        * Standard logging: Off
-        * IPv6: On
-        * Description - optional: None
+<img src="images/Lab46_01.jpg">
+
+<br>
+
+9. Accedemos al servicio "Cognito - Manage User Pools" y damos clic en el botón "Create a user pool". Ingresamos/seleccionamos los siguientes valores:
+  - Pool name: lab46-user-pool
+  - How do you want to create your user pool?: Step through settings
+  - Attributes: Valores por defecto. Clic en "Next Steps"
+  - Policies: Valores por defecto. Clic en "Next Steps"
+  - MFA and verifications: Valores por defecto. Clic en "Next Steps"
+  - Message customizations: Valores por defecto. Clic en "Next Steps"
+  - Tags: Valores por defecto. Clic en "Next Steps"
+  - Device: Valores por defecto. Clic en "Next Steps"
+  - App clients: Valores por defecto.
+  - Triggers: Valores por defecto.
+  - Review: Clic en "Create pool"
 
 
 <br>
 
-<img src="images/Lab17_01.jpg">
+<img src="images/Lab46_02.jpg">
 
 <br>
 
-<img src="images/Lab17_02.jpg">
+<img src="images/Lab46_03.jpg">
 
 <br>
 
-<img src="images/Lab17_04.jpg">
+<img src="images/Lab46_04.jpg">
 
 <br>
 
-<img src="images/Lab17_05.jpg">
+<img src="images/Lab46_05.jpg">
 
 <br>
 
-<img src="images/Lab17_06.jpg">
+<img src="images/Lab46_06.jpg">
 
 <br>
 
-<img src="images/Lab17_07.jpg">
+<img src="images/Lab46_07.jpg">
 
 <br>
 
-<img src="images/Lab17_08.jpg">
+<img src="images/Lab46_09.jpg">
 
 <br>
 
-<img src="images/Lab17_09.jpg">
+<img src="images/Lab46_10.jpg">
 
 <br>
 
-9. Después de unos minutos accedemos a la URL que genera CloudFront. Cargamos la página en HTTP (no en HTTPS). Por ejemplo: http://diu952y35t7z7.cloudfront.net/. Validamos la carga de nuestra aplicación.
+<img src="images/Lab46_11.jpg">
 
 <br>
 
-<img src="images/Lab17_10.jpg">
+<img src="images/Lab46_12.jpg">
 
 <br>
 
-<img src="images/Lab17_11.jpg">
+<img src="images/Lab46_13.jpg">
 
 <br>
 
-10. También será posible acceder al contenido de nuestra aplicación desde la URL generada por el bucket S3 (Static website hosting). Los siguientes pasos tendrán por objetivo desactivar determinadas configuraciones en el bucket S3 y habilitar OAI desde CloudFront.
+<img src="images/Lab46_14.jpg">
 
-11. Accedemos al bucket S3 respectivo y:
-    * Desactivamos Static website hosting (Properties)
-    * Habilitar "Block public access (bucket settings)" (Permissions)
-    * Eliminar Bucket Policy (Permissions)
+<br>
+
+<img src="images/Lab46_15.jpg">
+
+<br>
+
+<img src="images/Lab46_16.jpg">
+
+<br>
+
+10. Desde Cognito, accedemos a la opción "App Integration - Domain Name" y agregamos un "Amazon Cognito Domain". Ingresamos un valor en el campo "Domain prefix" y luego damos clic en el botón "Check". Si el dominio está disponible, salvamos los cambios
+
+<br>
+
+<img src="images/Lab46_17.jpg">
+
+<br>
+
+11. Desde Cognito, accedemos a la opción "General Settings - App Clients" y damos clic en la opción "Add an app client". Ingresamos los siguientes valores. Luego, damos clic en el botón "Create app client"
+ - App client name: cloudfront-appclient
 
 
 <br>
 
-<img src="images/Lab17_12.jpg">
+<img src="images/Lab46_18.jpg">
 
 <br>
 
-<img src="images/Lab17_13.jpg">
+<img src="images/Lab46_19.jpg">
 
 <br>
 
-<img src="images/Lab17_14.jpg">
+12. Desde Cognito, accedemos a la opción "App Integration - App Client Settings". Ingresamos los siguientes valores. Luego, damos clic en el botón "Save changes"
+ - Enabled Identity Providers: Select all
+ - Cognito User Pool: Enable
+ - Sign in and sign out URLs:
+    * Callback URL(s): https://<URL_CLOUDFRONT>
+    * Sign out URL(s): https://<URL_CLOUDFRONT>
+ - OAuth 2.0
+    * Allowed OAuth Flows: Implicit grant
+    * Allowed OAuth Scopes: openid
 
 <br>
 
-12. Accedemos al servicio de CloudFront, luego a la sección "Origins". Seleccionamos nuestro origen creado y damos clic en "Edit". Nos direccionamos a la sección "S3 bucket access" y seleccionamos la opción "Yes use OAI (bucket can restrict access to only CloudFront)". Luego damos clic en el botón "Create new OAI". Finalmente, dar clic en la opción "Yes, update the bucket policy". Guardar los cambios y esperar unos minutos.
+<img src="images/Lab46_18.jpg">
 
 <br>
 
-<img src="images/Lab17_15.jpg">
+<img src="images/Lab46_19.jpg">
 
 <br>
 
-13. Validaremos que seguimos teniendo acceso a nuestra aplicación desde CloudFront, pero no desde S3 (debido a la eliminación de configuraciones previadas). En S3, analizar la política S3 generada (ubicada en la sección "Permissions") 
-
-```bash
-{
-    "Version": "2008-10-17",
-    "Id": "PolicyForCloudFrontPrivateContent",
-    "Statement": [
-        {
-            "Sid": "1",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2UOFZ0447CMWV"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::aws-solutionsarchitectassociate-641996252641/*"
-        }
-    ]
-}
-```
+<img src="images/Lab46_20.jpg">
 
 <br>
 
-<img src="images/Lab17_16.jpg">
+13. Desde Cognito, accedemos a la opción "General Settings - Users and groups" y damos clic sobre el botón "Create User". Ingresamos los siguientes valores. Al finalizar dar clic en "Create User"
+ - Username (Required): user01
+ - Temporary password: Debe contener mayúscula, minúscula, número y caracter especial
+
+<br>
+
+<img src="images/Lab46_21.jpg">
+
+<br>
+
+<img src="images/Lab46_22.jpg">
+
+<br>
+
+14. Desde Cognito, accedemos a la opción "App integration - App client settings". Nos dirigimos a la opción "Hosted UI" y damos clic sobre la opción "Launch Hosted UI". Ingresamos el usuario y contraseña creado en el paso anterior en la nueva ventana. Luego, se nos solicitará el cambio de contraseña. Terminado estos pasos validaremos el acceso a nuestra aplicación.  
+
+<br>
+
+<img src="images/Lab46_23.jpg">
+
+<br>
+
+<img src="images/Lab46_24.jpg">
+
+<br>
+
+<img src="images/Lab46_25.jpg">
 
 <br>
 
@@ -194,6 +212,8 @@ aws cloudformation create-stack --stack-name lab46-ec2-s3-cloudfront --template-
 ### Eliminación de recursos
 
 ```bash
+Cognito User Pool
+Contenido de bucket S3
+aws cloudformation delete-stack --stack-name lab17-ec2-s3-cloudfront
 aws cloudformation delete-stack --stack-name lab17-vpc
-aws cloudformation delete-stack --stack-name lab17-ec2
 ```
