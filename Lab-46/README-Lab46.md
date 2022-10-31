@@ -214,6 +214,6 @@ aws cloudformation create-stack --stack-name lab46-ec2-s3-cloudfront --template-
 ```bash
 Cognito User Pool
 Contenido de bucket S3
-aws cloudformation delete-stack --stack-name lab17-ec2-s3-cloudfront
-aws cloudformation delete-stack --stack-name lab17-vpc
+aws cloudformation delete-stack --stack-name lab46-ec2-s3-cloudfront
+aws cloudformation delete-stack --stack-name lab46-vpc
 ```
