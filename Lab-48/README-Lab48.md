@@ -56,62 +56,139 @@ aws cloudformation create-stack --stack-name lab48-ec2 --template-body file://~/
 9. **3_lab48-alb-targetgroup.yaml**. Esta plantilla no tiene parámetros por ingresar. Generará un target group y un balanceador de aplicaciones. Además, las instancias EC2 se asociarán al target group en el puerto 80.
 
 ```bash
-aws cloudformation create-stack --stack-name lab48-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-13/code/3_lab13-alb-targetgroup.yaml
+    aws cloudformation create-stack --stack-name lab48-alb-targetgroup --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-48/code/3_lab48-alb-targetgroup.yaml
 ```
 
-10. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
+10. **1_lab47-cognito.yaml**. Esta plantilla tiene por objetivo el despliegue de un recurso "Cognito User Pool" y de un recurso "Cognito Identity Pool".
 
-11. Navegar en las siguientes URLs. Reemplazar con el "DNS Name" respectivo, para este laboratorio el DNS Name corresponde a "ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com"
+```bash
+aws cloudformation create-stack --stack-name lab48-cognito --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-48/code/4_lab48-cognito.yaml --capabilities CAPABILITY_IAM
+```
 
-    * http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/
+11. Generamos un certificado SSL para nuestro balanceador ALB, desde el servicio "Certificate Manager", a través del método de validación "DNS Validation". Registrar CNAME entregados en Route 53.
 
-<br>
-
-<img src="images/Lab13_01.jpg">
-
-<br>
-
-<img src="images/Lab13_02.jpg">
+12. Desde el servicio Route 53, crear un registro alias hacia el ALB. 
 
 <br>
 
-<img src="images/Lab13_03.jpg">
+<img src="images/Lab48_10.jpg">
 
 <br>
 
-<img src="images/Lab13_04.jpg">
+13. Acceder al servicio de Cognito, y generar un "Domain Name" a través de la opción "App Integration". Dar clic en el botón "Check availability" para validar la disponiblidad del dominio cognito.
 
 <br>
 
-12. Accedemos a la sección "Listener" de nuestro balanceador de aplicaciones. Luego, accedemos al enlace "View/edit rules" para el listener HTTP:80. Damos clic en el icono "+", luego damos clic en el enlace "Insert Rule" e ingresamos los siguientes valores. Luego damos clic en los íconos "Checks" ubicados uno en cada columna. Finalmente damos clic en "Save".
+<img src="images/Lab48_02.jpg">
 
-    * Sección **"IF (all match)"**, seleccionamos "Add condition - Path". Ingresamos el texto "ruta1"
-    * Sección **"THEN"**, seleccionamos "Add action - Redirect to". Ingresamos los siguientes valores:
-        * HTTP: 80
-        * Custom host, path, query
-        * Path: /instanceid.php
+<br>
+
+14. Desde el servicio Cognito, "General settings - App clientes", eliminar la configuración mostrada. Dar clic en la opción "Add an app client". Agregar un nombre en la opción "App client name" y dar clic en "Create app client" (Se realiza este paso para generar un "App client secret", configuración solicitada por el ALB)
+
+<br>
+
+<img src="images/Lab48_08.jpg">
+
+<br>
+
+<img src="images/Lab48_09.jpg">
+
+<br>
+
+15. Desde el servicio Cognito, "App Integration - App client settings", realizar la siguiente configuración. Al finalizar esta, dar clic en el botón "Save changes"
+
+    - Enabled Identity Providers: Select all
+        - Cognito User Pool: Enable
+    - Sign in and sign out URLs
+        - Callback URL(s): https://<DOMAIN_ROUTE53_ALB>/oauth2/idpresponse
+    - OAuth 2.0
+        - Allowed OAuth Flows: Authorization code grant	
+        - Allowed OAuth Scopes: 
+            - email
+            - openid
+
+<br> 
+
+16. Desde el features del ALB, configurar el listener 443
+    - Add Listener
+    - Protocol: HTTPS
+    - Port: 443
+    - Default actions: 1. Forward to
+        - Target group: Seleccionar Target Group respectivo
+    - Secure listener settings
+        - Security policy: ELBSecurityPolicy-2016-08
+    - Default SSL/TLS certificate
+        - From ACM: Seleccionar el certificado generado en el paso 11
+
+<br>
+
+<img src="images/Lab48_03.jpg">
+
+<br>
+
+<img src="images/Lab48_04.jpg">
+
+<br>
+
+<img src="images/Lab48_05.jpg">
+
+<br>
+
+17. Desde esa misma ventana, dar clic en el botón "Add action". Al finalizar la configuración dar clic en el botón "Add"
+
+    - Default actions: 1. Authenticate
+        - Identity provider - optional: Amazon Cognito
+        - Cognito user pool: Seleccionar "Cognito User Pool"
+        - App client: Seleccionar "App Client"
+        - Cognito user pool domain: Se cargará automáticamente
+        - Advanced cookie name (Visualizar los siguientes valores por defecto):
+            - Session cookie name: AWSELBAuthSessionCookie
+            - Session timeout: 604800
+            - Scope: openid
+            - Action on unauthenticated request: Authenticate (client reattempt)
 
 
 <br>
 
-<img src="images/Lab13_05.jpg">
+<img src="images/Lab48_06.jpg">
 
 <br>
 
-<img src="images/Lab13_06.jpg">
+<img src="images/Lab48_07.jpg">
 
 <br>
 
-<img src="images/Lab13_07.jpg">
+18. Desde la web, ingresamos al dominio del balanceador generado en el paso 12. Validamos que existe un direccionamiento hacia el login de Cognito.
 
 <br>
 
+<img src="images/Lab48_11.jpg">
 
-13. Realizamos las validaciones respectivas. 
+<br>
 
-    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta1 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/instanceid.php
-    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta2 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/availabilityzone.php
-    * Si ingresamos a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/ruta3 tenemos redireccionamiento a http://ec2applicationloadbalancer-541380208.us-east-1.elb.amazonaws.com/mac.php
+19. Desde el servicio Cognito, procedemos a crear un usuario. La contraseña del usuario deberá contener una mayúscula, minúscula, número y un caracter especial.
+
+<br>
+
+<img src="images/Lab48_12.jpg">
+
+<br>
+
+<img src="images/Lab48_13.jpg">
+
+<br>
+
+20. Nos logueamos al login detallado en el paso 18 con el usuario generado en el paso anterior y validamos que se nos solicita cambio de contraseña. Al ingresar la nueva contraseña y dar clic en el botón respectivo, podemos visualizar el contenido de nuestra aplicación servida desde ALB.
+
+<br>
+
+<img src="images/Lab48_14.jpg">
+
+<br>
+
+<img src="images/Lab48_15.jpg">
+
+<br>
 
 
 ---
@@ -119,7 +196,10 @@ aws cloudformation create-stack --stack-name lab48-alb-targetgroup --template-bo
 ### Eliminación de recursos
 
 ```bash
-aws cloudformation delete-stack --stack-name lab13-alb-targetgroup
-aws cloudformation delete-stack --stack-name lab13-ec2
-aws cloudformation delete-stack --stack-name lab13-vpc
+Cognito - Delete Domain Name
+aws cloudformation delete-stack --stack-name lab48-cognito
+aws cloudformation delete-stack --stack-name lab48-alb-targetgroup
+Eliminar Target Group
+aws cloudformation delete-stack --stack-name lab48-ec2
+aws cloudformation delete-stack --stack-name lab48-vpc
 ```

@@ -134,6 +134,7 @@ Resources:
             </body>
             </html>
             EOF         
+            
       SecurityGroupIds:
       - !Ref EC2SecurityWeb
       SourceDestCheck: true

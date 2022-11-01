@@ -78,8 +78,6 @@ Resources:
       - Id: !ImportValue Ec2InstanceA
         Port: 80
 
-
-          
 Outputs: 
 
   EC2ApplicationLoadBalancer: 

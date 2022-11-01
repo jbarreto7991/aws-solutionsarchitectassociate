@@ -163,11 +163,17 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 45: Step Function (Integrando Lambda, DynamoDB y Amazon Rekognition)** [README-Lab45.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-45/README-Lab45.md)
 *  Creación de una máquina de estado orquestando funciones Lambdas, tablas en DynamoDB e invocaciones con Amazon Rekognition
 
-#### **Laboratorio 46: Cognito (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
+#### **Laboratorio 46: Cognito User Pool (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
 *  Integración entre Cognito User Pool & CloudFront
 
 #### **Laboratorio 47: Cognito Identity Pool y STS** [README-Lab47.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-47/README-Lab47.md)
 *  Obtención de credenciales temporales STS consumiendo el servicio de Cognito Identity Pool usando AWSCLIv2
+
+#### **Laboratorio 48: Cognito User Pool (Integración con ALB)** [README-Lab48.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-48/README-Lab48.md)
+*  Integración de Cognito User Pool y ALB (Application Load Balancer) a través de ALB Tokens
+
+
+
 
 
 
