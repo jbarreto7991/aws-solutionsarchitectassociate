@@ -172,6 +172,10 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 48: Cognito User Pool (Integración con ALB)** [README-Lab48.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-48/README-Lab48.md)
 *  Integración de Cognito User Pool y ALB (Application Load Balancer) a través de ALB Tokens
 
+#### **Laboratorio 49: WAF (Integración con CloudFront, ApiGateway, Lambda y DynamoDB)** [README-Lab49.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-49/README-Lab49.md)
+* Integración entre WAF y CloudFront usando API Gateway, Lambda y DynamoDB
+* Configuración de AWS WAF web ACL Rules: “manual ip block rule” y “sqli rule”
+
 
 
 

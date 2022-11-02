@@ -3,7 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Integración entre WAF y API Gateway y configuración de ACLs “manual ip block rule” y “sqli rule”
+* Integración entre WAF y CloudFront usando API Gateway, Lambda y DynamoDB
+* Configuración de AWS WAF web ACL Rules: “manual ip block rule” y “sqli rule”
 
 ### Tópico:
 * Compute
@@ -254,7 +255,7 @@ Value               arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:sam-app-DDBHa
 
 Key                 ApiEndpoint                                                                                                                      
 Description         The invoke URL for our HTTP API                                                                                                  
-Value               https://4hg51d2zzc.execute-api.us-east-1.amazonaws.com/items                                                                     
+Value               https://psb5d4fxu6.execute-api.us-east-1.amazonaws.com/items                                                                     
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Successfully created/updated stack - sam-app in us-east-1
@@ -266,7 +267,7 @@ Successfully created/updated stack - sam-app in us-east-1
 8. Guardar en variable el endpoint del API Gateway desplegado. Este valor se encuentra en la sección "Outputs - Value" del paso anterior para ApiEndpoint
 
 ```bash
-API_GATEWAY=https://di16ec8sr2.execute-api.us-east-1.amazonaws.com
+API_GATEWAY=https://psb5d4fxu6.execute-api.us-east-1.amazonaws.com
 echo $API_GATEWAY
 ```
 
@@ -303,24 +304,154 @@ curl -v $API_GATEWAY/items
 
 <br>
 
-11. Ingresar al servicio AWS WAF y dar clic en la opcion "Swith to AWS WAF Classic"
+11. Accedemos al servicio CloudFront creando una distribución con las siguientes configuraciones. Considerar los valores no mencionadas en default. Al finalizar la configuración dar clic en el botón "Create distribution"
 
+    - Origin
+        - Origin domain: psb5d4fxu6.execute-api.us-east-1.amazonaws.com
+        - Protocol: HTTPS Only
+            - Minimum origin SSL protocol: TLSv1.2
+        - Origin path - optional: "No colocar ningún path"
+        - Name: apigateway-httpapi
+    - Default cache behavior
+        - Viewer
+            - Viewer protocol policy: Redirect HTTP to HTTPS
+            - Allowed HTTP methods: GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE
+    - Cache key and origin requests
+        - Cache policy and origin request policy (recommended)
+            - Cache policy: CachingDisabled
+
+ 
 <br>
 
 <img src="images/Lab49_01.jpg">
 
 <br>
 
+<img src="images/Lab49_02.jpg">
+
+<br>
+
+<img src="images/Lab49_03.jpg">
+
+<br>
+
+<img src="images/Lab49_04.jpg">
+
+<br>
 
 
+12. Testear nuestro API Gateway desde CloudFront a través de los siguientes comandos en Cloud9
+
+```bash
+#Variable DIST_CLOUDFRONT
+DIST_CLOUDFRONT=https://d25wfgg7bxkfk5.cloudfront.net
+echo $DIST_CLOUDFRONT
+
+#To create or update an item
+curl -v -X "PUT" -H "Content-Type: application/json" -d "{\"id\": \"6\", \"price\": 6, \"name\": \"myitem6\"}" $DIST_CLOUDFRONT/items
+curl -v -X "PUT" -H "Content-Type: application/json" -d "{\"id\": \"7\", \"price\": 7, \"name\": \"myitem7\"}" $DIST_CLOUDFRONT/items
+curl -v -X "PUT" -H "Content-Type: application/json" -d "{\"id\": \"8\", \"price\": 8, \"name\": \"myitem8\"}" $DIST_CLOUDFRONT/items
+curl -v -X "PUT" -H "Content-Type: application/json" -d "{\"id\": \"9\", \"price\": 9, \"name\": \"myitem9\"}" $DIST_CLOUDFRONT/items
+curl -v -X "PUT" -H "Content-Type: application/json" -d "{\"id\": \"10\", \"price\": 10, \"name\": \"myitem10\"}" $DIST_CLOUDFRONT/items
+
+#To get all items
+curl -v $DIST_CLOUDFRONT/items
+
+#To get an item
+curl -v $DIST_CLOUDFRONT/items/9
+curl -v $DIST_CLOUDFRONT/items/10
+
+#To delete an item and validation
+curl -v -X "DELETE" $DIST_CLOUDFRONT/items/5
+curl -v $DIST_CLOUDFRONT/items
+```
+
+<br>
+
+13. Validamos que nuestra plantilla de CloudFormation sobre WAF esté desplegada. Accedemos a nuestra distribución CloudFront, desde la pestaña "General" damos clic en el botón "Edit". Luego, seleccionamos nuestro "AWS WAF web ACL" en la opción del mismo nombre. Guardamos la nueva configuración y esperamos el despliegue de nuestra distribución CloudFront.
+
+<br>
+
+<img src="images/Lab49_05.jpg">
+
+<br>
+
+<img src="images/Lab49_06.jpg">
+
+<br>
+
+14. Finalizado el despliegue de nuestra distribución CloudFront, accedemos a Cloud9 y ejecutamos los siguientes comandos. Analizar los resultados. Validar las mismas acciones desde el navegador.
+
+```bash
+
+#To get all items
+curl -v $DIST_CLOUDFRONT/items
+
+#To get an item
+curl -v $DIST_CLOUDFRONT/items/9
+curl -v $DIST_CLOUDFRONT/items/9%or%1'='1
+```
+
+<br>
+
+<img src="images/Lab49_07.jpg">
+
+<br>
+
+<img src="images/Lab49_09.jpg">
+
+<br>
+
+15. Accedemos al servicio WAF y ejecutamos las siguientes acciones:
+
+    - Clic en "Switch to AWS WAF Classic"
+    - Ir a la opción "IP addresses"
+    - En el campo "Filter" seleccionar "Global (CloudFront)"
+    - Dar clic en la opción "Manual IP Block Set"
+    - Dar clic en la opción "Add IP addresses or ranges"
+    - Agregar nuestra IP Pública en el campo "Address". Agregar "/32" al final de nuestra IP
+    - Dar clic en "Add IP address or range"
+    - Dar clic en el botón "Add"
+
+<br>
+
+<img src="images/Lab49_10.jpg">
+
+<br>
+
+<img src="images/Lab49_11.jpg">
+
+<br>
+
+<img src="images/Lab49_12.jpg">
+
+<br>
+
+16. Ejecutamos los siguientes comandos. Analizar los resultados. Validar las mismas acciones desde el navegador.
+
+```bash
+
+#To get all items
+curl -v $DIST_CLOUDFRONT/items
+
+#To get an item
+curl -v $DIST_CLOUDFRONT/items/9
+```
+
+<br>
+
+<img src="images/Lab49_08.jpg">
+
+<br>
+
+
+---
 
 ### Eliminación de recursos
 
 ```bash
-Cognito - Delete Domain Name
-aws cloudformation delete-stack --stack-name lab48-cognito
-aws cloudformation delete-stack --stack-name lab48-alb-targetgroup
-Eliminar Target Group
-aws cloudformation delete-stack --stack-name lab48-ec2
-aws cloudformation delete-stack --stack-name lab48-vpc
+Deshabilitar Distribución CloudFront (Disable)
+Eliminar Distribución CloudFront (Delete)
+aws cloudformation delete-stack --stack-name lab49-waf
+Desde Cloud9 ejecutar: "sam delete". Confirmar con "Y" en preguntas 
 ```
