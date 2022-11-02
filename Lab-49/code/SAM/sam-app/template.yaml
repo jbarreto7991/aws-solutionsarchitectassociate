@@ -19,22 +19,22 @@ Resources:
             TableName: !Ref ItemsTable
       Events:
         GetAllItems:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /items
             Method: GET
         GetAnItem:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /items/{id}
             Method: GET
         DeleteAnItem:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /items/{id}
             Method: DELETE
         CreateOrUpdateItem:
-          Type: Api
+          Type: HttpApi
           Properties:
             Path: /items
             Method: PUT
@@ -50,7 +50,7 @@ Resources:
 Outputs:
   ApiEndpoint:
     Description: "The invoke URL for our HTTP API"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/items"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/items"
   Function:
     Description: "DynamoDB handler function ARN"
     Value: !GetAtt DDBHandlerFunction.Arn

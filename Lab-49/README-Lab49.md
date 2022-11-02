@@ -113,16 +113,18 @@ sam deploy --guided
 Configuring SAM deploy
 ======================
 
-        Looking for config file [samconfig.toml] :  Not found
+        Looking for config file [samconfig.toml] :  Found
+        Reading default arguments  :  Success
 
         Setting default arguments for 'sam deploy'
         =========================================
         Stack Name [sam-app]: 
         AWS Region [us-east-1]: 
         #Shows you resources changes to be deployed and require a 'Y' to initiate deploy
-        Confirm changes before deploy [y/N]: y
+        Confirm changes before deploy [Y/n]: Y
         #SAM needs permission to be able to create roles to connect to the resources in your template
         Allow SAM CLI IAM role creation [Y/n]: Y
+        DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
         DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
         DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
         DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
@@ -133,7 +135,7 @@ Configuring SAM deploy
         Looking for resources needed for deployment:
         Creating the required resources...
         Successfully created!
-         Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-1vvrwwp5l4ddd
+         Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-1gdcb56rx7r6e
          A different default S3 bucket can be set in samconfig.toml
 
         Saved arguments to config file
@@ -149,14 +151,14 @@ Uploading to sam-app/e972c01900de2ca33a1df902d6a5f057  675 / 675  (100.00%)
         Stack name                   : sam-app
         Region                       : us-east-1
         Confirm changeset            : True
-        Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-1vvrwwp5l4ddd
+        Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-1gdcb56rx7r6e
         Capabilities                 : ["CAPABILITY_IAM"]
         Parameter overrides          : {}
         Signing Profiles             : {}
 
 Initiating deployment
 =====================
-Uploading to sam-app/f44a3ca67b9330a8ec3677b1915ab1a1.template  1540 / 1540  (100.00%)
+Uploading to sam-app/5c9bb5e9a117b950770c09456205f0f8.template  1524 / 1524  (100.00%)
 
 Waiting for changeset to be created..
 
@@ -165,29 +167,30 @@ CloudFormation stack changeset
 Operation                             LogicalResourceId                     ResourceType                          Replacement                         
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 + Add                                 DDBHandlerFunctionCreateOrUpdateIte   AWS::Lambda::Permission               N/A                                 
-                                      mPermission                                                                                                     
+                                      mPermissionProd                                                                                                 
 + Add                                 DDBHandlerFunctionDeleteAnItemPermi   AWS::Lambda::Permission               N/A                                 
-                                      ssion                                                                                                           
+                                      ssionProd                                                                                                       
 + Add                                 DDBHandlerFunctionGetAllItemsPermis   AWS::Lambda::Permission               N/A                                 
-                                      sion                                                                                                            
+                                      sionProd                                                                                                        
 + Add                                 DDBHandlerFunctionGetAnItemPermissi   AWS::Lambda::Permission               N/A                                 
-                                      on                                                                                                              
+                                      onProd                                                                                                          
 + Add                                 DDBHandlerFunctionRole                AWS::IAM::Role                        N/A                                 
 + Add                                 DDBHandlerFunction                    AWS::Lambda::Function                 N/A                                 
 + Add                                 ItemsTable                            AWS::DynamoDB::Table                  N/A                                 
-+ Add                                 ServerlessHttpApiApiGatewayDefaultS   AWS::ApiGatewayV2::Stage              N/A                                 
-                                      tage                                                                                                            
-+ Add                                 ServerlessHttpApi                     AWS::ApiGatewayV2::Api                N/A                                 
++ Add                                 ServerlessRestApiDeployment5df6f31e   AWS::ApiGateway::Deployment           N/A                                 
+                                      3b                                                                                                              
++ Add                                 ServerlessRestApiProdStage            AWS::ApiGateway::Stage                N/A                                 
++ Add                                 ServerlessRestApi                     AWS::ApiGateway::RestApi              N/A                                 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-Changeset created successfully. arn:aws:cloudformation:us-east-1:XXXXXXXXXXXX:changeSet/samcli-deploy1667276171/18741d17-6e12-4d82-a6f3-dc0fb96a5bac
+Changeset created successfully. arn:aws:cloudformation:us-east-1:XXXXXXXXXXXX:changeSet/samcli-deploy1667351522/90ccdc22-c839-455b-89cb-3883b3a7567e
 
 
 Previewing CloudFormation changeset before deployment
 ======================================================
 Deploy this changeset? [y/N]: y
 
-2022-11-01 04:16:27 - Waiting for stack create/update to complete
+XXXX-XX-XX XX:XX:XX - Waiting for stack create/update to complete
 
 CloudFormation events from changeset
 -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -196,45 +199,48 @@ ResourceStatus                        ResourceType                          Logi
 CREATE_IN_PROGRESS                    AWS::DynamoDB::Table                  ItemsTable                            -                                   
 CREATE_IN_PROGRESS                    AWS::DynamoDB::Table                  ItemsTable                            Resource creation Initiated         
 CREATE_COMPLETE                       AWS::DynamoDB::Table                  ItemsTable                            -                                   
-CREATE_IN_PROGRESS                    AWS::IAM::Role                        DDBHandlerFunctionRole                -                                   
 CREATE_IN_PROGRESS                    AWS::IAM::Role                        DDBHandlerFunctionRole                Resource creation Initiated         
+CREATE_IN_PROGRESS                    AWS::IAM::Role                        DDBHandlerFunctionRole                -                                   
 CREATE_COMPLETE                       AWS::IAM::Role                        DDBHandlerFunctionRole                -                                   
 CREATE_IN_PROGRESS                    AWS::Lambda::Function                 DDBHandlerFunction                    -                                   
 CREATE_IN_PROGRESS                    AWS::Lambda::Function                 DDBHandlerFunction                    Resource creation Initiated         
 CREATE_COMPLETE                       AWS::Lambda::Function                 DDBHandlerFunction                    -                                   
-CREATE_IN_PROGRESS                    AWS::ApiGatewayV2::Api                ServerlessHttpApi                     -                                   
-CREATE_IN_PROGRESS                    AWS::ApiGatewayV2::Api                ServerlessHttpApi                     Resource creation Initiated         
-CREATE_COMPLETE                       AWS::ApiGatewayV2::Api                ServerlessHttpApi                     -                                   
-CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   Resource creation Initiated         
-                                                                            ssion                                                                     
-CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionCreateOrUpdateIte   -                                   
-                                                                            mPermission                                                               
-CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionGetAllItemsPermis   -                                   
-                                                                            sion                                                                      
+CREATE_IN_PROGRESS                    AWS::ApiGateway::RestApi              ServerlessRestApi                     -                                   
+CREATE_IN_PROGRESS                    AWS::ApiGateway::RestApi              ServerlessRestApi                     Resource creation Initiated         
+CREATE_COMPLETE                       AWS::ApiGateway::RestApi              ServerlessRestApi                     -                                   
 CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionGetAnItemPermissi   -                                   
-                                                                            on                                                                        
-CREATE_IN_PROGRESS                    AWS::ApiGatewayV2::Stage              ServerlessHttpApiApiGatewayDefaultS   -                                   
-                                                                            tage                                                                      
-CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   -                                   
-                                                                            ssion                                                                     
+                                                                            onProd                                                                    
+CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionCreateOrUpdateIte   -                                   
+                                                                            mPermissionProd                                                           
 CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionGetAnItemPermissi   Resource creation Initiated         
-                                                                            on                                                                        
+                                                                            onProd                                                                    
 CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionCreateOrUpdateIte   Resource creation Initiated         
-                                                                            mPermission                                                               
+                                                                            mPermissionProd                                                           
+CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionGetAllItemsPermis   -                                   
+                                                                            sionProd                                                                  
+CREATE_IN_PROGRESS                    AWS::ApiGateway::Deployment           ServerlessRestApiDeployment5df6f31e   -                                   
+                                                                            3b                                                                        
+CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   -                                   
+                                                                            ssionProd                                                                 
+CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   Resource creation Initiated         
+                                                                            ssionProd                                                                 
 CREATE_IN_PROGRESS                    AWS::Lambda::Permission               DDBHandlerFunctionGetAllItemsPermis   Resource creation Initiated         
-                                                                            sion                                                                      
-CREATE_COMPLETE                       AWS::ApiGatewayV2::Stage              ServerlessHttpApiApiGatewayDefaultS   -                                   
-                                                                            tage                                                                      
-CREATE_IN_PROGRESS                    AWS::ApiGatewayV2::Stage              ServerlessHttpApiApiGatewayDefaultS   Resource creation Initiated         
-                                                                            tage                                                                      
-CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionGetAllItemsPermis   -                                   
-                                                                            sion                                                                      
-CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   -                                   
-                                                                            ssion                                                                     
-CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionGetAnItemPermissi   -                                   
-                                                                            on                                                                        
+                                                                            sionProd                                                                  
+CREATE_IN_PROGRESS                    AWS::ApiGateway::Deployment           ServerlessRestApiDeployment5df6f31e   Resource creation Initiated         
+                                                                            3b                                                                        
+CREATE_COMPLETE                       AWS::ApiGateway::Deployment           ServerlessRestApiDeployment5df6f31e   -                                   
+                                                                            3b                                                                        
+CREATE_IN_PROGRESS                    AWS::ApiGateway::Stage                ServerlessRestApiProdStage            -                                   
+CREATE_IN_PROGRESS                    AWS::ApiGateway::Stage                ServerlessRestApiProdStage            Resource creation Initiated         
+CREATE_COMPLETE                       AWS::ApiGateway::Stage                ServerlessRestApiProdStage            -                                   
 CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionCreateOrUpdateIte   -                                   
-                                                                            mPermission                                                               
+                                                                            mPermissionProd                                                           
+CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionDeleteAnItemPermi   -                                   
+                                                                            ssionProd                                                                 
+CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionGetAnItemPermissi   -                                   
+                                                                            onProd                                                                    
+CREATE_COMPLETE                       AWS::Lambda::Permission               DDBHandlerFunctionGetAllItemsPermis   -                                   
+                                                                            sionProd                                                                  
 CREATE_COMPLETE                       AWS::CloudFormation::Stack            sam-app                               -                                   
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -244,15 +250,15 @@ Outputs
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 Key                 Function                                                                                                                         
 Description         DynamoDB handler function ARN                                                                                                    
-Value               arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:sam-app-DDBHandlerFunction-G5xCUAPrJNlp                                           
+Value               arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:sam-app-DDBHandlerFunction-ZBxrnpfeDXfP                                           
 
 Key                 ApiEndpoint                                                                                                                      
 Description         The invoke URL for our HTTP API                                                                                                  
-Value               https://di16ec8sr2.execute-api.us-east-1.amazonaws.com/items                                                                     
+Value               https://4hg51d2zzc.execute-api.us-east-1.amazonaws.com/items                                                                     
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Successfully created/updated stack - sam-app in us-east-1
----
+
 ```
 
 <br>
@@ -297,9 +303,13 @@ curl -v $API_GATEWAY/items
 
 <br>
 
-11. 
+11. Ingresar al servicio AWS WAF y dar clic en la opcion "Swith to AWS WAF Classic"
 
+<br>
 
+<img src="images/Lab49_01.jpg">
+
+<br>
 
 
 
