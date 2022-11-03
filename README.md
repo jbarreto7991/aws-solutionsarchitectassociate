@@ -176,6 +176,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Integración entre WAF y CloudFront usando API Gateway, Lambda y DynamoDB
 * Configuración de AWS WAF web ACL Rules: “manual ip block rule” y “sqli rule”
 
+#### **Laboratorio 50: CloudTrail (Integración con EventBridge, Lambda, IAM y SNS)** [README-Lab50.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-50/README-Lab50.md)
+* Integrar los eventos de CloudTrail y Event Bridge 
+* Automatizar la respuesta ante incidentes en usuarios IAM usando Lambda y SNS
+
+
 
 
 
