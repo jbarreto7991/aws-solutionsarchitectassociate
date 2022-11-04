@@ -181,6 +181,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Automatizar la respuesta ante incidentes en usuarios IAM usando Lambda y SNS
 
 
+#### **Laboratorio 51: AWS IAM Identity Center (AWS Single Sign-On)** [README-Lab51.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-51/README-Lab51.md)
+* Habilitación del servicio "AWS IAM Identity Center (AWS Single Sign-On)" en AWS Organizations
+* Configuración de IAM Identity Center (successor to AWS Single Sign-On)
+
+
 
 
 
