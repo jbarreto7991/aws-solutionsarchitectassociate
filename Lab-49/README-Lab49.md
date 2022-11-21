@@ -26,7 +26,7 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
 
-2. Ejecutar los siguinentes comandos en nuestro Cloud9
+2. Ejecutar los siguientes comandos en nuestro Cloud9
 
 ```bash
 #Ubuntu 18.04
