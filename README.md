@@ -189,6 +189,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Cifrado y descifrado de un archivo de texto plano usando KMS "Customer managed keys" - Data Key
 
 
+#### **Laboratorio 53: Amazon Polly** [README-Lab53.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-53/README-Lab53.md)
+* Interactuar con la API de Amazon Polly
+
+
+
 
 
 
