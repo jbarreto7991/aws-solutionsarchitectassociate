@@ -61,17 +61,7 @@ aws cloudformation create-stack --stack-name lab15-alb-targetgroup --template-bo
 
 10. Con la ejecución de estas tres plantillas, tenemos nuestro laboratorio base construido.
 
-11. Validar que se esté generando la ami AMI_PHP. Esperar a que el status cambie de "Pending" a "Available"
-
-<br>
-
-<img src="images/Lab15_01.jpg">
-
-<br>
-
-<img src="images/Lab15_02.jpg">
-
-<br>
+11. Generar manualmente una AMI desde la instancia EC2. Esperar a que el status cambie de "Pending" a "Available". Esto es visualizable desde la opción Images/AMIs
 
 12. Accedemos al DNS Name del balanceador de aplicaciones para visualizar nuestra aplicación
 
@@ -84,7 +74,7 @@ aws cloudformation create-stack --stack-name lab15-alb-targetgroup --template-bo
 13. Accedemos al servicio EC2, luego a la opción "Launch Configurations (en la sección AutoScaling)". Seguidamente, dar clic en el botón "Create launch configuration". Ingresamos los siguientes valores, luego dar clic en el botón "Create launch configuration"
 
     * Launch configuration name: lc-app
-    * AMI: AMI_PHP
+    * AMI: AMI generada en el paso 11
     * Instances Type: t2.micro
     * IAM Instance Profile: lab15-ec2-BackendIAMServerProfile
     * Security Groups: Select an existing security group

@@ -136,12 +136,12 @@ Resources:
             </html>
             EOF
             
-            #Obteniendo AMI
-            sleep 30
-            REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
-            INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-            DATE=$(date | sed 's!:!!g' | awk '{print $4}')
-            aws ec2 create-image --instance-id $INSTANCE_ID --name AMI_PHP_$DATE --no-reboot --region $REGION
+            #Obteniendo AMI - Nuevo: El AMI se obtendrá manualmente
+            #sleep 30
+            #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+            #INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+            #DATE=$(date | sed 's!:!!g' | awk '{print $4}')
+            #aws ec2 create-image --instance-id $INSTANCE_ID --name AMI_PHP_$DATE --no-reboot --region $REGION
 
             
       SecurityGroupIds:
