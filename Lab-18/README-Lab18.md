@@ -183,6 +183,7 @@
 ```bash
 nano /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js
 #Reemplazamos el valor "baseURL"
+cd /opt/aws-solutionsarchitectassociate/App/frontend/
 npm run build
 cd /opt/aws-solutionsarchitectassociate/App/frontend/build/
 BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')

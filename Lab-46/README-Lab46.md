@@ -165,14 +165,6 @@ aws cloudformation create-stack --stack-name lab46-ec2-s3-cloudfront --template-
 
 <br>
 
-<img src="images/Lab46_18.jpg">
-
-<br>
-
-<img src="images/Lab46_19.jpg">
-
-<br>
-
 <img src="images/Lab46_20.jpg">
 
 <br>
