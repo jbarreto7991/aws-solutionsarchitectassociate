@@ -616,7 +616,7 @@ Resources:
             sleep 10
             REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
             INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-            aws ec2 terminate-instances --instance-ids $INSTANCE_ID --region $REGION
+            #aws ec2 terminate-instances --instance-ids $INSTANCE_ID --region $REGION
 
 
       SecurityGroupIds:

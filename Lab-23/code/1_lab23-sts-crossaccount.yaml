@@ -112,7 +112,7 @@ Resources:
           !Sub |
             #!/bin/bash
 
-            #Install Python3 & Pip
+            #Install
             sudo apt-get update
             sudo apt-get install awscli -y
  

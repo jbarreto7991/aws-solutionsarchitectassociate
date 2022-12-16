@@ -10,6 +10,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_SERVERADMIN admin@localhost
 ENV APACHE_SERVERNAME localhost
 ENV APACHE_DOCUMENTROOT /var/www/html
+ENV APACHE_PID_FILE  /var/run/apache2/apache2.pid
 
 #Application
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
