@@ -188,9 +188,12 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Cifrado y descifrado de un archivo de texto plano usando KMS "Customer managed keys"
 * Cifrado y descifrado de un archivo de texto plano usando KMS "Customer managed keys" - Data Key
 
-
 #### **Laboratorio 53: Amazon Polly** [README-Lab53.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-53/README-Lab53.md)
 * Interactuar con la API de Amazon Polly
+
+#### **Laboratorio 54: Amazon ECS-EC2** [README-Lab54.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-54/README-Lab54.md)
+* Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
+* Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
 
 
 

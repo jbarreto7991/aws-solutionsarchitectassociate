@@ -3,11 +3,13 @@
 <br>
 
 ### Objetivo: 
-* Uso del servicio ECR (Elastic Container Registry) y upload de una imagen Docker
+* Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
 * Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
 
 ### Tópico:
 * Container
+* Storage
+* Security, Identity and Compliance
 
 ### Dependencias:
 * Ninguna
@@ -16,9 +18,7 @@
 
 ---
 
-### A - Uso del servicio ECR (Elastic Container Registry) y upload de una imagen Docker
-
-<br>
+### A - Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
 
 <br>
 
@@ -391,6 +391,10 @@ tmpfs                                               488M     0  488M   0% /sys/f
 tmpfs                                                98M     0   98M   0% /run/user/0
 fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/efs
 ```
+
+<br>
+
+### B - Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
 
 <br>
 
