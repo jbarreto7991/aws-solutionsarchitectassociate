@@ -295,4 +295,310 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 
 <br>
 
-13. Generar el siguiente Task Definition. 
+13. Generamos nuestro file System desde el servicio EFS a través del botón "Create File System". Ingresamos/seleccionamos los siguientes valores:
+
+    * Name: efs
+    * Virtual Private Cloud (VPC): Seleccionar VPC usada durante este laboratorio
+    * Storage class: Standard
+    * Clic en el botón "Customize"
+
+<br>
+
+14. Desde la nueva ventana, seleccionar/ingresar los siguientes valores. Finalmente visualizaremos nuestro EFS aprovisionado.
+
+    * **General**
+        * Name: efs
+        * Storage Class: Standard
+        * Automatic backups: Disable automatic backups
+        * Lifecycle Management: None
+        * Encryption: Enable encryption of data at rest
+    * **Performance settings**
+        * Performance Mode: General Purpose
+        * Throughput mode: Bursting
+    * **Network**
+        * VPC: Seleccionar VPC usada durante este laboratorio
+        * Mount Targets:
+            * us-east-1a: SUBNET PRIVATE AZ A - sg_efs
+            * us-east-1b: SUBNET PRIVATE AZ B - sg_efs
+    * File System Policy: Nothing
+
+<br>
+
+<img src="images/Lab54_12.jpg">
+
+<br>
+
+<img src="images/Lab54_13.jpg">
+
+<br>
+
+<img src="images/Lab54_14.jpg">
+
+<br>
+
+<img src="images/Lab54_15.jpg">
+
+<br>
+
+<img src="images/Lab54_16.jpg">
+
+<br>
+
+<img src="images/Lab54_17.jpg">
+
+<br>
+
+<img src="images/Lab54_18.jpg">
+
+<br>
+
+15. Accedemos al EFS aprovisionado e ingresamos a la sección "Access points". Luego, damos clic en el botón "Create access point". Ingresamos/seleccionamos las siguientes opciones. Finalizamos dando clic en el botón "Create access point"
+
+    * Name: efs-root
+    * Root directory path - optional: /
+
+<img src="images/Lab54_19.jpg">
+
+<br>
+
+<img src="images/Lab54_20.jpg">
+
+<br>
+
+16. Desde la instancia "EC2 TOOL" montamos el EFS creado previamente. La plantilla cloudformation respectiva ha automatizada la instalación de los componetes que la distribución de Ubuntu necesita. 
+
+```bash
+#Comando - Mount EFS (Elastic File System)
+REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+EFS=$(aws efs describe-file-systems --region $REGION | jq -r '.FileSystems[] | .FileSystemId')
+echo "$EFS.efs.$REGION.amazonaws.com:/ /mnt/efs nfs4 defaults,_netdev 0 0" >> /etc/fstab
+sudo mount -a
+df -h
+
+#Respuesta
+Filesystem                                          Size  Used Avail Use% Mounted on
+udev                                                473M     0  473M   0% /dev
+tmpfs                                                98M  788K   97M   1% /run
+/dev/xvda1                                          7.6G  2.1G  5.5G  28% /
+tmpfs                                               488M     0  488M   0% /dev/shm
+tmpfs                                               5.0M     0  5.0M   0% /run/lock
+tmpfs                                               488M     0  488M   0% /sys/fs/cgroup
+/dev/loop1                                           56M   56M     0 100% /snap/core18/2654
+/dev/loop0                                           56M   56M     0 100% /snap/core18/2632
+/dev/loop3                                           25M   25M     0 100% /snap/amazon-ssm-agent/6312
+/dev/loop2                                           50M   50M     0 100% /snap/snapd/17883
+/dev/xvda15                                         105M  4.4M  100M   5% /boot/efi
+tmpfs                                                98M     0   98M   0% /run/user/0
+fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/efs
+```
+
+<br>
+
+17. Accedemos al servicio ECS, luego a la sección "Task definitions" y damos clic en el botón "Create a new task definition - Create a new task definition with JSON". Ingresamos el siguiente JSON, reemplazar las variables. Dar clic en "Create":
+
+    * ACCOUNT_ID, número de 12 dígitos
+    * ARN_SECRET_MANAGER, ARN (Amazon Resources Name) del secreto de base de datos almacenado en pasos anteriores
+    * EFS_ID
+    * EFS_ACCESS_POINT_ID 
+
+<br>
+
+<img src="images/Lab54_21.jpg">
+
+<br>
+
+```bash
+{
+    "family": "app-coffee",
+    "containerDefinitions": [
+        {
+            "name": "app-coffee",
+            "image": "${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest",
+            "cpu": 512,
+            "memory": 512,
+            "links": [],
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 0,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [
+                "/var/www/html/docker-entrypoint.sh"
+            ],
+            "command": [],
+            "environment": [],
+            "mountPoints": [
+                {
+                    "sourceVolume": "efs",
+                    "containerPath": "/var/log/apache2/"
+                }
+            ],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "DATABASE_DNS",
+                    "valueFrom": "${ARN_SECRET_MANAGER}:DATABASE_DNS::"
+                }
+            ],
+            "dnsServers": [],
+            "dnsSearchDomains": [],
+            "dockerSecurityOptions": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/app-coffee",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "systemControls": []
+        }
+    ],
+    "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/secrets_manager_ecs",
+    "networkMode": "bridge",
+    "volumes": [
+        {
+            "name": "efs",
+            "efsVolumeConfiguration": {
+                "fileSystemId": "${EFS_ID}",
+                "rootDirectory": "/",
+                "transitEncryption": "ENABLED",
+                "authorizationConfig": {
+                    "accessPointId": "${EFS_ACCESS_POINT_ID}",
+                    "iam": "DISABLED"
+                }
+            }
+        }
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "512",
+    "memory": "512",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": [
+        {
+            "key": "ecs:taskDefinition:createdFrom",
+            "value": "ecs-console-v2"
+        }
+    ]
+}
+```
+
+<br>
+
+18. Desde el Task Definition creado, dar clic en el botón "Deploy" y luego dar clic en "Create a Service". Seleccionar/ingresar las siguientes opciones. Finalmente dar clic en el botón "Create"
+
+    * **Environment**
+        * Existing cluster: lab54
+        * Compute options: Launch Type
+        * Launch type: EC2
+    * **Deployment configuration**
+        * Application type: Services
+        * Service name: app-coffee
+        * Service type: Replica
+        * Desired tasks: 1
+    * **Load balancing - optional**
+        * Load balancer type: Application Load Balancer
+        * Application Load Balancer: Use an existing load balancer
+        * Load balancer: EC2ApplicationLoadBalancer
+        * Choose container to load balance: app-coffee 80:80
+        * Listener: Use an existing listener
+        * Listener: 80:HTTP
+        * Target Group: Use an existing target group
+        * Target Group name: EC2LoadBalancerTargetGroupApp
+        * Health check grace period: 10
+
+<br>
+
+<img src="images/Lab54_22.jpg">
+
+<br>
+
+<img src="images/Lab54_23.jpg">
+
+<br>
+
+<img src="images/Lab54_24.jpg">
+
+<br>
+
+<img src="images/Lab54_25.jpg">
+
+<br>
+
+<img src="images/Lab54_26.jpg">
+
+<br>
+
+19. Acceder al DNS del balanceador de aplicaciones y validar que la aplicación está ejecutándose. Acceder a los botones "Home" y "Coffee".
+
+<br>
+
+<img src="images/Lab54_27.jpg">
+
+<br>
+
+<img src="images/Lab54_28.jpg">
+
+<br>
+
+20. Acceder a la instancia "EC2 TOOL" y revisar el contenido de la carpeta /mnt/efs. Se deberá visualizar los archivos "access.log", "error.log" y "other_vhosts_access.log".
+
+```bash
+#Comando
+ls /mnt/efs
+
+#Resultado
+access.log  error.log  other_vhosts_access.log
+
+#Comando
+tail -f /mnt/efs/access.log
+
+#Resultado
+192.168.1.64 - - [XX/XXX/XXXX18:20:48 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.2.35 - - [XX/XXX/XXXX:18:20:48 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.1.64 - - [XX/XXX/XXXX:18:20:53 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.2.35 - - [XX/XXX/XXXX:18:20:53 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.1.64 - - [XX/XXX/XXXX:18:20:58 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.2.35 - - [XX/XXX/XXXX:18:20:58 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.1.64 - - [XX/XXX/XXXX:18:21:03 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.2.35 - - [XX/XXX/XXXX:18:21:03 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.1.64 - - [XX/XXX/XXXX:18:21:08 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+192.168.2.35 - - [XX/XXX/XXXX:18:21:08 -0500] "GET /index.php HTTP/1.1" 200 1423 "-" "ELB-HealthChecker/2.0"
+```
+
+<br>
+
+21. Desde la instancia "EC2 TOOL" acceder al Cluster ECS-EC2. Considerar que la llave key.pem deberá ser importado a esta instancia. Desde el cluster ECS-EC2 realizar las siguientes validaciones
+
+```bash
+#Comando Docker
+docker ps
+
+#Resultado
+CONTAINER ID   IMAGE                                                           COMMAND                  CREATED          STATUS                 PORTS                             NAMES
+77bc639f86af   XXXXXXXXXXXX.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   42 minutes ago   Up 42 minutes          0.0.0.0:49159->80/tcp, :::49159->80/tcp   ecs-app-coffee-1-app-coffee-e6fec98cebd8e9d2f601
+28f676c84322   amazon/amazon-ecs-agent:latest                                  "/agent"                 5 hours ago      Up 5 hours (healthy)                             ecs-agent
+
+#Comando
+#Copiar el CONTAINER ID del recurso que hace referencia a "appcoffee"
+docker exec -ti ${CONTAINER_ID} bash
+
+#Dentro del contenedor acceder a la carpeta de la aplicación y realizar las validaciones necesarias
+cd /var/www/html/
+
+#Resultado
+root@77bc639f86af:/var/www/html# ls
+Coffee.php  Controller  Dockerfile  Entities  Images  Model  Styles  Template.php  docker-entrypoint.sh  index.html  index.php  nbproject
+root@77bc639f86af:/var/www/html#
+```
+
+

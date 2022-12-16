@@ -422,6 +422,7 @@ Resources:
           - !Ref IAMPolicyAccessS3FromEC2
           - !Ref IAMPolicyAccessSecurityGroupFromEC2
           - "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+          - "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
         Tags: 
         - Key: Enviroment
           Value: PROD
@@ -551,7 +552,36 @@ Resources:
         - Key: Enviroment
           Value: PROD        
 
-          
+#Creación de un Security Group EFS
+
+  EC2SecurityEFS:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: 'Allow External Connection'
+        GroupName: 'sg_efs'
+        VpcId: !Ref Vpc
+        SecurityGroupIngress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+#Creación de un Security Group ECS
+
+  EC2SecurityEFS:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: 'Allow External Connection'
+        GroupName: 'sg_ecs'
+        VpcId: !Ref Vpc
+        SecurityGroupIngress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
 #Creacion de la Instancia Admin - Insertará datos en la base de datos RDS
 
   Ec2Instance:
@@ -574,6 +604,24 @@ Resources:
             sudo apt-get install awscli -y
             sudo apt-get install jq -y
 
+            #Instalador Driver EFS
+            sudo apt-get -y install git binutils
+
+            #Instalador soporte EFS en Ubuntu 18.04
+            cd /home/ubuntu         
+            git clone https://github.com/aws/efs-utils
+            cd /home/ubuntu/efs-utils
+            ./build-deb.sh
+            sudo apt-get -y install ./build/amazon-efs-utils*deb
+
+            #Mount EFS (Elastic File System)
+            sudo mkdir /mnt/efs
+            #REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
+            #EFS=$(aws efs describe-file-systems --region $REGION | jq -r '.FileSystems[] | .FileSystemId')
+            #echo "$EFS.efs.$REGION.amazonaws.com:/ /mnt/efs nfs4 defaults,_netdev 0 0" >> /etc/fstab
+            #sudo mount -a
+            
+            #Instalador MySQL
             sudo apt-get install mysql-server -y
             #sudo service mysql status
             
@@ -631,7 +679,7 @@ Resources:
       SubnetId: !Ref VpcSubnetPublicAZa
       Tags:
       - Key: Name
-        Value: 'EC2 TOOL RDS'   
+        Value: 'EC2 TOOL'   
       - Key: Enviroment
         Value: PROD
         
