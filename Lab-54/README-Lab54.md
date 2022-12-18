@@ -544,7 +544,7 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
 
 <br>
 
-19. Acceder al DNS del balanceador de aplicaciones y validar que la aplicación está ejecutándose. Acceder a los botones "Home" y "Coffee".
+19. Acceder al DNS del balanceador de aplicaciones y validar que la aplicación está ejecutándose. Acceder a los botones "Home" y "Coffee". La opción "Coffee" permite la conexión a la base de datos RDS.
 
 <br>
 
@@ -583,7 +583,7 @@ tail -f /mnt/efs/access.log
 
 <br>
 
-21. Desde la instancia "EC2 TOOL" acceder al Cluster ECS-EC2. Considerar que la llave key.pem deberá ser importado a esta instancia. Desde el cluster ECS-EC2 realizar las siguientes validaciones
+21. Desde la instancia "EC2 TOOL" acceder al Cluster ECS-EC2. Se deberá agregar permisos al security group de la instancia ECS-EC2 para poder acceder. Considerar que la llave key.pem deberá ser importado a esta instancia. Desde el cluster ECS-EC2 realizar las siguientes validaciones
 
 ```bash
 #Comando Docker
