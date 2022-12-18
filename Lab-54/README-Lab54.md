@@ -613,7 +613,7 @@ root@77bc639f86af:/var/www/html#
 
 <br>
 
-23. Desde la instancia "EC2 TOOL" conectada al cluster "ECS-EC2" ejecutar el siguiente comando:
+23. Desde la instancia "EC2 TOOL" conectada al cluster "ECS-EC2" ejecutar el siguiente comando y analizar la respuesta. Asimismo analizar el cluster desplegado desde la consola de ECS, así como el ALB y el servicio de CloudFormation
 
 ```bash
 #Comando
@@ -628,3 +628,20 @@ cd69380d9d54   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "
 39cd7f679ac4   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   3 minutes ago    Up 3 minutes              0.0.0.0:49154->80/tcp, :::49154->80/tcp   ecs-app-coffee-19-app-coffee-8ea597f48b868bf8ee01
 08c65960ab75   amazon/amazon-ecs-agent:lat
 ```
+
+
+---
+
+### Eliminar los siguientes recursos
+
+* Desde ECS-Cluster, opción "Services", eliminar el servicio
+* Desde ECS-Cluster, opción "Task", hacer "stop" a las tareas
+* Desde ECS, "Deregister" las versiones del Task Definition generados
+* Eliminar el cluster ECS
+* Eliminar repositorio ECR
+* Eliminar plantilla de CloudFormation "lab54-vpc-alb-rds"
+* Eliminar instancia Cloud9
+* Eliminar desde IAM, el rol "secrets_manager_ecs"
+* Eliminar desde IAM, la política "secrets_manager_ecs"
+* Eliminar EFS
+* Eliminar Secrets Manager, configurar "Waiting period" en 7 días
