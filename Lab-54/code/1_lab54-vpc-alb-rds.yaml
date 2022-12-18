@@ -569,7 +569,7 @@ Resources:
 
 #Creación de un Security Group ECS
 
-  EC2SecurityEFS:
+  EC2SecurityECS:
     Type: AWS::EC2::SecurityGroup
     Properties:
         GroupDescription: 'Allow External Connection'

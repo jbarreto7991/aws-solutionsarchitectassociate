@@ -229,9 +229,11 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 
 <br>
 
-9. Desde el servicio "Secrets Manager" generamos el siguiente secreto. Dar clic en "Store a new secret". Ingresar/seleccionar los siguientes valores en las secciones "Secret Type" y "Secret name and description", considerar los demás valores por defecto.
+9. Desde el servicio "Secrets Manager" generamos el siguiente secreto. Dar clic en "Store a new secret". Luego dar clic en la opción "Other type of secret". Ingresar/seleccionar los siguientes valores, considerar los demás valores por defecto.
 
     * **Secret Type**
+        * Other type of secret
+    * **Key/value pairs**
         * Key: DATABASE_DNS
         * Value: "Ingresar el DNS Endpoint de nuestro RDS"
         * Encryption key: aws/secretsmanager
@@ -276,6 +278,9 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 
     * Trusted entity type: Custom trust policy
     * Role name: secrets_manager_ecs
+    * Policies:
+        * secrets_manager_ecs
+        * AmazonECSTaskExecutionRolePolicy
 
 ```bash
 {
@@ -295,11 +300,8 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 
 <br>
 
-13. Generamos nuestro file System desde el servicio EFS a través del botón "Create File System". Ingresamos/seleccionamos los siguientes valores:
+13. Generamos nuestro file System desde el servicio EFS a través del botón "Create File System"
 
-    * Name: efs
-    * Virtual Private Cloud (VPC): Seleccionar VPC usada durante este laboratorio
-    * Storage class: Standard
     * Clic en el botón "Customize"
 
 <br>
@@ -313,8 +315,8 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
         * Lifecycle Management: None
         * Encryption: Enable encryption of data at rest
     * **Performance settings**
-        * Performance Mode: General Purpose
         * Throughput mode: Bursting
+        * Performance Mode: General Purpose
     * **Network**
         * VPC: Seleccionar VPC usada durante este laboratorio
         * Mount Targets:

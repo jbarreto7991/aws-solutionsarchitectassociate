@@ -10,7 +10,8 @@ sed 's+$host = "$DATABASE_DNS";+$host = "'"$DATABASE_DNS"'";+g' /var/www/html/Mo
 rm /var/www/html/Model/Credentials.php
 mv /var/www/html/Model/bk_Credentials.php /var/www/html/Model/Credentials.php
 
-#echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/servername.conf
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 #/etc/init.d/apache2 restart
 
 # Start Apache in foreground
