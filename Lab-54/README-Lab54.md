@@ -607,4 +607,24 @@ Coffee.php  Controller  Dockerfile  Entities  Images  Model  Styles  Template.ph
 root@77bc639f86af:/var/www/html#
 ```
 
+<br>
 
+22. Desde el serviico ECS, ingresar a "Cluster" y accedemos a nuestro cluster. Luego, ingresamos a la pestaña "Services" y damos clic en el botón "Update". Modificar el valor "Desired tasks" a 4. Dar clic en el botón "Update"
+
+<br>
+
+23. Desde la instancia "EC2 TOOL" conectada al cluster "ECS-EC2" ejecutar el siguiente comando:
+
+```bash
+#Comando
+docker ps
+
+#Resultado
+CONTAINER ID   IMAGE                                                           COMMAND                  CREATED          STATUS                    PORTS                                NAMES
+c305b3498a9f   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   29 seconds ago   Up 25 seconds             0.0.0.0:49158->80/tcp, :::49158->80/tcp   ecs-app-coffee-20-app-coffee-98bb8f979bbcfddd9a01
+3fefee432f4d   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   29 seconds ago   Up 25 seconds             0.0.0.0:49157->80/tcp, :::49157->80/tcp   ecs-app-coffee-20-app-coffee-8cc7df83c2e5f289d801
+1f900bd7d7ee   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   29 seconds ago   Up 25 seconds             0.0.0.0:49156->80/tcp, :::49156->80/tcp   ecs-app-coffee-20-app-coffee-e6f8ed91e49eeba92300
+cd69380d9d54   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   30 seconds ago   Up 26 seconds             0.0.0.0:49155->80/tcp, :::49155->80/tcp   ecs-app-coffee-20-app-coffee-d0bbeeb8c79ecfa19601
+39cd7f679ac4   068242378542.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest   "/var/www/html/docke…"   3 minutes ago    Up 3 minutes              0.0.0.0:49154->80/tcp, :::49154->80/tcp   ecs-app-coffee-19-app-coffee-8ea597f48b868bf8ee01
+08c65960ab75   amazon/amazon-ecs-agent:lat
+```
