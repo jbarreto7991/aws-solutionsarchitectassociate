@@ -420,8 +420,8 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
         {
             "name": "app-coffee",
             "image": "${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/appcoffee:latest",
-            "cpu": 512,
-            "memory": 512,
+            "cpu": 128,
+            "memory": 128,
             "links": [],
             "portMappings": [
                 {
@@ -483,8 +483,8 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "512",
-    "memory": "512",
+    "cpu": "128",
+    "memory": "128",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
