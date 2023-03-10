@@ -140,7 +140,7 @@
 
 11. Nos dirigimos al servicio EC2 y generamos una instancia NAT con las siguientes características. Valores no detallados a continuación dejarlos por defecto. Luego dar clic en el botón "Launch Instance"
 
-  * AMI ID: i-00a9d4a05375b2763 (ID Válido sólo para la región N. Virginia)
+  * AMI ID: ami-0cc6fa590dc4d36eb (Community AMI, ID Válido sólo para la región N. Virginia)
   * Instance Type: t2.micro
   * Key Pair: Generar un par de llaves ("Key Pair Type": RSA y "Private key file format:" .pem). Se recomienda usar el nombre "aws-solutionsarchitectassociate"
   * Network Settings:
@@ -238,7 +238,7 @@
 
 21. Generaremos dos instancias EC2 (PROD BACKEND y PROD DB). La primera ubicada en la subnet pública "SUBNET PUBLICA PROD AZ A" y la segunda instancia ubicada en la subnet privada "SUBNET PRIVADA PROD AZ A". Ambas instancias tendrán las siguientes configuraciones:
 
-  * AMI ID: Ubuntu 18.0 LTS
+  * AMI ID: Ubuntu 18.04 LTS (HVM), SSD Volume Type
   * Instance Type: t2.micro
   * Key Pair: "aws-solutionsarchitectassociate"
   * Network Settings:
