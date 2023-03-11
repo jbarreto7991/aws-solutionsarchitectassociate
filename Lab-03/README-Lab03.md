@@ -298,7 +298,7 @@ npm start &
 
 <br>
 
-15. Accedemos nuevamente a nuestro endpoint web generado desde S3, podemos visualizar que la web se encuentra disponible para su uso. Procedemos a crear un registro (Task). Ingresamos a la instancia "PROD DB" (desde "PROD BACKEND") luego a MySQL con el usuario admin y validamos que la información creada desde el frontend se encuentre almacenada en la base de datos. Dentro de la instancia "PROD DB" ejecutar los siguientes comandos.
+15. Accedemos nuevamente a nuestro endpoint web generado desde S3, podemos visualizar que la web se encuentra disponible para su uso. Procedemos a crear un registro (Task). Ingresamos a la instancia "PROD DB" (desde "PROD BACKEND") luego a MySQL con el usuario "admin" y validamos que la información creada desde el frontend se encuentre almacenada en la base de datos. Dentro de la instancia "PROD DB" ejecutar los siguientes comandos.
 
 <br>
 

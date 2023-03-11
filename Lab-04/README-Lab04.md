@@ -13,9 +13,9 @@
 * Implementación del Laboratorio 02
 * Implementación del Laboratorio 03
 * Si queremos continuar con este laboratorio sin tener que implementar manualmente los laboratorios 01, 02 y 03:
-    * Ejecutar la plantilla de CloudFormation "lab04_cloudformation_s3_ec2_db_withcode.yaml" ubicado en la carpeta "code".
+    * Ejecutar la plantilla de CloudFormation "lab04_cloudformation_s3_ec2_db_withcode.yaml" ubicado en la carpeta "code". Realizar las siguientes acciones:
     * Desasociar el profile/role "ec2-role-s3-ssm" de la instancia EC2 "PROD EC2 BACKEND" (Seleccionar Instancia EC2 > Clic en "Actions" > Security > Modify IAM Role > Seleccionar "No IAM Role")
-    * Generar un usuario programático desde IAM asociado a la política "AmazonS3FullAccess" (Explicado en el Lab-03)
+    * Generar un usuario programático desde IAM asociado a la política "AmazonS3FullAccess" (Explicado en el Lab-03) y usarlo en la instancia "PROD ECS BACKEND"
     * Dentro de la instancia "PROD EC2 BACKEND" configurar awscli usando el usuario programático a través del comando "aws configure" 
 
 <br>
