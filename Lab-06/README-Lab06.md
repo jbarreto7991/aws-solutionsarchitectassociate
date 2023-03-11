@@ -24,9 +24,12 @@
 
 <br>
 
-1. En un inicio era posible conectarnos directamente a nuestras instancias EC2 usando SSH. Luego en el desarrollo de otros laboratorios, hemos agregado una instancia bastion (PROD BASTION) la cual centraliza y gobierna los accesos a las demás instancias de la VPC. Tener aperturado el puerto SSH en nuestras instancias no es una buena práctica.
+1. En un inicio era posible conectarnos directamente a nuestras instancias EC2 usando SSH. Luego en el desarrollo de otros laboratorios, hemos agregado una instancia bastion (PROD BASTION) la cual centraliza y gobierna los accesos a las demás instancias de la VPC. Tener aperturado el puerto SSH en nuestras instancias no es una buena práctica. "System Manager - Session Manager" usa el protocolo "HTTPS" como método de conexión remota a las instancias, así mismo ya no es necesario usar el protocolo "SSH"
 
-2. Para hacer uso del servicio "System Manager" y el features "Session Manager" debemos configurar 3 pre-requisitos:
+<br>
+
+2. Para hacer uso del servicio "System Manager" y el features "Session Manager" debemos configurar 3 pre-requisitos (detallados en los puntos 3, 4 y 5):
+
     * Instalación del agente System Manager (SSM Agent)
     * Asociación de un rol a la instancia y asignación de la política necesaria
     * Modificación de puertos en el Security Group
@@ -48,7 +51,7 @@ sudo systemctl status snap.amazon-ssm-agent.amazon-ssm-agent.service
 <br>
 
 
-4. **Asociación de un rol a la instancia y asignación de la política necesaria.** Actualmente nuestra instancia "PROD BACKEND" fue configurada con el comando "aws configure" y hemos asociado un usuario IAM programático. Esto no es una buena práctica. Si alguien tiene acceso a nuestra instancia EC2 podrá dirigirse a los archivos "credentials" y "config" y acceder a nuestras llaves. Se recomienda el uso de roles (a través de un Instance Profile)
+4. **Asociación de un rol a la instancia y asignación de la política necesaria.** Actualmente nuestra instancia "PROD BACKEND" fue configurada con el comando "aws configure" y hemos asociado un usuario IAM programático. Esto no es una buena práctica. Si alguien tiene acceso a nuestra instancia EC2 podrá dirigirse a los archivos "~/.aws/credentials" y "~/.aws/config" y acceder a nuestras llaves. Se recomienda el uso de roles (a través de un Instance Profile)
 
 ```bash
 cat ~/.aws/credentials
@@ -61,16 +64,18 @@ cat ~/.aws/config
 
 <br>
 
-5. **Modificación de puertos en el Security Group**. Actualmente el security group "sg_app" de la instancia "PROD BACKEND" cuenta con la regla HTTPS abierta a 0.0.0.0 en Outbound rules. No será necesario realizar esta configuración. 
+5. **Modificación de puertos en el Security Group**. Actualmente el security group "sg_app" de la instancia "PROD BACKEND" cuenta con la regla HTTPS abierta a 0.0.0.0 en Outbound rules. No será necesario realizar modificación alguna a esta configuración. 
 
 <br>
 
-6. Ejecutaremos el siguiente comando awscli. Luego, eliminaremos los archivos "credentials" y "config" y trataremos de usar un comando de awscli para listar buckets nuevamente. Obtendremos como resultado el mensaje "Unable to locate credentials. You can configure credentials by running "aws configure". Eliminamos las llaves generadas desde el servicio IAM.
+6. Ejecutaremos el siguiente comando awscli. Luego, eliminaremos los archivos "credentials" y "config" y trataremos de ejecutar nuevamente el comando de awscli para listar buckets. Obtendremos como resultado el mensaje "Unable to locate credentials. You can configure credentials by running "aws configure". Eliminamos las llaves generadas desde el servicio IAM.
 
 ```bash
 aws s3 ls
 rm ~/.aws/config
 rm ~/.aws/credentials
+aws s3 ls
+#"Unable to locate credentials. You can configure credentials by running "aws configure"
 ```
 <br>
 
@@ -144,6 +149,8 @@ rm ~/.aws/credentials
 
 
 8. Desde el servicio IAM, accedemos a la opción "Roles". Damos clic en "Creare Role". Seleccionamos "Trusted entity type: AWS Service", luego "Common use cases: EC2" y damos clic en el botón "Next". Seleccionamos la política generada en un paso anterior **"prod_ec2_ssm_policy"** y damos clic en "Next". Luego, agregamos el nombre **"prod_ec2_ssm_role"** y damos clic en "Create role"
+
+    * Role name: prod_ec2_ssm_role
 
 <br>
 
@@ -227,7 +234,7 @@ rm ~/.aws/credentials
 
 <br>
 
-13. Accedemos a la configuración de Security Group desde la metadata de la instancia con el siguiente comando y validamos que sólo existe el sg_app asociado. Los cambios no han impactado en nuestro acceso remotod a la instancia.
+13. Accedemos a la configuración de Security Group desde la metadata de la instancia con el siguiente comando y validamos que sólo existe el sg_app asociado. Los cambios no han impactado en nuestro acceso remoto a la instancia.
 
 ```bash
 curl http://169.254.169.254/latest/meta-data/security-groups/
@@ -240,7 +247,8 @@ curl http://169.254.169.254/latest/meta-data/security-groups/
 <br>
 
 
-14. Será válido habilitar "System Manager - Session Manager" en la instancia "PROD DB". Considerar los 3 pre-requisitos.
+14. Habilitar "System Manager - Session Manager" en la instancia "PROD DB" según los pasos detallados anteriormente.
+
     * Instalación del agente System Manager (SSM Agent)
     * Asociación de un rol a la instancia y asignación de la política necesaria
     * Modificación de puertos en el Security Group
