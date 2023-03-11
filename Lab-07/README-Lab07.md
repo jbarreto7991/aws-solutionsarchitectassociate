@@ -41,8 +41,9 @@
 <br>
 
 
-2. "VPC Flow Logs" tiene dos maneras de configuración (respecto al destino de los Logs de la VPC), bien a través de una bucket S3 o CloudWatch Logs. Crearemos un bucket S3. Obtenemos el ARN del bucket previamente creado. Por ejemplo: "arn:aws:s3:::vpcflowlogs-aws-solutionsarchitectassociate"
-  
+2. "VPC Flow Logs" tiene tres formas de configuración (respecto al destino de los Logs de la VPC), bien a través de un bucket S3, CloudWatch Logs o Kinesis Firehose (misma o distinta cuenta). Antes de crear propiamente un "VPC Flow Logs", crearemos un bucket desde el servicioS3. Obtenemos el ARN del bucket creado. Por ejemplo: "arn:aws:s3:::vpcflowlogs-aws-solutionsarchitectassociate" (Recordar que el nombre de un bucket tiene que ser único a nivel global)
+
+  * Bucket name: vpcflowlogs-aws-solutionsarchitectassociate
 
 <br>
 
@@ -54,7 +55,7 @@
 
 <br>
 
-3. Ingresamos al servicio VPC, luego seleccionamos la opción "Your VPCs". Seleccionamos la VPC creada anteriormente y luego nos dirigimos a la opción "Flow Logs". Damos clic en el botón "Create Flow Logs".
+3. Ingresamos al servicio VPC, luego seleccionamos la opción "Your VPCs". Seleccionamos la VPC creada anteriormente (en el Lab-01) y luego nos dirigimos a la opción "Flow Logs". Damos clic en el botón "Create Flow Logs".
 
 <br>
 
@@ -68,9 +69,9 @@
     * Filter: All
     * Maximum aggregation interval: 1 minute
     * Destination: Send to an Amazon S3 bucket
-    * S3 bucket ARN: arn:aws:s3:::vpcflowlogs-aws-solutionsarchitectassociate
+    * S3 bucket ARN: arn:aws:s3:::vpcflowlogs-aws-solutionsarchitectassociate (Reemplazar por ARN propio)
     * Log record format: AWS default format
-    * Log file format: Parquet
+    * Log file format: Text (default)
     * Partition logs by time: Every 24 hours (default)
 
 
@@ -87,12 +88,6 @@
 <img src="images/Lab07_09.jpg">
 
 <br>
-
-
-<img src="images/Lab07_10.jpg">
-
-<br>
-
 
 5. Después de unos minutos podremos validar que existe información en nuestro bucket S3. Usaremos "Query with S3 Select" para visualizar el contenido del archivo. También es válido descargar el archivo y analizar su contenido.
 
@@ -129,7 +124,9 @@
 
 <br>
 
-6. Crearemos otro bucket S3 con el objetivo que sea el destino de nuestro servicio "Amazon Athena". Amazon Athena nos permitirá acceder a la información de todos los archivos del bucket, sin importar en que folder dentro del bucket se encuentre la información.
+6. Crearemos otro bucket S3 con el objetivo que sea el destino de nuestro servicio "Amazon Athena". Amazon Athena nos permitirá acceder a los datos de todos los archivos del bucket, sin importar en que folder dentro del bucket se encuentren estos  (Recordar que el nombre de un bucket tiene que ser único a nivel global)
+
+  * Bucket name: athena-aws-solutionsarchitectassociate
 
 <br>
 
