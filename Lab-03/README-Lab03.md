@@ -137,7 +137,10 @@ npm run build
 
 <br>
 
-8. Generar credenciales programáticas desde el servicio IAM. En el proceso seleccionar "Access key - Programmatic access" y la política "AmazonS3FullAccess". Copiar los valores "Access key ID" y "Secret access key". Se visualizará que nuestra página cargará el contenido estático.
+8. Crear un usuario IAM desde la opción "Users".
+
+    * User name: aws-solutionsarchitectassociate
+    * Policy: AmazonS3FullAccess 
 
 <br>
 
@@ -157,12 +160,35 @@ npm run build
 
 <br>
 
+9. Accedemos a las propiedades del usuario IAM creado y procedemos a generar "Access Keys". Guardaremos el "Access Key" y el "Secret access key" de forma segura. Estos accesos serán usados vía AWSCLI en la instancia EC2.
+
+<br>
+
 <img src="images/Lab03_11.jpg">
 
 <br>
 
+<img src="images/Lab03_19.jpg">
 
-9. Ingresar nuevamente a la instancia EC2 y ejecutar los siguientes comandos
+<br>
+
+<img src="images/Lab03_20.jpg">
+
+<br>
+
+<img src="images/Lab03_21.jpg">
+
+<br>
+
+<img src="images/Lab03_22.jpg">
+
+<br>
+
+<img src="images/Lab03_23.jpg">
+
+<br>
+
+10. Ingresar nuevamente a la instancia EC2 y ejecutar los siguientes comandos
 
 ```bash
 
@@ -179,7 +205,7 @@ echo $BUCKET
 aws s3 sync . s3://$BUCKET
 ```
 
-10. Ingresar al bucket generado. Desde la pestaña "Objects" se observará los objetos cargados al bucket desde la instancia EC2. Desde la pestaña "Properties" y la sección "Static website hosting" accederemos al endpoint de nuestra aplicación 
+11. Ingresar al bucket generado. Desde la pestaña "Objects" se observará los objetos cargados al bucket desde la instancia EC2. Desde la pestaña "Properties" y la sección "Static website hosting" accederemos al endpoint de nuestra aplicación 
 
 <br>
 
@@ -199,16 +225,20 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-11. Los siguientes pasos se realizarán sobre la instancia EC2 "PROD DB". Para acceder a esta instancia deberemos ingresar primero a la instancia "PROD BACKEND" y desde aquí damos el salto a "PROD DB". Este procedimiento fue detallado en el Laboratorio 1.
+12. Los siguientes pasos se realizarán sobre la instancia EC2 "PROD DB". Para acceder a esta instancia deberemos ingresar primero a la instancia "PROD BACKEND" y desde aquí damos el salto a "PROD DB". Este procedimiento fue detallado en el Laboratorio 1. Identificar la IP Privado de la instancia "PROD DB" y reemplazarlo en el siguiente comando
 
 ```bash
-ssh -i aws-solutionsarchitectassociate.pem ubuntu@192.168.3.120
+#Cargar KeyPair .pem en instancia EC2 BACKEND
+#Asignar permisos "chmod 400 en KeyPair
+#Ejecución de comando de conexión SSH
+ssh -i aws-solutionsarchitectassociate.pem ubuntu@$IP_PRIVADA_PROD_DB
 ```
 
-12. Dentro de la instancia "PROD DB" ejecutamos los siguientes pasos. El objetivo es instalar la base de datos MySQL y realizar la creación de una tabla.
+13. Dentro de la instancia "PROD DB" ejecutamos los siguientes pasos. El objetivo es instalar la base de datos MySQL y realizar la creación de una tabla.
 
 ```bash
 #Instalación Servidor MySQL
+sudo su
 sudo apt-get update
 sudo apt-get install mysql-server -y
 sudo service mysql status
@@ -247,7 +277,7 @@ quit
 EOF
 ```
 
-13. Una vez configurada nuestra instancia "PROD DB", regresamos a nuestra instancia "PROD BACKEND" y realizamos cambios en el archivo de configuración ".env" ubicado en "/opt/aws-solutionsarchitectassociate/App/backend/". En este archivo indicaremos (ubicado en la instancia "PROD DB") la ip privada de la instancia "PROD DB".
+14. Una vez configurada nuestra instancia "PROD DB", regresamos a nuestra instancia "PROD BACKEND" y realizamos cambios en el archivo de configuración ".env" ubicado en "/opt/aws-solutionsarchitectassociate/App/backend/". En este archivo indicaremos (ubicado en la instancia "PROD DB") la ip privada de la instancia "PROD DB".
 
 ```bash
 #Instalación del Backend
@@ -268,7 +298,7 @@ npm start &
 
 <br>
 
-14. Accedemos nuevamente a nuestro endpoint web generado desde S3, podemos visualizar que la web se encuentra disponible para su uso. Procedemos a crear un registro. Ingresamos a la instancia "PROD DB" (desde "PROD BACKEND") luego a MySQL con el usuario admin y validamos que la información creada desde el frontend se encuentre almacenada en la base de datos. Dentro de la instancia "PROD DB" ejecutar los siguientes comandos.
+15. Accedemos nuevamente a nuestro endpoint web generado desde S3, podemos visualizar que la web se encuentra disponible para su uso. Procedemos a crear un registro (Task). Ingresamos a la instancia "PROD DB" (desde "PROD BACKEND") luego a MySQL con el usuario admin y validamos que la información creada desde el frontend se encuentre almacenada en la base de datos. Dentro de la instancia "PROD DB" ejecutar los siguientes comandos.
 
 <br>
 
