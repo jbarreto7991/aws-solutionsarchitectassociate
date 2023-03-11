@@ -38,7 +38,7 @@ Mappings:
 
   RegionAndInstanceEC2TypeToAMIID: 
     us-east-2: 
-      "HVM64": "ami-00978328f54e31526"
+      "HVM64": "ami-03a5def6b0190cef7"
 
 #  RegionAndNATInstanceToAMIID: 
 #    us-east-1: 

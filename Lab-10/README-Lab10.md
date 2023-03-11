@@ -22,7 +22,7 @@
 
 <br>
 
-1. Desplegamos la plantilla CloudFormation "/code/lab10_cloudformation_ec2_db_ohio.yaml" en el servicio CloudFormation de la región de Ohio (us-east-2). Previamente deberemos generar un "Key Pair" en el servicio EC2 de la región de Ohio. La plantilla usará los siguientes parámetros.
+1. Desplegamos la plantilla CloudFormation "/code/lab10_cloudformation_ec2_db_ohio.yaml" en el servicio AWS CloudFormation de la región de Ohio (us-east-2). Previamente deberemos generar un "Key Pair" en el servicio EC2 de la misma región (Ohio). La plantilla usará los siguientes parámetros.
 
   * **Stack Name:** lab10-cloudformation-ec2-db-ohio
   * **InstancesFamily:** No modificar. Se seleccionará el tipo de familia t2.micro por defecto.
@@ -60,7 +60,7 @@ use test;
 select * from tasks;
 ````
 
-3. Ingresamos a la instancia "PROD BACKEND" de la región de N. Virginia. Modificamos el archivo .env ubicado en la ruta /opt/aws-solutionsarchitectassociate/App/backend/
+3. Ingresamos a la instancia "PROD BACKEND" de la región de N. Virginia. Modificamos el archivo .env ubicado en la ruta /opt/aws-solutionsarchitectassociate/App/backend/ con el objetivo de colocar la IP Privada de la instancia "QA DB" de la región Ohio
 
 ```bash
 cd /opt/aws-solutionsarchitectassociate/App/backend/
@@ -82,7 +82,7 @@ npm start &
 
 <br>
 
-4. Validamos nuestra aplicación. No presenta el comportamiento normal.
+4. Validamos nuestra aplicación. Esta no presenta el comportamiento normal debido a que no hay conectividad entre las instancias "PROD BACKEND" y "QA DB".
 
 <br>
 
@@ -90,7 +90,7 @@ npm start &
 
 <br>
 
-5. Configuramos VPC Peering Connections. Nos dirigimos al servicio VPC, luego a la opción "Peering Connections" de la región N.Virginia. Dar clic en "Create Peering Connection". Deberemos ingresar el VPC ID aprovisionado en la región Virginia y el aprovisionado en la región de Ohio. 
+5. Debido a que las instancias se encuentran en dos VPCs distintas, configuramos VPC Peering Connections. Nos dirigimos al servicio VPC, luego a la opción "Peering Connections" de la región N.Virginia. Dar clic en "Create Peering Connection". Deberemos ingresar el VPC ID aprovisionado en la región Virginia y el aprovisionado en la región de Ohio. 
 
 <br>
 
