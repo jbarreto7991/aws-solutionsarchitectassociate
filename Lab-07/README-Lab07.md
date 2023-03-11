@@ -3,8 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Habilitación de los VPC Flow Logs
-* Uso de Amazon Athena para la lectura de los VPC Flow Logs
+* Habilitación de VPC Flow Logs
+* Uso de Amazon Athena para la lectura de VPC Flow Logs
 
 ### Tópico:
 * Networking

@@ -34,8 +34,8 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Eliminación de la instancia PROD BASTION
 
 #### **Laboratorio 07: VPC Flow Logs & Athena** [README-Lab07.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-07/README-Lab07.md)
-* Habilitación de los VPC Flow Logs
-* Uso de Amazon Athena para la lectura de los VPC Flow Logs
+* Habilitación de VPC Flow Logs
+* Uso de Amazon Athena para la lectura de VPC Flow Logs
 
 #### **Laboratorio 08: Network ACL** [README-Lab08.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-08/README-Lab08.md)
 * Configuración de NACL (Network Access Control List)
