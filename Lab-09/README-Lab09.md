@@ -85,9 +85,14 @@ aws ec2 describe-instances --region us-east-1
 
 <br>
 
-6. Accedemos al servicio "VPC", luego accedemos al feature "Endpoints". Dar clic en el botón "Create endpoint". Ingresamos los siguientes valores. Considerar lo siguiente:
+6. Para restablecer la comunicación con las APIs públicas EC2 y S3 generaremos dos VPC Endpoint (conexiones internas hacia las mismas APIs). Un VPC Endpoint hacía el servicio S3 (Tipo Gateway) y un VPC Endpoint hacía el servicio EC2 (Tipo Interface). Accedemos al servicio "VPC", luego accedemos al feature "Endpoints". Dar clic en el botón "Create endpoint". Ingresamos los siguientes valores. Considerar lo siguiente:
 
-  * Route Table, seleccionamos el Route Table donde se rutea la subnet en donde se encuentra la instancia PROD DB
+  * Name tag - optional: vpcendpoint-s3
+  * Service Name: com.amazonaws.us-east-1.s3	
+  * Type: Gateway
+  * VPC: Seleccionar VPC
+  * Route Table: Seleccionar Route Table donde se encuentra la instancia PROD DB (PROD RT PRIVATE)
+  * Policy: Full access
 
 <br>
 
@@ -121,6 +126,15 @@ aws ec2 describe-instances --region us-east-1
 ### B - Configuración de VPC Endpoint Interface (Costo asociado)
 
 8. Accedemos nuevamente al servicio VPC y luego al features "Endpoints". Damos clic en el botón "Create endpoint". Ingresamos los siguientes valores.
+
+  * Name tag - optional: vpcendpoint-ec2
+  * Service Name: com.amazonaws.us-east-1.ec2 
+  * Type: Interface
+  * Subnets: 
+    * SUBNET PRIVADA PROD AZ A
+    * SUBNET PRIVADA PROD AZ B
+  * Security Group: sg_app
+  * Policy: Full access
 
 <br>
 
