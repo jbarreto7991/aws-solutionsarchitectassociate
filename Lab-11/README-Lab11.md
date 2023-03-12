@@ -177,6 +177,10 @@ aws cloudformation create-stack --stack-name lab11-ec2 --template-body file://~/
 ### Eliminación de recursos
 
 ```bash
+#Eliminar el Application Load Balancer "alb" (ALB)
+
+#Eliminar el Target Group (tg-app)
+
 aws cloudformation delete-stack --stack-name lab11-ec2
 aws cloudformation delete-stack --stack-name lab11-vpc
 ```
