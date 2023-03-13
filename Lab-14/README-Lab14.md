@@ -114,7 +114,17 @@
 
 <br>
 
-7. Nos dirigimos al balanceador de aplicaciones, luego a la pestaña "Listeners" y damos clic en el botón "Add listener". Realizamos las siguientes configuraciones y finalmente damos clic en el botón "Add".
+7. Nos dirigimos al balanceador de aplicaciones, luego a la pestaña "Listeners" y damos clic en el botón "Add listener". Realizamos las siguientes configuraciones y finalmente damos clic en el botón "Add". 
+
+    * Listener details
+        * Protocol: HTTPS
+        * Port: 443
+        * Default actions: Forward
+            * Target group: EC2LoadBalancerTargetGroupApp
+    * Secure listener settings
+        * Security Policy: ELBSecurityPolicy-2016-08
+        * Default SSL/TLS certificate
+            * From ACM: Seleccionar certificado generado desde "Certificate Manager"
 
 <br>
 
@@ -146,7 +156,7 @@
 
 <br>
 
-9. Si cargamos la página usando "http://app.jorge-barreto.com" (no https). Validaremos que la página carga sin el certificado. Accedemos al balanceador, luego a la pestaña "Listener" y accedemos al enlace "View/edit rules" correspondiente al listener HTTP:80. Agregamos la siguiente regla.
+9. Si cargamos la página usando "http://app.jorge-barreto.com" (no https). Validaremos que la página carga sin el certificado. Accedemos al balanceador, luego a la pestaña "Listener" y damso clic en el enlace de la columna "Rules". Luego, damos clic en "Manage rules". Agregamos la siguiente regla.
 
     * Sección **"IF (all match)"**, seleccionamos "Add condition - Host Header". Ingresamos el texto "app.jorge-barreto.com"
     * Sección **"THEN"**, seleccionamos "Add action - Redirect to". Ingresamos los siguientes valores:
@@ -162,6 +172,10 @@
 <br>
 
 <img src="images/Lab14_18.jpg">
+
+<br>
+
+<img src="images/Lab14_21.jpg">
 
 <br>
 
