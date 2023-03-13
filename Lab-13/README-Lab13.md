@@ -85,7 +85,7 @@ aws cloudformation create-stack --stack-name lab13-alb-targetgroup --template-bo
 
 <br>
 
-12. Accedemos a la sección "Listener" de nuestro balanceador de aplicaciones. Luego, accedemos al enlace "View/edit rules" para el listener HTTP:80. Damos clic en el icono "+", luego damos clic en el enlace "Insert Rule" e ingresamos los siguientes valores. Luego damos clic en los íconos "Checks" ubicados uno en cada columna. Finalmente damos clic en "Save".
+12. Accedemos a la sección "Listener" de nuestro balanceador de aplicaciones. Luego, en la columna "Rules" accedemos al enlace respectivo. En la siguiente pantalla "HTTP:80 listener" damos clic en el botón "Manage rules". Damos clic en el icono "+", luego damos clic en el enlace "Insert Rule" e ingresamos los siguientes valores detallados a continuación.
 
     * Sección **"IF (all match)"**, seleccionamos "Add condition - Path". Ingresamos el texto "ruta1"
     * Sección **"THEN"**, seleccionamos "Add action - Redirect to". Ingresamos los siguientes valores:
@@ -93,10 +93,15 @@ aws cloudformation create-stack --stack-name lab13-alb-targetgroup --template-bo
         * Custom host, path, query
         * Path: /instanceid.php
 
+Luego damos clic en los íconos "Checks" ubicados uno en cada columna. Finalmente damos clic en "Save".
 
 <br>
 
 <img src="images/Lab13_05.jpg">
+
+<br>
+
+<img src="images/Lab13_08.jpg">
 
 <br>
 
