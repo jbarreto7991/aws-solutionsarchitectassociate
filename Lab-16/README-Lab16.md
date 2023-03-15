@@ -66,7 +66,7 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-9. Desde Cloud9, realizamos modificaciones en el archivo index.html (línea 59, por ejemplo agregar v2, luego guardar con CTRL+S). Movemos este cambio a nuestro bucket de S3.
+9. Desde Cloud9, realizamos modificaciones en el archivo index.html (línea 59, por ejemplo agregar v2, luego guardar con CTRL+S). Movemos este cambio a nuestro bucket de S3. El archivo index.html se encuentra en la ruta "/environment/aws-solutionsarchitectassociate/Lab-16/code/2_lab16-s3-html-resources"
 
 ```bash
 cd ~/environment/aws-solutionsarchitectassociate/Lab-16/code/2_lab16-s3-html-resources
@@ -74,6 +74,12 @@ BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
 echo $BUCKET
 aws s3 sync . s3://$BUCKET
 ```
+
+<br>
+
+<img src="images/Lab16_03.jpg">
+
+<br>
 
 10. Accedemos nuevamente a la dirección URL generada por CloudFront. Validaremos que nuestro cambio realizado no se visualiza. Ejecutamos la siguiente invalidación a través de AWSCLI. Reemplazar el valor $DistributionID por el correcto. Luego de la ejecución de la invalidación visualizaremos el cambio de nuestra aplicación desde el navegador.
 
@@ -84,11 +90,6 @@ aws cloudfront create-invalidation --distribution-id $DistributionID --paths "/*
 aws cloudfront create-invalidation --distribution-id E8XMV1O9QX83H --paths "/index.html"
 ```
 
-<br>
-
-<img src="images/Lab16_03.jpg">
-
-<br>
 
 <img src="images/Lab16_04.jpg">
 
@@ -136,11 +137,16 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-### C - Identificar la configuración OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
+### C - Identificar la configuración OAI (Origin Access Identities) creada en la distribución CloudFront y su integración a un bucket S3 
 
 14. Identificar el componente OAI  (Origin Access Identities) en los componentes desplegados (CloudFront y S3)
 
-* CloudFront > Distributions > $DISTRIBUTIONID > Edit origin
+    * Accedemos al servicio CloudFront, luego accedemos a la "Distribution" respectiva. Accdemos a la opción "Origins", seleccionamos el origin "s3-origin-cf-simple-s3-origin-lab16-cloudfront-s3-*" y damos clic en el botón "Edit" 
+    * Identificamos que la configuración actual (generada desde CloudFormation) cuenta con una configuración OAI
+
+<br>
+
+<img src="images/Lab16_12.jpg">
 
 <br>
 
@@ -148,7 +154,7 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-* S3 > Bucket S3 > Permissions > Bucket Policy
+15. Accedemos al bucket S3 integrado con CloudFront, luego a la opción "Permissions" y nos dirigimos a la sección "Bucket Policy". Analizamos la política basada en recursos.
 
 <br>
 
@@ -156,20 +162,21 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
-15. Identificación del componente TTL en la distribución CloudFront (CloudFront > Distributions > $DISTRIBUTIONID > Edit behavior > "Cache key and origin requests")
+16. El ID identificado identificado en la política S3, lo podemos encontrar en la sección "Security > Origin Access" del servicio CloudFront
+
 
 <br>
 
-<img src="images/Lab16_09.jpg">
+<img src="images/Lab16_13.jpg">
 
 <br>
-
-
 
 ### Eliminación de recursos
 
 ```bash
+#Eliminar contenido del bucket S3
 aws cloudformation delete-stack --stack-name lab16-cloudfront-s3
+#Eliminar Cloud9
 ```
 
 ---
