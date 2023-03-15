@@ -171,6 +171,10 @@ aws s3 sync . s3://$BUCKET
 
 <br>
 
+17. AWS anunció recientemente (Agosto 2022) la nueva función Origin Access Control (OAC) para CloudFront. Este es un sucesor de Origin Acccess Identity (OAI) y, naturalmente, estaba interesado en las puertas que abre en términos de nuevas características. Tanto OAI como OAC tienen el mismo propósito: hacer que CloudFront pueda obtener objetos de un depósito S3 que no está abierto al público
+
+<br>
+
 ### Eliminación de recursos
 
 ```bash
