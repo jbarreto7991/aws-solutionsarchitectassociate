@@ -18,7 +18,7 @@
 
 ---
 
-### A - Despliegue de paso a paso de una distribución ClodFront usando como origen un balanceador de aplicaciones
+### A - Despliegue de una distribución CloudFront usando como origen un bucket de S3
 
 <br>
 
@@ -130,6 +130,9 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 <img src="images/Lab17_11.jpg">
 
 <br>
+<br>
+
+### B - Configurar OAC (Origin Access Control) en la distribución CloudFront y el bucket S3 
 
 10. También será posible acceder al contenido de nuestra aplicación desde la URL generada por el bucket S3 (Static website hosting). Los siguientes pasos tendrán por objetivo desactivar determinadas configuraciones en el bucket S3 y habilitar OAC (Origin Access Control) desde CloudFront.
 

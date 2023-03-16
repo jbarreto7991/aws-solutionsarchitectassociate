@@ -69,7 +69,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 
 #### **Laboratorio 17: CloudFront, S3 & OAI** [README-Lab17.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-17/README-Lab17.md)
 * Despliegue de una distribución CloudFront usando como origen un bucket de S3
-* Configurar OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3
+* Configurar OAC (Origin Access Control) en la distribución CloudFront y el bucket S3 
 
 #### **Laboratorio 18: CloudFront, Certificate Manager & Route53** [README-Lab18.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-18/README-Lab18.md)
 * Despliegue de una distribución CloudFront con dominio personalizado usando Route53 y certificado SSL/TLS con Certificate Manager
