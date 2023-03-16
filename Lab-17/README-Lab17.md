@@ -230,4 +230,6 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 ```bash
 aws cloudformation delete-stack --stack-name lab17-vpc
 aws cloudformation delete-stack --stack-name lab17-ec2
+#Eliminar contenido del bucket S3
+#Deshabilitar y Eliminar distribución CloudFront
 ```
