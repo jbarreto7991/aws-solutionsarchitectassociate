@@ -38,6 +38,8 @@
     * Fully qualified domain name:
         * jorge-barreto.com
         * *.jorge-barreto.com
+    * Select validation method: DNS validation - recommended
+    * Key algorithm: RSA 2048
 
 <br>
 
@@ -96,14 +98,10 @@
 
 <br>
 
-6. Ingresamos a nuestra distribución CloudFront, luego a la sección "General" y en la subsección "Settings" damos clic en el botón "Edit".  Agregar/seleccionar información en los siguientes items. Guardar los cambios. CloudFront desplegará nuestros cambios en los Regional Edge Caches y Edge Location
+6. Ingresamos a nuestra distribución CloudFront, luego a la sección "General" y en la subsección "Settings" damos clic en el botón "Edit".  Agregar/seleccionar información en los siguientes items. Guardar los cambios. CloudFront desplegará nuestros cambios en los Regional Edge Caches y Edge Location, esperamos algunos minutos.
 
-    * Alternate domain name (CNAME) - optional: cloudfront.jorge-barreto.com (subdominio a ser utilizado en este laboratorio)
+    * Alternate domain name (CNAME) - optional: app.jorge-barreto.com (subdominio a ser utilizado en este laboratorio)
     * Custom SSL certificate - optional: Seleccionar certificado generado previamente.
-
-<br>
-
-<img src="images/Lab18_11.jpg">
 
 <br>
 
@@ -115,21 +113,14 @@
 
 <br>
 
-<img src="images/Lab18_13.jpg">
-
-<br>
-
-<img src="images/Lab18_14.jpg">
-
-<br>
 
 7. Ingresamos a Route 53, generamos un nuevo "Record" tipo "A - Alias". Guardamos los cambios.
 
-    * Record name: Agregamos el mismo subdominio indicado en CloudFront. Para este ejemplo "cloudfront.jorge-barreto.com"
+    * Record name: Agregamos el mismo subdominio indicado en CloudFront. Para este ejemplo "app.jorge-barreto.com"
     * Record type: A
     * Alias: On
     * Route traffic to: Alias to CloudFront distribution
-    * Agregar el dominio de nuestra distribución CloudFront, por ejemplo: diu952y35t7z7.cloudfront.net.
+    * Agregar el dominio de nuestra distribución CloudFront, por ejemplo: d3tfly77z4gmbp.cloudfront.net	
     * Routing policy: Simple routing
 
 <br>
@@ -138,11 +129,17 @@
 
 <br>
 
-8. Si testeamos nuestra aplicación visualizaremos problemas en su carga. Necesitamos consumir nuestro balanceador de aplicaciones usando HTTPS.
+8. Si testeamos nuestra aplicación, después del despliegue completo en CloudFront, visualizaremos problemas en su carga. Necesitamos consumir nuestro balanceador de aplicaciones usando HTTPS.
+
+<br>
+
+<img src="images/Lab18_24.jpg">
+
+<br>
 
 9. Generamos un nuevo registro para nuestro balanceador de aplicaciones desde Route 53. Guardamos el registro.
 
-    * Record name: app.jorge-barreto.com
+    * Record name: alb.jorge-barreto.com
     * Record type: A
     * Alias: On
     * Route traffic to: Alias to Application and Classic Load Balancer
@@ -157,7 +154,7 @@
 
 <br>
 
-10. Ingresamos al servicio EC2, sección "Load Balancers", luego a "Listeners" y agregamos un nuevo "Listener HTTPS". Es válido también configurar un redirect de HTTP a HTTPS en las reglas correspondiente al listener HTTP
+10. Ingresamos al servicio EC2, sección "Load Balancers", luego a "Listeners" y agregamos un nuevo "Listener HTTPS" seleccionando el Target Group desplegado por CloudFormation. Así mismo, configuramos un redirect de HTTP a HTTPS en las reglas correspondiente al listener HTTP:80
 
 
 <br>
@@ -178,23 +175,31 @@
 
 <br>
 
-11. Ingresamos a la instancia EC2 BACKEND PROD vía "System Manager - Session Manager" y modificamos el archivo /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js. Reemplazaremos el valor del DNS Name del ALB por el valor registrado en Route 53 (app.jorge-barreto.com). Luego, enviamos estos cambios a S3 e realizamos una invalidación desde CloudFront (identificar previamente el "Distribution ID").
+11. Ingresamos a la instancia EC2 BACKEND PROD vía "System Manager - Session Manager" y modificamos el archivo /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js. Reemplazaremos el valor del DNS Name del ALB por el valor registrado en Route 53 (alb.jorge-barreto.com). Luego, enviamos estos cambios a S3 y realizamos una invalidación desde CloudFront (identificar previamente el "Distribution ID").
 
 ```bash
+sudo su
 nano /opt/aws-solutionsarchitectassociate/App/frontend/src/config/axios.js
-#Reemplazamos el valor "baseURL"
+#Reemplazamos el valor "baseURL" por el DNS del ALB
 cd /opt/aws-solutionsarchitectassociate/App/frontend/
 npm run build
 cd /opt/aws-solutionsarchitectassociate/App/frontend/build/
 BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
 echo $BUCKET
 aws s3 sync . s3://$BUCKET
-aws cloudfront create-invalidation --distribution-id $DistributionID --paths "/*"
+#aws cloudfront create-invalidation --distribution-id $DistributionID --paths "/*"
 ```
 
 <br>
 
 <img src="images/Lab18_21.jpg">
+
+<br>
+
+<img src="images/Lab18_25.jpg">
+
+<br>
+<img src="images/Lab18_26.jpg">
 
 <br>
 
@@ -209,3 +214,12 @@ aws cloudfront create-invalidation --distribution-id $DistributionID --paths "/*
 <img src="images/Lab18_23.jpg">
 
 <br>
+
+
+### Eliminación de recursos
+
+```bash
+#Distribución CloudFront
+#Registros agregados en el Host Zone en Route53
+#Certificado generado en Certificate Manager
+```
