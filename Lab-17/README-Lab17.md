@@ -4,7 +4,7 @@
 
 ### Objetivo: 
 * Despliegue de una distribución CloudFront usando como origen un bucket de S3
-* Configurar OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3 
+* Configurar OAC (Origin Access Control) en la distribución CloudFront y el bucket S3 
 
 ### Tópico:
 * Content Delivery
