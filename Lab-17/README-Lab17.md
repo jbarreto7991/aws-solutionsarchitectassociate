@@ -54,10 +54,10 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 8. Accedemos al servicio de Amazon CloudFront y damos clic en el botón "Create distribution". Ingresamos/seleccionamos los siguientes valores. Luego, dar clic en el botón "Create distribution"
 
     * **Origin**
-        * Origin domain: S3 Bucket
+        * Origin domain: Seleccionar S3 Bucket respectivo
         * Origin path - optional: None
         * Name: Valor pre-cargado automáticamente
-        * S3 bucket access: Don't use OAI (bucket must allow public access)
+        * Origin Access: Public
         * Add custom header - optional: None
         * Enable Origin Shield: No
     * **Default cache behavior**
@@ -119,7 +119,7 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 
 <br>
 
-9. Después de unos minutos accedemos a la URL que genera CloudFront. Cargamos la página en HTTP (no en HTTPS). Por ejemplo: http://diu952y35t7z7.cloudfront.net/. Validamos la carga de nuestra aplicación.
+9. Después de unos minutos accedemos a la URL que genera CloudFront. Cargamos la página en HTTP (no en HTTPS). Por ejemplo: http://d3tfly77z4gmbp.cloudfront.net/. Validamos la carga de nuestra aplicación.
 
 <br>
 
@@ -131,9 +131,19 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 
 <br>
 
-10. También será posible acceder al contenido de nuestra aplicación desde la URL generada por el bucket S3 (Static website hosting). Los siguientes pasos tendrán por objetivo desactivar determinadas configuraciones en el bucket S3 y habilitar OAI desde CloudFront.
+10. También será posible acceder al contenido de nuestra aplicación desde la URL generada por el bucket S3 (Static website hosting). Los siguientes pasos tendrán por objetivo desactivar determinadas configuraciones en el bucket S3 y habilitar OAC (Origin Access Control) desde CloudFront.
 
-11. Accedemos al bucket S3 respectivo y:
+<br>
+<img src="images/Lab17_18.jpg">
+
+<br>
+<img src="images/Lab17_19.jpg">
+
+<br>
+
+
+11. Accedemos al bucket S3 respectivo y ejecutamos las siguientes acciones:
+
     * Desactivamos Static website hosting (Properties)
     * Habilitar "Block public access (bucket settings)" (Permissions)
     * Eliminar Bucket Policy (Permissions)
@@ -153,7 +163,11 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 
 <br>
 
-12. Accedemos al servicio de CloudFront, luego a la sección "Origins". Seleccionamos nuestro origen creado y damos clic en "Edit". Nos direccionamos a la sección "S3 bucket access" y seleccionamos la opción "Yes use OAI (bucket can restrict access to only CloudFront)". Luego damos clic en el botón "Create new OAI". Finalmente, dar clic en la opción "Yes, update the bucket policy". Guardar los cambios y esperar unos minutos.
+12. Accedemos al servicio de CloudFront, luego a la sección "Origins". Seleccionamos nuestro origen creado y damos clic en "Edit". Nos direccionamos a la sección "Origin access" y seleccionamos la opción "Origin access control settings (recommended)". Luego damos clic en el botón "Create control settings" y clic en "Create". Guardamos los cambios dando clic en el botón "Save changes"
+
+<br>
+
+<img src="images/Lab17_20.jpg">
 
 <br>
 
@@ -161,29 +175,51 @@ aws cloudformation create-stack --stack-name lab17-ec2 --template-body file://~/
 
 <br>
 
-13. Validaremos que seguimos teniendo acceso a nuestra aplicación desde CloudFront, pero no desde S3 (debido a la eliminación de configuraciones previadas). En S3, analizar la política S3 generada (ubicada en la sección "Permissions") 
-
-```bash
-{
-    "Version": "2008-10-17",
-    "Id": "PolicyForCloudFrontPrivateContent",
-    "Statement": [
-        {
-            "Sid": "1",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E2UOFZ0447CMWV"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::aws-solutionsarchitectassociate-641996252641/*"
-        }
-    ]
-}
-```
+<img src="images/Lab17_21.jpg">
 
 <br>
 
+<img src="images/Lab17_22.jpg">
+
+<br>
+
+13. Desde el servicio CloudFront se nos muestra el mensaje "The S3 bucket policy need to be updated". Dar clic en "Copy Policy". Accedemos al servicio S3 y agregamos la política copiada previamete. Validaremos que seguimos teniendo acceso a nuestra aplicación desde CloudFront, pero no desde S3 (debido a la eliminación de configuraciones previadas). En S3, analizar la política S3 agregada (ubicada en la sección "Permissions") 
+
+```bash
+{
+        "Version": "2008-10-17",
+        "Id": "PolicyForCloudFrontPrivateContent",
+        "Statement": [
+            {
+                "Sid": "AllowCloudFrontServicePrincipal",
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "cloudfront.amazonaws.com"
+                },
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::aws-solutionsarchitectassociate-XXXXXXXXXXXX/*",
+                "Condition": {
+                    "StringEquals": {
+                      "AWS:SourceArn": "arn:aws:cloudfront::XXXXXXXXXXXX:distribution/E23BUH48WZVWVM"
+                    }
+                }
+            }
+        ]
+      }
+```
+
+<br>
+<img src="images/Lab17_24.jpg">
+
+<br>
+<img src="images/Lab17_25.jpg">
+
+<br>
 <img src="images/Lab17_16.jpg">
+
+<br>
+
+<img src="images/Lab17_23.jpg">
 
 <br>
 
