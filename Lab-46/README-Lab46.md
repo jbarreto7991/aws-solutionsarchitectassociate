@@ -226,7 +226,7 @@
 
 <br>
 
-9. Editamos la sección "Hosted UI" y modificamos el valor del campo "OAuth 2.0 grant types" por "Implicit gran". Guardamos los cambios y damos clic nuevamente sobre el botón "View Hosted UI". Validaremos que se nos redirecciona a la página, por ejemplo: "https://google.com/authenticate#access_token=eyJraWQiOiJQSkljd2N0ZjNJM2JCUlJoXC81NDIreW0wZkk2TXJQMDVaeG5FSG5pNTFSWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1YmEyMTNlXXXXXXXXXXQxZDMtOWJiMS05MjUwZTRhOGMyZjAiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTY3OTUzODY3OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfdDFtMnRxb2ZYIiwiZXhwIjoxNjc5NTQyMjc4LCJpYXQiOjE2Nzk1Mzg2NzgsInZlcnNpb24iOjIsImp0aSI6IjVmYzQ1MTNlLWQzOTktNDc4Zi1iZGFmLTE2YTRhMjUyZTQ2MCIsImNsaWVudF9pZCI6InFnajhoN2Jlajg0aWtzZGp0b2kyYTV2bHQiLCJ1c2VybmFtZSI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCJ9.hr9iT63hXbMtDIIEbFrvhW6Ydx5GSOKWSVMxa1J4DB7reQmFN0PgLFMQui9lPgjrCohyEtXMHcvj3pni91vvdSt9vPBoQ0brOMX-Sjby-weTODxzpcmr3dTAnTKRxOb9u_D6URlIAHEn1a5wEQTIyN0XplYMwB2XXXXXXXXXXUqqqkjPIqaJ4REnItkkpaws-bvV50cvFhWrStlo0f9jcX2PlyKvRSMwcD-Gf-Z5_cvWjxZcKXPQG1l4B1rzMtIoF5GFU0BT7LCHDNUeCvEICzW3tvbVhuGlORkjkLDpbknI-YoPnrRe3g2jgRqxQqXLc4mZ6WlbeiJI-9qKxjOQGg&id_token=eyJraWQiOiJOUG5ZcFZHVUFlTDVEWGhUcnViWENYakkxNExheXVlNURFdHFzb1ZwKytBPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoibjJRX1J4cUpHTnJrSkFDN01oZjdoQSIsInN1YiI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV90MW0ydHFvZlgiLCJjb2duaXRvOnVzZXJuYW1lIjoiNWJhMjEzXXXXXXXXXX00MWQzLTliYjEtOTI1MGU0YThjMmYwIiwiYXVkIjoicWdqOGg3YmVqODRpa3NkanRvaTJhNXZsdCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjc5NTM4Njc4LCJleHAiOjE2Nzk1NDIyNzgsImlhdCI6MTY3OTUzODY3OCwianRpIjoiYjQwZjAzMzAtYTVmOS00YTMzLTk4OGMtMGJiODRlMTc2N2E1IiwiZW1haWwiOiJqYm8uNzk5MUBnbWFpbC5jb20ifQ.FS9BDCIBcaOBTUS87Og08mG10_oYwVWBy3c5JwWqkECNP7xkQLy-AKU0QiQrUcBz66SLP9yi8QkWP9wHj-UuC9uwj4ra9nj45ncWkLE3EQ9tGp25_NWyPyOCj5pStZzpfrvAEPDXqXs6a4iQw09EORP2iW0qthTgyRTCnta8s7eRB4THcgNlWrI-82-315zEq5Fq-laXGmM06MsPjjxew9k_pFL5mdb13zhdUUFI4lbEVFghN1k100UKqYL2YUzfbXXXXXXXXXXeynSOb00EuBgdOGEN0HDvfjbTXSXjvK5wMnnpL4zuuX1m9En_XmzKPwOw7WHAHNCEvsaTvTFqBA&token_type=Bearer&expires_in=3600"
+9. Editamos la sección "Hosted UI" y modificamos el valor del campo "OAuth 2.0 grant types" por "Implicit gran". Guardamos los cambios y damos clic nuevamente sobre el botón "View Hosted UI". Validaremos que se nos redirecciona a la página, por ejemplo: "https://google.com/authenticate#access_token=eyJraWQiOiJQSkljd2N0ZjNJM2JCUlJoXC81NDIreW0wZkk2TXJQMDVaeG5FSG5pNTFSWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1YmEyMTNlZC1iZTg1LTQxZDMtOWJiMS05MjUwZTRhOGMyZjAiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTY3OTU0MzY0OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfdDFtMnRxb2ZYIiwiZXhwIjoxNjc5NTQ3MjQ4LCJpYXQiOjE2Nzk1NDM2NDgsInZlcnNpb24iOjIsImp0aSI6IjdhMmZkYTViLTRhYTItNDM5OS1iMjlhLWYwMzBlNDg4MWY0ZSIsImNsaWVudF9pZCI6InFnajhoN2Jlajg0aWtzZGp0b2kyYTV2bHQiLCJ1c2VybmFtZSI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCJ9.Lsy3MfHseOBCbp7bCVDnZU7cMr-9EpRYeuHA-gJoB7nK5ZZtsEGQuFt6U4pEp6-WuZP3RbVrla1tKvh1-KhLfh_VCToO7G_gIuJ3DEZlkFaLpiWLKpnbAS9vvjLByXpMn3vwHlfs-fjLbUxGx_SiJSz51iwy2F3yvuwCTDMcv8UhuynKovY1RhUsTgvXSFqd8yXdlpXpx_HxxBq53KfFSmSdJgk_UhSTvxpCop0UG4Plhm5VFXI6yAVU8xezUVPJRHGYmxWX85JNhKJIVyJv891uZo7mcuxRaxZneaA1ztrn0HChqo8MGpy1A5X2lsaCvPhIgZ3OxajB0c1fmWogpg&id_token=eyJraWQiOiJOUG5ZcFZHVUFlTDVEWGhUcnViWENYakkxNExheXVlNURFdHFzb1ZwKytBPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiV3JlazdNNWI3TExSVmdaREM0QkN1USIsInN1YiI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV90MW0ydHFvZlgiLCJjb2duaXRvOnVzZXJuYW1lIjoiNWJhMjEzZWQtYmU4NS00MWQzLTliYjEtOTI1MGU0YThjMmYwIiwiYXVkIjoicWdqOGg3YmVqODRpa3NkanRvaTJhNXZsdCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjc5NTQzNjQ4LCJleHAiOjE2Nzk1NDcyNDgsImlhdCI6MTY3OTU0MzY0OCwianRpIjoiODI5NDkyNDktOWZjNy00Mjk5LTlmZjMtM2MyM2Y3ZTdmNjJhIiwiZW1haWwiOiJqYm8uNzk5MUBnbWFpbC5jb20ifQ.GfbiIOz1UjybIWCJw0YwYolidcB1SnSVwCzMN8d_AZNHuFs2hd37z3EfDud85o5cyn8P33BR2sW3LLbV3ceq_jugsQj2U4D0r6KFiHjxedLNCcKcDgK3kFPyA29Mm7CjnN3EDtjHFf9tDVkj18anBoj3iGjlkH3h7XyzIch27UpcS1xGgdSTKTIGO4V0vxCsgDfC7m1_NTkRlXpmzF-YoxHqA6pC0mJZxbaO8ZUyCxipf6k4o7MqGJpsX7uq5hCCZ7JsM-hOcEGY_hjyvtNTX4l-gyp9QqdMWLOJ9Dwy5VRjJ0y1Rt0JWDXV-LpTx4VHGt4n8Fh42_j6yRAxFAvj8Q&token_type=Bearer&expires_in=3600"
 
 <br>
 
@@ -238,11 +238,109 @@
 
 <br>
 
-10. Cuando "OAuth grant types" tiene por contenido "Authorization code grant", Cognito nos entrega un "code". Cuando "OAuth grant types" tiene por contenido "Implicit gran", Cognito nos entrega tokens.
+10. Cuando "OAuth grant types" tiene por contenido "Authorization code grant", Cognito nos entrega un "code". Cuando "OAuth grant types" tiene por contenido "Implicit grant", Cognito nos entrega tokens. OAuth 2 proporciona varios "Grant Type" para diferentes casos de uso. Algunos "Grant Type" comúnmente utilizados son:
+
+  * "Authorization code grant" es el método preferido para autorizar a los usuarios finales. En lugar de proporcionar tokens de grupo de usuarios directamente a un usuario final tras la autenticación, se proporciona un código de autorización. Luego, este código se envía a una aplicación personalizada que puede cambiarlo por los tokens deseados. Debido a que los tokens nunca se exponen directamente a un usuario final, es menos probable que se vean comprometidos.
+
+  * Solo use "Implicit grant" cuando haya una razón específica por la que no se puede usar la concesión del código de autorización. En una concesión implícita, los tokens del grupo de usuarios se exponen directamente al usuario final. Como resultado, la identificación y los tokens de acceso tienen más posibilidades de verse comprometidos antes de que caduquen. Por otro lado, si su configuración no contiene ninguna lógica del lado del servidor, es posible que desee utilizar la concesión implícita para evitar que los tokens de actualización se expongan al cliente, ya que la concesión implícita no genera tokens de actualización.
+
+  * "Client credentials grant" es mucho más sencilla que los dos tipos de concesión anteriores. Si bien las concesiones anteriores están destinadas a obtener tokens para los usuarios finales, "Client credentials grant" generalmente tiene como objetivo proporcionar credenciales a una aplicación para autorizar solicitudes de máquina a máquina. Tenga en cuenta que, para usar la concesión de credenciales de cliente, el cliente de aplicación del grupo de usuarios correspondiente debe tener un secreto de cliente de aplicación asociado.
 
 <br>
 
-11. Desde Cognito, accedemos a la sección "Users" y validamos que tenemos un usuario registrado. Desde esta sección podremos generar un usuario. Asimismo desde la "Hosted UI" (Login) podremos modificar la contraseña.
+11. Desde la URL generada, copiamos el contenido de esta e identificamos las secciones "access_token" y "id_token". 
+
+```bash
+https://google.com/authenticate#access_token=eyJraWQiOiJQSkljd2N0ZjNJM2JCUlJoXC81NDIreW0wZkk2TXJQMDVaeG5FSG5pNTFSWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1YmEyMTNlZC1iZTg1LTQxZDMtOWJiMS05MjUwZTRhOGMyZjAiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTY3OTU0MzY0OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfdDFtMnRxb2ZYIiwiZXhwIjoxNjc5NTQ3MjQ4LCJpYXQiOjE2Nzk1NDM2NDgsInZlcnNpb24iOjIsImp0aSI6IjdhMmZkYTViLTRhYTItNDM5OS1iMjlhLWYwMzBlNDg4MWY0ZSIsImNsaWVudF9pZCI6InFnajhoN2Jlajg0aWtzZGp0b2kyYTV2bHQiLCJ1c2VybmFtZSI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCJ9.Lsy3MfHseOBCbp7bCVDnZU7cMr-9EpRYeuHA-gJoB7nK5ZZtsEGQuFt6U4pEp6-WuZP3RbVrla1tKvh1-KhLfh_VCToO7G_gIuJ3DEZlkFaLpiWLKpnbAS9vvjLByXpMn3vwHlfs-fjLbUxGx_SiJSz51iwy2F3yvuwCTDMcv8UhuynKovY1RhUsTgvXSFqd8yXdlpXpx_HxxBq53KfFSmSdJgk_UhSTvxpCop0UG4Plhm5VFXI6yAVU8xezUVPJRHGYmxWX85JNhKJIVyJv891uZo7mcuxRaxZneaA1ztrn0HChqo8MGpy1A5X2lsaCvPhIgZ3OxajB0c1fmWogpg&id_token=eyJraWQiOiJOUG5ZcFZHVUFlTDVEWGhUcnViWENYakkxNExheXVlNURFdHFzb1ZwKytBPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiV3JlazdNNWI3TExSVmdaREM0QkN1USIsInN1YiI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV90MW0ydHFvZlgiLCJjb2duaXRvOnVzZXJuYW1lIjoiNWJhMjEzZWQtYmU4NS00MWQzLTliYjEtOTI1MGU0YThjMmYwIiwiYXVkIjoicWdqOGg3YmVqODRpa3NkanRvaTJhNXZsdCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjc5NTQzNjQ4LCJleHAiOjE2Nzk1NDcyNDgsImlhdCI6MTY3OTU0MzY0OCwianRpIjoiODI5NDkyNDktOWZjNy00Mjk5LTlmZjMtM2MyM2Y3ZTdmNjJhIiwiZW1haWwiOiJqYm8uNzk5MUBnbWFpbC5jb20ifQ.GfbiIOz1UjybIWCJw0YwYolidcB1SnSVwCzMN8d_AZNHuFs2hd37z3EfDud85o5cyn8P33BR2sW3LLbV3ceq_jugsQj2U4D0r6KFiHjxedLNCcKcDgK3kFPyA29Mm7CjnN3EDtjHFf9tDVkj18anBoj3iGjlkH3h7XyzIch27UpcS1xGgdSTKTIGO4V0vxCsgDfC7m1_NTkRlXpmzF-YoxHqA6pC0mJZxbaO8ZUyCxipf6k4o7MqGJpsX7uq5hCCZ7JsM-hOcEGY_hjyvtNTX4l-gyp9QqdMWLOJ9Dwy5VRjJ0y1Rt0JWDXV-LpTx4VHGt4n8Fh42_j6yRAxFAvj8Q&token_type=Bearer&expires_in=3600
+```
+<br>
+
+```bash
+access_token=eyJraWQiOiJQSkljd2N0ZjNJM2JCUlJoXC81NDIreW0wZkk2TXJQMDVaeG5FSG5pNTFSWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1YmEyMTNlZC1iZTg1LTQxZDMtOWJiMS05MjUwZTRhOGMyZjAiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTY3OTU0MzY0OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfdDFtMnRxb2ZYIiwiZXhwIjoxNjc5NTQ3MjQ4LCJpYXQiOjE2Nzk1NDM2NDgsInZlcnNpb24iOjIsImp0aSI6IjdhMmZkYTViLTRhYTItNDM5OS1iMjlhLWYwMzBlNDg4MWY0ZSIsImNsaWVudF9pZCI6InFnajhoN2Jlajg0aWtzZGp0b2kyYTV2bHQiLCJ1c2VybmFtZSI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCJ9.Lsy3MfHseOBCbp7bCVDnZU7cMr-9EpRYeuHA-gJoB7nK5ZZtsEGQuFt6U4pEp6-WuZP3RbVrla1tKvh1-KhLfh_VCToO7G_gIuJ3DEZlkFaLpiWLKpnbAS9vvjLByXpMn3vwHlfs-fjLbUxGx_SiJSz51iwy2F3yvuwCTDMcv8UhuynKovY1RhUsTgvXSFqd8yXdlpXpx_HxxBq53KfFSmSdJgk_UhSTvxpCop0UG4Plhm5VFXI6yAVU8xezUVPJRHGYmxWX85JNhKJIVyJv891uZo7mcuxRaxZneaA1ztrn0HChqo8MGpy1A5X2lsaCvPhIgZ3OxajB0c1fmWogpg
+```
+
+<br>
+
+```bash
+id_token=eyJraWQiOiJOUG5ZcFZHVUFlTDVEWGhUcnViWENYakkxNExheXVlNURFdHFzb1ZwKytBPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiV3JlazdNNWI3TExSVmdaREM0QkN1USIsInN1YiI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV90MW0ydHFvZlgiLCJjb2duaXRvOnVzZXJuYW1lIjoiNWJhMjEzZWQtYmU4NS00MWQzLTliYjEtOTI1MGU0YThjMmYwIiwiYXVkIjoicWdqOGg3YmVqODRpa3NkanRvaTJhNXZsdCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjc5NTQzNjQ4LCJleHAiOjE2Nzk1NDcyNDgsImlhdCI6MTY3OTU0MzY0OCwianRpIjoiODI5NDkyNDktOWZjNy00Mjk5LTlmZjMtM2MyM2Y3ZTdmNjJhIiwiZW1haWwiOiJqYm8uNzk5MUBnbWFpbC5jb20ifQ.GfbiIOz1UjybIWCJw0YwYolidcB1SnSVwCzMN8d_AZNHuFs2hd37z3EfDud85o5cyn8P33BR2sW3LLbV3ceq_jugsQj2U4D0r6KFiHjxedLNCcKcDgK3kFPyA29Mm7CjnN3EDtjHFf9tDVkj18anBoj3iGjlkH3h7XyzIch27UpcS1xGgdSTKTIGO4V0vxCsgDfC7m1_NTkRlXpmzF-YoxHqA6pC0mJZxbaO8ZUyCxipf6k4o7MqGJpsX7uq5hCCZ7JsM-hOcEGY_hjyvtNTX4l-gyp9QqdMWLOJ9Dwy5VRjJ0y1Rt0JWDXV-LpTx4VHGt4n8Fh42_j6yRAxFAvj8Q
+```
+
+<br>
+
+12. Desde un terminal Linux o Cloud9 ejecutamos el siguiente comando:
+
+```bash
+#Comando Ejemplo - Reemplazar las variables DOMAIN_NAME y ACCESS_TOKEN
+curl -X GET https://{$DOMAIN_NAME}h.us-east-1.amazoncognito.com/oauth2/userInfo -H 'Authorization: Bearer {$ACCESS_TOKEN}'
+
+#Comando a ejecutar
+curl -X GET https://lab46-userpool.auth.us-east-1.amazoncognito.com/oauth2/userInfo -H 'Authorization: Bearer eyJraWQiOiJQSkljd2N0ZjNJM2JCUlJoXC81NDIreW0wZkk2TXJQMDVaeG5FSG5pNTFSWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1YmEyMTNlZC1iZTg1LTQxZDMtOWJiMS05MjUwZTRhOGMyZjAiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTY3OTU0MzY0OCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfdDFtMnRxb2ZYIiwiZXhwIjoxNjc5NTQ3MjQ4LCJpYXQiOjE2Nzk1NDM2NDgsInZlcnNpb24iOjIsImp0aSI6IjdhMmZkYTViLTRhYTItNDM5OS1iMjlhLWYwMzBlNDg4MWY0ZSIsImNsaWVudF9pZCI6InFnajhoN2Jlajg0aWtzZGp0b2kyYTV2bHQiLCJ1c2VybmFtZSI6IjViYTIxM2VkLWJlODUtNDFkMy05YmIxLTkyNTBlNGE4YzJmMCJ9.Lsy3MfHseOBCbp7bCVDnZU7cMr-9EpRYeuHA-gJoB7nK5ZZtsEGQuFt6U4pEp6-WuZP3RbVrla1tKvh1-KhLfh_VCToO7G_gIuJ3DEZlkFaLpiWLKpnbAS9vvjLByXpMn3vwHlfs-fjLbUxGx_SiJSz51iwy2F3yvuwCTDMcv8UhuynKovY1RhUsTgvXSFqd8yXdlpXpx_HxxBq53KfFSmSdJgk_UhSTvxpCop0UG4Plhm5VFXI6yAVU8xezUVPJRHGYmxWX85JNhKJIVyJv891uZo7mcuxRaxZneaA1ztrn0HChqo8MGpy1A5X2lsaCvPhIgZ3OxajB0c1fmWogpg'
+
+#Resultado del comando
+{"sub":"5ba213ed-be85-41d3-9bb1-9250e4a8c2f0","email_verified":"true","email":"jXXXXXXX@gmail.com","username":"5ba213ed-be85-41d3-9bb1-9250e4a8c2f0"}
+```
+
+<br>
+
+13. Copiamos los valores de los campos "access_token" y "id_token" y los reemplazamos en "https://jwt.io/". Obtendremos los siguientes resultados
+
+```bash
+##RESULTADO "access_token"
+
+#HEADER - ALGORITHM & TOKEN TYPE
+{
+  "kid": "PJIcwctf3I3bBRRh/542+ym0fI6MrP05ZxnEHni51RY=",
+  "alg": "RS256"
+}
+
+#PAYLOAD - DATA
+{
+  "sub": "5ba213ed-be85-41d3-9bb1-9250e4a8c2f0",
+  "token_use": "access",
+  "scope": "phone openid email",
+  "auth_time": 1679543648,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_t1m2tqofX",
+  "exp": 1679547248,
+  "iat": 1679543648,
+  "version": 2,
+  "jti": "7a2fda5b-4aa2-4399-b29a-f030e4881f4e",
+  "client_id": "qgj8h7bej84iksdjtoi2a5vlt",
+  "username": "5ba213ed-be85-41d3-9bb1-9250e4a8c2f0"
+}
+
+
+##RESULTADO "id_token"
+
+#HEADER - ALGORITHM & TOKEN TYPE
+{
+  "kid": "NPnYpVGUAeL5DXhTrubXCXjI14Layue5DEtqsoVp++A=",
+  "alg": "RS256"
+}
+
+#PAYLOAD - DATA
+{
+  "at_hash": "Wrek7M5b7LLRVgZDC4BCuQ",
+  "sub": "5ba213ed-be85-41d3-9bb1-9250e4a8c2f0",
+  "email_verified": true,
+  "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_t1m2tqofX",
+  "cognito:username": "5ba213ed-be85-41d3-9bb1-9250e4a8c2f0",
+  "aud": "qgj8h7bej84iksdjtoi2a5vlt",
+  "token_use": "id",
+  "auth_time": 1679543648,
+  "exp": 1679547248,
+  "iat": 1679543648,
+  "jti": "82949249-9fc7-4299-9ff3-3c23f7e7f62a",
+  "email": "jbo.7991@gmail.com"
+}
+```
+
+<br>
+
+<img src="images/Lab46_35.jpg">
+
+<br>
+
+14. Desde Cognito, accedemos a la sección "Users" y validamos que tenemos un usuario registrado. Desde esta sección podremos generar un usuario. Asimismo desde la "Hosted UI" (Login) podremos modificar la contraseña y realizar otras actividades relacionadas a la gestión del usuario.
 
 <br>
 
@@ -257,3 +355,13 @@
 ```bash
 Eliminar "Cognito - User Pool Name"
 ```
+
+---
+
+### Referencias
+
+ * https://auth0.com/blog/id-token-access-token-what-is-the-difference/
+ * https://aws.amazon.com/es/blogs/mobile/understanding-amazon-cognito-user-pool-oauth-2-0-grants/
+ * https://dev.to/jinlianwang/setting-up-implicit-grant-workflow-in-aws-cognito-step-by-step-5feg
+
+
