@@ -205,7 +205,14 @@ aws cognito-idp respond-to-auth-challenge --client-id $USERPOOL_CLIENTID --chall
 
 <br>
 
-15. Loguear al usuario "thomas" con la nueva contraseña. Obtener el campo IdToken manualmente del resultado del siguiente comando. Luego, almacenar en la variable "USERPOOL_IDTOKEN" este campo 
+15. Loguear al usuario "thomas" con la nueva contraseña. Obtener el campo IdToken manualmente del resultado del siguiente comando. Luego, almacenar en la variable "USERPOOL_IDTOKEN" este campo. Considerar:
+
+    * En Amazon Cognito User Pool, hay tres tipos de tokens que se utilizan en el flujo de autenticación: AccessToken, RefreshToken e IdToken. Cada uno de ellos tiene un propósito diferente y proporciona diferentes tipos de información.
+
+        * *AccessToken:* Este token se utiliza para acceder a los recursos protegidos que están asociados con el usuario autenticado. Es un token de acceso temporal que se concede al usuario después de una autenticación exitosa. El AccessToken se utiliza para autorizar solicitudes de API de backend, por ejemplo, para acceder a recursos de Amazon S3, DynamoDB, entre otros. Este token tiene una vida útil limitada y su duración puede ser configurada en Amazon Cognito.
+        * *RefreshToken:* Este token se utiliza para obtener un nuevo AccessToken después de que el AccessToken original haya expirado. El RefreshToken se emite durante la autenticación inicial y se utiliza para solicitar un nuevo AccessToken sin necesidad de que el usuario vuelva a ingresar sus credenciales. El RefreshToken es un token de acceso de larga duración y su vida útil puede ser configurada en Amazon Cognito.
+        * *IdToken:* Este token es un JWT (JSON Web Token) que contiene información del usuario autenticado y se utiliza para la verificación del usuario en el lado del cliente. Proporciona información sobre el usuario, como su identidad, correo electrónico, nombre, entre otros. El IdToken es utilizado por el cliente (aplicación web o móvil) para autenticar solicitudes a recursos protegidos, por ejemplo, para acceder a recursos de una API de backend.
+
 
 ```bash
 #Comando
