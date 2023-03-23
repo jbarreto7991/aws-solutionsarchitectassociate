@@ -21,7 +21,11 @@
 
 1. Debemos tener una llave Key Pair disponible. De no ser así, acceder al servicio EC2 y luego a la opción "Key Pair". Generar llave RSA y .pem 
 
+<br>
+
 2. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
+
+<br>
 
 3. Ejecutar los siguinentes comandos en nuestro Cloud9
 
@@ -30,16 +34,23 @@
 sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
+<br>
 
 4. Acceder al laboratorio 47 (Lab-47), carpeta "code". Validar que se cuenta con el archivo "1_lab47-cognito-identitypool.yaml". Analizar el contenido de este archivo
 
+<br>
+
 5. Desplegar la plantilla CloudFormation ejecutando AWSCLI. Considerar los parámetros a ser ingresados.
+
+<br>
 
 6. **1_lab47-cognito-identitypool.yaml**. Esta plantilla tiene por objetivo el despliegue de un recurso "Cognito User Pool" y de un recurso "Cognito Identity Pool". Esta y la siguiente plantilla podrán ser lanzadas en paralelo. Eliminar cualquier recurso "Cognito User Pool" o "Cognito Identity Pool" previamente creado
 
 ```bash
 aws cloudformation create-stack --stack-name lab47-cognito-identitypool --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-47/code/1_lab47-cognito-identitypool.yaml --capabilities CAPABILITY_IAM
 ```
+
+<br>
 
 7. **2_lab47-ec2-cognito.yaml**. Esta plantilla contiene los siguientes parámetros de despliegue: KeyPair, SubnetID y VPCID. Reemplazar estos valores en la siguiente línea de comando. Será válido usar la consola de AWS para el despliegue de esta plantilla.
 
@@ -49,23 +60,23 @@ aws cloudformation create-stack --stack-name lab47-ec2-cognito --template-body f
 
 <br>
 
-8. Terminado el aprovisionamiento de los recursos, validar en el servicio Cognito la creación de un recurso "Cognito User Pool" y de un recurso "Cognito Identity Pool". Asimismo la creación de una instancia EC2. Revisar las configuraciones desplegadas. 
+8. Terminado el aprovisionamiento de la primera plantilla de CloudFormation, validar en el servicio Cognito la creación de un recurso "Cognito User Pool" y de un recurso "Cognito Identity Pool (Federated identities)". Revisar las configuraciones desplegadas. 
 
 <br>
 
-9. Accedemos la instancia EC2 aprovisionada previamente usando "System Manager - Session Manager", ejecutamos los siguientes comandos. Validar que la instancia esté usando AWSCLIv2
+9. Accedemos a la instancia EC2 aprovisionada previamente desde la segunda plantilla CloudFormation usando "System Manager - Session Manager", ejecutamos los siguientes comandos. Validar que la instancia esté usando AWSCLIv2. De no reflejarse la versión de AWSCLI correcta, reiniciar la instancia
 
 ```bash
 #Comando
 aws --version
 
 #Resultado
-aws-cli/2.8.7 Python/3.9.11 Linux/5.4.0-1078-aws exe/x86_64.ubuntu.18 prompt/off
+aws-cli/2.11.5 Python/3.11.2 Linux/5.4.0-1078-aws exe/x86_64.ubuntu.18 prompt/off
 ```
 
 <br>
 
-10. Identificación de Cognito User Pool ID
+10. Identificación de Cognito User Pool ID (USERPOOL_ID)
 
 ```bash
 #Comando
@@ -116,7 +127,7 @@ aws cognito-idp admin-create-user --user-pool-id  $USERPOOL_ID --username thomas
 ```
 <br>
 
-12. Desde la consola de Cognito User Pool, ir a la sección "General settings - Users and groups". Se visualiza que el usuario tiene  por estado "FORCE_CHANGE_PASSWORD"
+12. Desde la consola de Cognito User Pool, ir a la sección "Users". Se visualiza que el usuario "thomas" en la columna "Confirmation status" tiene el valor "Force change password". Usando AWSCLI obtenemos el valor de USERPOOL_CLIENTID
 
 <br>
 
@@ -146,7 +157,7 @@ echo $USERPOOL_CLIENTID
 
 <br>
 
-13. Loguear el usuario "thomas" de contraseña "12345678-Aa"
+13. Loguear el usuario "thomas". Contraseña "12345678-Aa". El resultado solicitará cambio de contraseña
 
 ```bash
 #Comando
@@ -166,7 +177,7 @@ aws cognito-idp initiate-auth --auth-flow USER_PASSWORD_AUTH --client-id $USERPO
 
 <br>
 
-14. Cambiar la contraseña del usuario "thomas" por "12345678-Bb"
+14. Cambiar la contraseña del usuario "thomas" por "12345678-Bb". Ejecutar los siguientes dos comandos.
 
 ```bash
 #Comando
@@ -194,7 +205,7 @@ aws cognito-idp respond-to-auth-challenge --client-id $USERPOOL_CLIENTID --chall
 
 <br>
 
-15. Loguear al usuario "thomas" con la nueva contraseña. Almacenar en variable el campo "IdToken". Obtener el campo IdToken manualmente
+15. Loguear al usuario "thomas" con la nueva contraseña. Obtener el campo IdToken manualmente del resultado del siguiente comando. Luego, almacenar en la variable "USERPOOL_IDTOKEN" este campo 
 
 ```bash
 #Comando
@@ -224,7 +235,7 @@ echo $USERPOOL_IDTOKEN
 
 <br>
 
-16. Obtener el valor del campo "IdentityId"
+16. Obtener el valor del campo "IdentityId" (IDENTITYPOOL_ID)
 
 ```bash
 #Comando
@@ -248,7 +259,7 @@ us-east-1:cfec93b5-76f7-4650-80ad-ff5a9c4244c3
 <br>
 
 ```bash
-#Comando
+#Comando sin filtros
 aws cognito-identity get-id --identity-pool-id $IDENTITYPOOL_ID --logins cognito-idp.us-east-1.amazonaws.com/$USERPOOL_ID=$USERPOOL_IDTOKEN --region us-east-1
 
 #Resultado
@@ -259,7 +270,7 @@ aws cognito-identity get-id --identity-pool-id $IDENTITYPOOL_ID --logins cognito
 
 <br>
 
-17. Obtener credenciales desde STS
+17. Obtener credenciales desde STS ejecutando los siguientes dos comandos. Al finalizar la ejecución del último comando visualizaremos las variables "AccessKeyId", "SecretKey", "SessionToken" y "Expiration".
 
 ```bash
 #Comando
