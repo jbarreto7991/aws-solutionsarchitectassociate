@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Implementación de Cognito User Pool
+* Implementación de Cognito User Pool & Grant Types
 
 ### Tópico:
 * Security, Identity & Compliance

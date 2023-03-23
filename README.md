@@ -162,7 +162,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 *  Creación de una máquina de estado orquestando funciones Lambdas, tablas en DynamoDB e invocaciones con Amazon Rekognition
 
 #### **Laboratorio 46: Cognito User Pool (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
-*  Implementación de Cognito User Pool
+*  Implementación de Cognito User Pool & Grant Types
 
 #### **Laboratorio 47: Cognito Identity Pool y STS** [README-Lab47.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-47/README-Lab47.md)
 *  Obtención de credenciales temporales STS consumiendo el servicio de Cognito Identity Pool usando AWSCLIv2
