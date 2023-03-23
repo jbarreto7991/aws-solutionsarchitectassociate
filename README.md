@@ -121,10 +121,8 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 32: EFS** [README-Lab32.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-32/README-Lab32.md)
 * Configuración de un File System usando EFS en instancias Linux aprovisionadas en distintas VPCs
 
-
 #### **Laboratorio 33: RDS & Secrets Manager** [README-Lab33.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-33/README-Lab33.md)
 * Aprovisionamiento de una instancia RDS desde CloudFormation usando Secrets Manager como generador de credenciales
-
 
 #### **Laboratorio 34: RDS Read Replica** [README-Lab34.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-34/README-Lab34.md)
 * Configuración y análisis de la propiedad "Read Replica" en la instancia de RDS
@@ -164,7 +162,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 *  Creación de una máquina de estado orquestando funciones Lambdas, tablas en DynamoDB e invocaciones con Amazon Rekognition
 
 #### **Laboratorio 46: Cognito User Pool (Integración con CloudFront)** [README-Lab46.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-46/README-Lab46.md)
-*  Integración entre Cognito User Pool & CloudFront
+*  Implementación de Cognito User Pool
 
 #### **Laboratorio 47: Cognito Identity Pool y STS** [README-Lab47.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-47/README-Lab47.md)
 *  Obtención de credenciales temporales STS consumiendo el servicio de Cognito Identity Pool usando AWSCLIv2
