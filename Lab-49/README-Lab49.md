@@ -26,6 +26,8 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
 
+<br>
+
 2. Ejecutar los siguientes comandos en nuestro Cloud9
 
 ```bash
@@ -35,7 +37,11 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 sam --version
 ```
 
+<br>
+
 3. Acceder al laboratorio 49 (Lab-49), carpeta "code". Validar que se cuenta con el archivo "1_lab49-waf.json" y la carpeta "SAM". Analizar el contenido de estos archivos.
+
+<br>
 
 4. Desplegar la plantilla CloudFormation **1_lab49-waf.json** ejecutando AWSCLI 
 
@@ -45,7 +51,7 @@ aws cloudformation create-stack --stack-name lab49-waf --template-body file://~/
 
 <br>
 
-5. Desplegar la plantilla "SAM/template.yaml" usando "sam init" de SAM (Serverless Application Model) desde Cloud9
+5. Desplegar la plantilla "SAM/template.yaml" usando "sam init" de SAM (Serverless Application Model) desde Cloud9. Seleccionar opción 2.
 
 ```bash
 #Comando
@@ -103,7 +109,23 @@ Commands you can use next
 
 <br>
 
-7. Desplegar la plantilla "SAM/template.yaml" usando "sam deploy --guided" de SAM (Serverless Application Model)
+7. Desplegar la plantilla "SAM/template.yaml" usando "sam deploy --guided" de SAM (Serverless Application Model). Ingresar los siguientes valores:
+
+    * Stack Name [sam-app]: Enter
+    * AWS Region [us-east-1]: Enter
+    * Confirm changes before deploy [Y/n]: Y
+    * Allow SAM CLI IAM role creation [Y/n]: Y
+    * DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
+    * DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
+    * DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
+    * DDBHandlerFunction may not have authorization defined, Is this okay? [y/N]: y
+    * Save arguments to configuration file [Y/n]: Y
+    * SAM configuration file [samconfig.toml]: Enter
+    * SAM configuration environment [default]: Enter
+    
+    * Deploy this changeset? [y/N]: y
+
+<br>
 
 ```bash
 #Comando
@@ -264,7 +286,23 @@ Successfully created/updated stack - sam-app in us-east-1
 
 <br>
 
-8. Guardar en variable el endpoint del API Gateway desplegado. Este valor se encuentra en la sección "Outputs - Value" del paso anterior para ApiEndpoint
+8. Guardar en variable de entorno el endpoint del API Gateway desplegado. Este valor se encuentra en la sección "Outputs" del paso anterior para "Key:ApiEndpoint"
+
+```bash
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Outputs                                                                                                                                                                               
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Key                 Function                                                                                                                                                          
+Description         DynamoDB handler function ARN                                                                                                                                     
+Value               arn:aws:lambda:us-east-1:068242378542:function:sam-app-DDBHandlerFunction-voEHcJzRYOO8                                                                            
+
+Key                 ApiEndpoint                                                                                                                                                       
+Description         The invoke URL for our HTTP API                                                                                                                                   
+Value               https://7wqpx1agna.execute-api.us-east-1.amazonaws.com/items                                                                                                      
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+```
+
+<br>
 
 ```bash
 API_GATEWAY=https://psb5d4fxu6.execute-api.us-east-1.amazonaws.com
@@ -304,10 +342,10 @@ curl -v $API_GATEWAY/items
 
 <br>
 
-11. Accedemos al servicio CloudFront creando una distribución con las siguientes configuraciones. Considerar los valores no mencionadas en default. Al finalizar la configuración dar clic en el botón "Create distribution"
+11. Accedemos al servicio CloudFront creando una distribución con las siguientes configuraciones. Considerar los valores no mencionados a continuación en default. Al finalizar la configuración dar clic en el botón "Create distribution"
 
     - Origin
-        - Origin domain: psb5d4fxu6.execute-api.us-east-1.amazonaws.com
+        - Origin domain: psb5d4fxu6.execute-api.us-east-1.amazonaws.com ($API_GATEWAY)
         - Protocol: HTTPS Only
             - Minimum origin SSL protocol: TLSv1.2
         - Origin path - optional: "No colocar ningún path"
