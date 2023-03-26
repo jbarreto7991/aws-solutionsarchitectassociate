@@ -84,7 +84,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Uso de IAM roles
 
 #### **Laboratorio 21: IAM & Evaluating permission levels** [README-Lab21.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-21/README-Lab21.md)
-* Evaluando niveles de permisos en IAM
+* Evaluando jerarquía de evaluación de permisos en IAM
 
 #### **Laboratorio 22: AWS Organizations & Switch Role Account** [README-Lab22.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-22/README-Lab22.md)
 * Crear una cuenta AWS a través del servicio AWS Organizations

@@ -3,7 +3,7 @@
 <br>
 
 ### Objetivo: 
-* Evaluando niveles de permisos en IAM
+* Evaluando jerarquía de evaluación de permisos en IAM
 
 ### Tópico:
 * Security,Identity & Compliance
