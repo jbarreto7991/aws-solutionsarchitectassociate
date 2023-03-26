@@ -237,7 +237,7 @@
 
 <br>
 
-15. Accedemos modo usuario (no modo root) usando el usuario "User" en nuestra cuenta padre (origen). Al ingresar de este modo, AWS solicitará ingresar el número de cuenta AWS en el login, así Accederemos como "IAM User" a la cuenta de AWS. Dentro de AWS, validaremos que nuestro usuario se carga en la consola. Damos clic en el botón ubicado al lado derecho superior (nombre de usuario), y luego damos clic en la opción "Switch role" (Si estamos logueados con el usuario "Root" no visualizaremos esta opción)
+15. Accedemos modo usuario (no modo root) usando el usuario "User" en nuestra cuenta padre (origen). Al ingresar de este modo, AWS solicitará ingresar el número de cuenta AWS en el login, así Accederemos como "IAM User" a la cuenta origen de AWS. Dentro de AWS, validaremos que nuestro usuario se carga en la consola. Damos clic en el botón ubicado al lado derecho superior (nombre de usuario), y luego damos clic en la opción "Switch role" (Si estamos logueados con el usuario "Root" no visualizaremos esta opción)
 
 
 <br>
