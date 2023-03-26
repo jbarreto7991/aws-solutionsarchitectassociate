@@ -4,7 +4,7 @@
 
 ### Objetivo: 
 * Crear una cuenta AWS a través del servicio AWS Organizations
-* Hacer "Switch Role" entre cuentas de AWS
+* Hacer "Switch Role" entre cuentas de AWS desde la consola
 
 ### Tópico:
 * Management & Governance

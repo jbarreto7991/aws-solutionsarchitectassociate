@@ -88,7 +88,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 
 #### **Laboratorio 22: AWS Organizations & Switch Role Account** [README-Lab22.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-22/README-Lab22.md)
 * Crear una cuenta AWS a través del servicio AWS Organizations
-* Hacer "Switch Role" entre cuentas de AWS
+* Hacer "Switch Role" entre cuentas de AWS desde la consola
 
 #### **Laboratorio 23: IAM Roles & STS** [README-Lab23.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-23/README-Lab23.md)
 * Entendimiento de STS (Secure Token Service)
