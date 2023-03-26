@@ -198,5 +198,6 @@ python3 3_sdk_python_s3_without_accesskey.py
 ```bash
 aws cloudformation delete-stack --stack-name lab20-vpc-ec2-iam --region us-east-1
 #Eliminar IAM User "User01"
+#Eliminar IAM Role "ec2_role_lab20"
 #Eliminar Instancia Cloud9
 ```
