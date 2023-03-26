@@ -193,6 +193,9 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
 * Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
 
+#### **Laboratorio 55: Custom IAM Policies** [README-Lab55.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-55/README-Lab55.md)
+* Accesos de usuarios IAM a determinados buckets S3 usando Custom IAM Policies
+
 
 
 
