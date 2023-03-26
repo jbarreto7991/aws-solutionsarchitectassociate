@@ -21,9 +21,13 @@
 
 <br>
 
-1. Hacer uso de nuestra Key Pair. De no ser así, acceder al servicio EC2 y luego a la opción "Key Pair" de cada región indicada. Generar llave RSA y .pem.
+1. Hacer uso de nuestra Key Pair. De no ser así, acceder al servicio EC2 y luego a la opción "Key Pair". Generar llave RSA y .pem.
+
+<br>
 
 2. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
+
+<br>
 
 3. Ejecutar los siguientes comandos en nuestro Cloud9
 
@@ -33,12 +37,15 @@ sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
-4. **1_lab20-vpc-ec2-iam.yaml**. En la sección "ParameterValue", reemplazar el nombre del KeyPair creado en el paso 1. Esta plantilla creará una VPC, 02 subnets públicas y demás componentes de red; además de una instancia EC2. Esta instancia instalará python3, pip3 y awscliv2; además descargará código python del repositorio en /home/ubuntu. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. El siguiente comando considerar reemplazar el valor del Key Pair con el valor respectivo.
+<br>
+
+4. **1_lab20-vpc-ec2-iam.yaml**. En la sección "ParameterValue", reemplazar el nombre del KeyPair creado en el paso 1. Esta plantilla creará una VPC, 02 subnets públicas y demás componentes de red; además de una instancia EC2. En esta instancia se instalará python3, pip3 y awscliv2; además descargará archivos con código python del repositorio en la ruta /home/ubuntu. Validar la creación del Stack desde la consola AWS a través del servicio AWS CloudFormation. En el siguiente comando considerar reemplazar el valor del Key Pair con el valor respectivo.
 
 ```bash
 aws cloudformation create-stack --stack-name lab20-vpc-ec2-iam --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-20/code/1_lab20-vpc-ec2-iam.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM --region us-east-1
-
 ```
+
+<br>
 
 5. Accedemos al servicio IAM y generamos un IAM User Programmatic a través de la siguiente configuración. En el paso final damos clic en "Create User". Luego, copiar los valores "Access key ID" y "Secret access key."
 

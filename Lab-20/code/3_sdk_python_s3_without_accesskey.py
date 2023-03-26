@@ -1,14 +1,7 @@
 import boto3
-import pandas
 
 # Creating the low level functional client
 client = boto3.client(
-    's3',
-    region_name = 'us-east-1'
-)
-
-# Creating the high level object oriented interface
-resource = boto3.resource(
     's3',
     region_name = 'us-east-1'
 )
