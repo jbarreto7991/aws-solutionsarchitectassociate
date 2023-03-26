@@ -25,17 +25,13 @@
 
 1. Aprovisionar una Instancia EC2 Ubuntu 18.04 LTS. La instancia se deberá configurar según la siguiente información:
 
-* "Instance Type": c5d.large
-* Generar una "Key Pair" tipo RSA en formato .pem
-* "Network Settings": Por defecto (VPC Default) 
-* Crear "Security Group" (Inbound Rules) lo detallado a continuación. 
-
-    |   Port  |  Source  |
-    |---------|----------|
-    |   22    |  My IP   |
-  
-    
-* Configure Storage: Por defecto. Durante el proceso de creación de la instancia EC2 visualizaremos que la instancia contará con un volumen root EBS de 8 GiB y un volumen efímero (EC2 Instances Store) de 50 Gb.
+    * "Instance Type": c5d.large
+    * Generar una "Key Pair" tipo RSA en formato .pem
+    * "Network Settings": Por defecto (VPC Default) 
+    * Crear "Security Group" (Inbound Rules) lo detallado a continuación. 
+        * Port: 22
+        * Target: MyIP   
+    * Configure Storage: Por defecto. Durante el proceso de creación de la instancia EC2 visualizaremos que la instancia contará con un volumen root EBS de 8 GiB y un volumen efímero (EC2 Instances Store) de 50 Gb. Los volúmenes root siempre serán tipo EBS
 
 <br>
 
@@ -66,7 +62,6 @@ sudo file -s /dev/nvme1n1
 
 <br>
 
-
 5. Ejecutar el siguiente comando. Procedemos a formatear el disco. El sistema de archivo será "ext4".
 
 ```bash
@@ -76,7 +71,6 @@ sudo mkfs -t ext4 /dev/nvme1n1
 
 <br>
 
-
 6. Ejecutar el siguiente comando. Visualizamos que el disco nvme1n1 cuenta ahora con su código UUID aunque la columna MOUNTPOINT aún no contiene información.
 
 ```bash
@@ -85,7 +79,6 @@ lsblk -fm
 <img src="images/lab26_05.jpg">
 
 <br>
-
 
 7. Ejecutar los siguientes comandos. Las columnas "MOUNTPOINT" (resultado del primer comando) y "Mounted On" (resultado del segundo comando) ya cuenta con data. 
 
@@ -147,7 +140,6 @@ lsblk -fm
 
 <br>
 
-
 11. Desde la consola de AWS procedemos a reiniciar la instancia EC2. Validamos que hay una desconexión SSH desde nuestro terminal. Después de unos segundos, volvemos a ingresar a la instancia EC2. El comando "uptime" indica que la instancia tiene 3 minutos de uso. El reboot no afectó nuestra configuración previa debido a que encontramos el disco efímero montado y podemos leer el contenido del archivo creado. Considerar la ejecución de los siguientes comandos.
 
 <img src="images/lab26_10.jpg">
@@ -180,3 +172,12 @@ lsblk -fm
 <img src="images/lab26_14.jpg">
 
 <br>
+
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar instancia EC2 (c5d.large)
+```
