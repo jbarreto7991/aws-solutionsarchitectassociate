@@ -46,6 +46,7 @@
 <br>
 
 4. Accedemos a la opción "Groups" y damos clic en el botón "Create Group". Crearemos los siguientes dos grupos:
+
     - Administradores
     - SoloLectura
 
@@ -113,13 +114,15 @@
 
 9. Accedemos a la opción "Permission sets" y damos clic en el botón "Create permission set". Realizamos las siguientes configuraciones:
 
-    - Permission set type: Predefined permission set
-    - Policy for predefined permission set: AdministratorAccess
-    - Permission set name: AdministratorAccess
+    * Configuración 01
+        - Permission set type: Predefined permission set
+        - Policy for predefined permission set: AdministratorAccess
+        - Permission set name: AdministratorAccess
 
-    - Permission set type: Predefined permission set
-    - Policy for predefined permission set: ViewOnlyAccess
-    - Permission set name: ViewOnlyAccess
+    * Configuración 02
+        - Permission set type: Predefined permission set
+        - Policy for predefined permission set: ViewOnlyAccess
+        - Permission set name: ViewOnlyAccess
 
 <br>
 
