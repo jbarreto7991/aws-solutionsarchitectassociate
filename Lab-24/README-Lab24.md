@@ -16,7 +16,7 @@
 
 ---
 
-### A - EnEntendimiento de OU (Organizational Unit) en AWS Organizations
+### A - Entendimiento de OU (Organizational Unit) en AWS Organizations
 
 <br>
 
@@ -44,7 +44,7 @@
 
 <br>
 
-3. Ingresamos a la sección de "Policies", luego damos clic en la opción "Backup policies". Seguidamente en "Enable backup policies". Luego, damos clic en "Create Policy". 
+3. Ingresamos a la sección de "Policies", luego damos clic en la opción "Service Control policies". Seguidamente damos clic en el botón "Enable service control policies". Habilito los "Service Control Policies", damos clic en el botón "Create Policy". 
 
 <img src="images/Lab24_05.jpg">
 
@@ -63,8 +63,9 @@
 <br>
 
 4. Ingresamos los siguientes valores. Luego, dar clic en el botón "Create Policy"
+
     * Policy name: Virginia
-    * Policy: Copiar la política "1_lab24_awsorganizations_scp" almacenada en Lab-24/code. Analizar la política.
+    * Policy: Copiar el contenido del archivo "1_lab24_awsorganizations_scp" almacenado en la ruta Lab-24/code de este repositorio y pegarlo en la sección "Statement". Analizar la política.
 
 <br>
 
@@ -80,7 +81,7 @@
 
 <br>
 
-5. Seleccionamos la SCP "Virginia", damos clic en el botón "Actions" y seleccionamos "Attach Policy". Luego, seleccionamos nuestra cuenta AWS generada en pasos anterior ("awstraining-01") y damos clic en "Attach Policy". Si accedemos al detalle de la nueva cuenta AWS, validaremos que esta cuenta tiene asociada varias SCPs, una de ellas será el SCP "Virginia"
+5. Seleccionamos la SCP "Virginia", damos clic en el botón "Actions" y seleccionamos la opción "Attach Policy". Luego, desde la estructura en forma de árbol de AWS Organizations, seleccionamos nuestra cuenta AWS generada en pasos anterior ("awstraining-01") y damos clic en "Attach Policy". Si accedemos al detalle de la nueva cuenta AWS, validaremos que esta cuenta tiene asociada varias SCPs (FullAWSAccess), una de ellas será el SCP "Virginia"
 
 <br>
 
@@ -96,7 +97,7 @@
 
 <br>
 
-6. Accedemos a la cuenta "awstraining-01" e ingresamos al servicio EC2 en la región de N.Virginia. Asimismo, accedemos a la región Ohio. Validaremos que no se cuenta con permisos en la región de Ohio. La política SCP "Virginia" asociada a nivel de AWS Organizations a esta la cuenta "awstraining-01", sólo permite el uso de servicios en la región N.Virginia, todo lo demás se negará (no se incluye los servicios de naturaleza Global.
+6. Accedemos a la cuenta "awstraining-01" e ingresamos al servicio EC2 en la región de N.Virginia. Asimismo, accedemos a la región Ohio. Validaremos que no se cuenta con permisos en la región de Ohio. La política SCP "Virginia" asociada, a nivel de AWS Organizations, a la cuenta "awstraining-01" sólo permite el uso de servicios en la región N. Virginia, todo lo demás se negará (no se incluye los servicios de naturaleza Global).
 
 <br>
 
@@ -107,3 +108,12 @@
 <img src="images/Lab24_16.jpg">
 
 <br>
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar SCP
+#Deshabilitar "Policies - Service control policies"
+```
