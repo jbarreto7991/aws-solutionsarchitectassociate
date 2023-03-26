@@ -47,13 +47,11 @@ aws cloudformation create-stack --stack-name lab20-vpc-ec2-iam --template-body f
 
 <br>
 
-5. Accedemos al servicio IAM y generamos un IAM User Programmatic a través de la siguiente configuración. En el paso final damos clic en "Create User". Luego, copiar los valores "Access key ID" y "Secret access key."
+5. Accedemos al servicio IAM y generamos un "IAM User" asociado a la política "AmazonS3FullAccess". Luego, accedemos al detalle del "IAM User", y desde la pestaña "Security credentials" generamos un nuevo "Access Key". Copiar los valores "Access key" y "Secret access key" al finalizar el proceso de creación.
 
     * Username: User01
-    * Select AWS credential type: Access key - Programmatic access
     * Set Permissions: Attach existing policies directly
     * Search: AmazonS3FullAccess
-
 
 <br>
 
@@ -81,10 +79,28 @@ aws cloudformation create-stack --stack-name lab20-vpc-ec2-iam --template-body f
 
 <br>
 
-6. Desde Cloud9, generamos un bucket S3 usando AWSCLI. Reemplazamos las variables $nombre y $apellido con nuestros datos personales.
+<img src="images/Lab20_14.jpg">
+
+<br>
+
+<img src="images/Lab20_15.jpg">
+
+<br>
+
+<img src="images/Lab20_16.jpg">
+
+<br>
+
+<img src="images/Lab20_17.jpg">
+
+<br>
+
+6. Desde Cloud9, generamos un bucket S3 usando AWSCLI.
 
 ```bash
-aws s3api create-bucket --bucket $nombre-$apellido-aws-solutionsarchitectassociate --region us-east-1
+aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+echo $aws_account
+aws s3api create-bucket --bucket lab20-aws-solutionsarchitectassociate-$aws_account --region us-east-1
 ```
 <br>
 
@@ -92,14 +108,14 @@ aws s3api create-bucket --bucket $nombre-$apellido-aws-solutionsarchitectassocia
 
 <br>
 
-7. Accedemos por SSH a la instancia EC2 y editamos las variables "$aws_access_key_id" y "$aws_Secret_access_key" del archivo 2_sdk_python_s3_with_accesskey.py ubicado en /home/ubuntu. Guardamos los cambios y ejecutamos el archivo en mención usando python3. Validamos que el script lista todos los buckets S3 de nuestra cuenta AWS.
+7. Accedemos por SSH a la instancia EC2 "IAM Challenge" y editamos las variables "$aws_access_key_id" y "$aws_Secret_access_key" del archivo 2_sdk_python_s3_with_accesskey.py ubicado en /home/ubuntu. Guardamos los cambios y ejecutamos el archivo en mención usando python3. Validamos que el script liste todos los buckets S3 de nuestra cuenta AWS.
 
 ```bash
 #Conexión a la instancia EC2
 ssh -i keypair_name.pem ubuntu@public_ip
 
 #Ejecucción de archivo python
-python3 2_sdk_python_s3_with_accesskey.py
+python3 /home/ubuntu/2_sdk_python_s3_with_accesskey.py
 ```
 <br>
 
@@ -107,11 +123,14 @@ python3 2_sdk_python_s3_with_accesskey.py
 
 <br>
 
-8. Usando python3 ejecutaremos el archivo "3_sdk_python_s3_without_accesskey.py". Tendremos error al ejecutar el archivo.
+8. Usando python3 ejecutaremos el archivo "3_sdk_python_s3_without_accesskey.py". Tendremos el siguiente error al ejecutar el archivo. Analizar contenido y diferencias de los archivos "2_sdk_python_s3_with_accesskey.py" y "3_sdk_python_s3_without_accesskey.py". 
 
 ```bash
 #Ejecucción de archivo python
 python3 2_sdk_python_s3_with_accesskey.py
+
+#Error
+botocore.exceptions.NoCredentialsError: Unable to locate credentials
 ```
 
 <br>
@@ -157,15 +176,18 @@ python3 2_sdk_python_s3_with_accesskey.py
 
 <br>
 
-11. Usando python3 ejecutaremos el archivo "3_sdk_python_s3_without_accesskey.py" nuevamente. En esta ocasión validamos que nos devuelve como resultado la lista de buckets S3.
+11. Desde nuestra instancia EC2 ejecutaremos el archivo "3_sdk_python_s3_without_accesskey.py" nuevamente. En esta ocasión validamos que nos devuelve como resultado la lista de buckets S3.
 
 ```bash
 #Ejecucción de archivo python
-python3 2_sdk_python_s3_with_accesskey.py
+python3 3_sdk_python_s3_without_accesskey.py
 ```
 
-12. Si un atacante accede a nuestra instancia podrá obtener las credenciales almacenadas en los archivos python. De la misma manera como si subimos estos archivos python a algún repositorio como GitHub, Bitbucket. Los atacantes podrán usar estas credenciales de forma local si las obtienen. Debemos proteger siempre los "Access key ID" y "Secret access key" generados. Se deberá eligar siempre la configuración de roles en nuestras instancias EC2.
+<br>
 
+12. Si un atacante accede a nuestra instancia podrá obtener las credenciales almacenadas en el archivo python "2_sdk_python_s3_with_accesskey". Podrán acceder a ellos también si estos archivos son cargados en repositorios públicos. Una vez obtenida las credenciales "Access key" y "Secret access key", los atacantes podrán usar estas para acceder a nuestros recursos en AWS (estos accesos estarán limitados al tipo de política asociado al usuario IAM User Programmatic). Debemos proteger siempre los "Access key ID" y "Secret access key" generados. Es buena practica, usar "IAM Roles" asociadas a nuestras instancias EC2.
+
+<br>
 
 ---
 
@@ -175,4 +197,6 @@ python3 2_sdk_python_s3_with_accesskey.py
 
 ```bash
 aws cloudformation delete-stack --stack-name lab20-vpc-ec2-iam --region us-east-1
+#Eliminar IAM User "User01"
+#Eliminar Instancia Cloud9
 ```
