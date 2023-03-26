@@ -20,14 +20,14 @@
 
 <br>
 
-
 1. Desplegamos la plantilla AWS CloudFormation ubicada en /code/1_lab25_ebs_cloudwatch_metrics.yaml en nuestra cuenta de AWS. Debido a que hemos desplegado varias plantilla en laboratorios anteriores, no se detallará el pasa a paso de este procedimiento. Tenemos:
 
-    * Despliegue manual a través de la consola AWS
-    * Despliegue usando AWSCLI en Cloud9, en la sección "ParameterValue": 
-        * Seleccionar el valor de "KeyPair", selecciónar la llave adecuada
-        * Seleccionar el valor de "Subnet", ingresar el id de la subnet donde se desplegará la instancia EC2
-        * Seleccionar el valor de "VPC", ingresar el id de la VPC donde se desplegará la instancia EC2 y se aprovisionará el Security Group respectivo.
+    * Despliegue manual de la plantilla CloudFormation a través de la consola AWS
+    * Despliegue de la plantilla CloudFormation usando AWSCLI en Cloud9
+    * Considerar en ambos casos:  
+        * Seleccionar/ingresar el valor de "KeyPair"
+        * Seleccionar/ingresar el valor de "Subnet"
+        * Seleccionar/ingresar el valor de "VPC"
 
 ```bash
 
@@ -38,13 +38,17 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 aws cloudformation create-stack --stack-name lab25-ebs-cloudwatch-metrics --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-25/code/1_lab25-ebs-cloudwatch-metrics.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" ParameterKey=Subnet,ParameterValue="subnet-29b70f18"  ParameterKey=VPC,ParameterValue="vpc-dd59d8a0" --capabilities CAPABILITY_IAM
 ```
 
+<br>
+
 2. Accedemos vía System Manager - Session Managear a la instancia EC2 desplegada ("EBS Performance") y ejecutamos el siguiente comando
 
 ```bash
 htop
 ```
 
-3. Visualizaremos que los procesos desplegados desde nuestra plantilla de CloudFormation se están ejecutando. Estos comandos tienen por intención la saturación del volumen EBS.
+<br>
+
+3. Visualizaremos que los procesos desplegados desde nuestra plantilla de CloudFormation se están ejecutando. El comando "stress-ng --hdd 8 --timeout 900s" ejecutado desde la instancia EC2 tiene por intención la saturación del volumen EBS.
 
 <br>
 
@@ -78,7 +82,7 @@ htop
 
 <br>
 
-7. **VolumeReadOps y VolumeWriteOps.** Asi mismo identificamos que en un determinado momento en el tiempo (con espacio de 5 minutos) el valor de "VolumeWriteOps" es de 30533 y el valor de "VolumeReadOps" es de 15471. Realizamos el siguiente cálculo para obtener el total de IOPS usado por el volumen. El valor obtenido es de 153 IOPS. Al ser nuestro volumen EBS de 8 GiB y tipo gp2 tendremos 100 IOPS por defecto. En este espacio de 5 minutos, nuestro volumen está consumiendo más IOPS de lo que tiene. Esto se ve reflejado en las solicitudes pendientes de "VolumeQueueLength".
+7. **VolumeReadOps y VolumeWriteOps.** Asi mismo identificamos que en un determinado momento en el tiempo (con espacio de 5 minutos) el valor de "VolumeWriteOps" es de 30533 y el valor de "VolumeReadOps" es de 15471. Realizamos el siguiente cálculo para obtener el total de IOPS usado por el volumen. El valor obtenido es de 153 IOPS. Al ser nuestro volumen EBS de 8 GiB y tipo gp2 tendremos 100 IOPS por defecto. En este espacio de 5 minutos, nuestro volumen está consumiendo más IOPS de los que puede aprovisionar (sin hacer uso de los créditos). Esto se ve reflejado en las solicitudes pendientes de "VolumeQueueLength".
 
 ```bash
 (30533 + 15471)    = 153.34 IOPS.
