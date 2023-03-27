@@ -244,7 +244,7 @@ Resources:
       SubnetId: !Ref VpcSubnetPublicAZa
       Tags:
       - Key: Name
-        Value: 'NAT Instances'     
+        Value: 'NAT Instances'   
       - Key: Enviroment
         Value: !If [CreateProdResources, PROD, !If [CreateDevResources, DEV, !Ref "AWS::NoValue"]]
         
@@ -255,7 +255,7 @@ Resources:
     Type: AWS::EC2::Instance
     Condition: CreateProdResources
     Properties:
-      InstanceType: !Select [ 0, !Ref InstancesFamily]
+      InstanceType: !Select [ 1, !Ref InstancesFamily]
       ImageId: !FindInMap [RegionAndInstanceEC2TypeToAMIID, !Ref "AWS::Region", HVM64]
       IamInstanceProfile: !Ref IAMServerProfile
       #KeyName: !FindInMap [KeyPair, !Ref "AWS::Region", prod]

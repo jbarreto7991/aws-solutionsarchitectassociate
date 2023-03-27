@@ -3,7 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Entendimiento de AWS S3 Presign (GetObject)
+* Entendimiento de AWS S3 Presign (Método GET)
+* Entendimiento de AWS S3 Presign (Método POST y SDK Boto3 Python)
 
 ### Tópico:
 * Storage
@@ -16,7 +17,7 @@
 
 ---
 
-### A - Entendimiento de AWS S3 Presign
+### A - Entendimiento de AWS S3 Presign (Método GET)
 
 <br>
 
@@ -112,4 +113,130 @@ aws s3 presign s3://$BUCKET_NAME/s3-presign-file.tx --expires 120
 
 8. El comando "S3 presign" sólo genera URL GET prefirmadas (descarga de objetos), si se desea cargar archivos en un bucket de S3 usando POST URL prefirmadas o PUT URL prefirmadas, se deberá usar el SDK de AWS.
 
+<br>
 
+### B - Entendimiento de AWS S3 Presign (Método POST y SDK Boto3 Python)
+
+<br>
+
+9. Crear una función Lambda con los siguientes atributos:
+
+    * Function name: Lab28-PreSign-Post
+    * Runtime: Python3.9
+
+<br>
+
+10. Descargar el archivo .zip almacenado en Lab-28/code/lab28_presign_post.zip. Adjuntar este archivo .zip en la función Lambda
+
+<br>
+
+<img src="images/Lab28_09.jpg">
+
+<br>
+
+11. Agregar las siguientes variables de entorno:
+
+    * BucketName: Ingrese nombre de Bucket creado en el paso 01 (p.ej. "s3-jorge-barreto-aws-solutionsarchitecassociate")
+    * ObjectKey: googlelogo_color_272x92dp.png
+
+<br>
+
+<img src="images/Lab28_10.jpg">
+
+<br>
+
+12. Al rol asociado a la función Lambda, agregarle la política "AmazonS3FullAccess"
+
+
+<br>
+
+<img src="images/Lab28_11.jpg">
+
+<br>
+
+13. Generar un "Configure test event" y dar clic en "Test", validar la recepción de la siguiente respuesta.  
+
+```bash
+#Response
+{
+  "statusCode": 200,
+  "body": "\"File Upload\""
+}
+```
+
+<br>
+
+14. Analizar el contenido del bucket S3 previamente creado, validar que un nuevo objeto se almacena en el bucket S3.
+
+
+<br>
+
+<img src="images/Lab28_12.jpg">
+
+<br>
+
+15. Analizar contenido de la función Lambda
+
+```bash
+import json
+import boto3
+import os
+import urllib.request
+import requests
+
+
+def lambda_handler(event, context):
+
+    #Descarga de archivos y almacenamiento temporal en la ruta /tmp
+    file_path=get_file()
+    filename_to_upload = file_path
+    
+    #Obtención de PreSigned
+    response=get_presigned_url()
+
+    #Upload de archivo a S3 usando Credenciales PreSigned
+    with open(filename_to_upload, 'rb') as file_to_upload:
+        files = {'file': (filename_to_upload, file_to_upload)}
+        upload_response = requests.post(response['url'], data=response['fields'], files=files)
+        print(upload_response)
+        print(f"Upload response: {upload_response.status_code}")
+
+    #Respuesta de la Función Lambda
+    return {
+        'statusCode': 200,
+        'body': json.dumps('File Upload')
+    }
+
+
+def get_presigned_url():
+
+    #Obtención de valores de los parámetros de entorno de la función Lambda
+    os_bucket_name = os.environ['BucketName']
+    os_object_key = os.environ['ObjectKey']
+    
+    #Cadena de Conexión  a S3
+    s3_client = boto3.client('s3')
+
+    #Declaración de Variables
+    bucket_name = os_bucket_name
+    object_key = os_object_key
+    expiration = 3600 
+
+    #Obtención de PreSigned POST
+    try:
+	    response = s3_client.generate_presigned_post(bucket_name, object_key,ExpiresIn=expiration)
+	    print(response)
+	    return response
+    except ClientError as e:
+	    logging.error(e)
+	    return None
+    
+
+def get_file():
+    
+    #Descarga de archivos y almacenamiento temporal en la ruta /tmp
+    url = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
+    file_path = '/tmp/googlelogo_color_272x92dp.png'
+    urllib.request.urlretrieve(url, file_path)
+    return file_path
+```
