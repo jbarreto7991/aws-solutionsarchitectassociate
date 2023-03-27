@@ -22,6 +22,8 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
 
+<br>
+
 2. Ejecutar los siguinentes comandos en nuestro Cloud9
 
 ```bash
@@ -30,9 +32,13 @@ sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
+<br>
+
 3. Acceder al laboratorio 29 (Lab-29), carpeta "code". Validar que se cuenta con la carpeta lab29-s3-cors. Esta a su vez contendrá la plantilla de cloudformation "1_lab29-s3-cors.yaml". En esta misma carpeta encontraremos 3 simples archivos estáticos (error.html, index.html y loadpage.html). Analizar el contenido de estos elementos.
 
-4. Desplegar la plantilla CloudFormation ejecutando AWSCLI.
+<br>
+
+4. Desplegar la plantilla CloudFormation "1_lab29-s3-cors.yaml" ejecutando AWSCLI.
 
 <br>
 
@@ -42,11 +48,13 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 aws cloudformation create-stack --stack-name lab29-s3-cors --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/1_lab29-s3-cors.yaml 
 ```
 
+<br>
+
 6. Movemos todos los archivos que se encuentran en la carpeta Lab-29/code/lab29-s3-cors/ al bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}".
 
 ```bash
 cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
 echo $BUCKET
 aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 ```
@@ -72,7 +80,7 @@ aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 9. Desde Cloud9, ingresamos al archivo "index2.html" y modificamos el campo "BUCKET2_STATICWEBSITE_HOSTING_DESTINATION" por "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Obtenemos el valor de este segundo bucket ejecutando el siguiente comando:
 
 ```bash
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
 echo $BUCKET
 ```
 
@@ -106,12 +114,12 @@ aws s3 cp index.html s3://$BUCKET
 cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
 
 #Eliminando archivo loadpage.html del primer bucket S3
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
 echo $BUCKET
 aws s3api delete-object --bucket $BUCKET --key loadpage.html
 
 #Agregando archivo loadpage.html al segundo bucket S3
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
 echo $BUCKET
 aws s3 cp loadpage.html s3://$BUCKET
 ```
@@ -164,3 +172,11 @@ aws s3 cp loadpage.html s3://$BUCKET
 
 <br>
 
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar objetos almacenados en los Buckets S3
+#Eliminar Buckets S3
+```

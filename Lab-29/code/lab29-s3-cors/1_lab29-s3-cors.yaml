@@ -35,6 +35,7 @@ Resources:
 
   MyS3Bucket2:
     Type: AWS::S3::Bucket
+    DependsOn: MyS3Bucket1
     Properties:
       BucketName: !Sub 'lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}'
       AccessControl: PublicRead
