@@ -240,3 +240,12 @@ def get_file():
     urllib.request.urlretrieve(url, file_path)
     return file_path
 ```
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar función Lambda
+#Eliminar bucket S3
+```
