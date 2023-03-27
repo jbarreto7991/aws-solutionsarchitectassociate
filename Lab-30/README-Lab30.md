@@ -22,6 +22,8 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
 
+<br>
+
 2. Ejecutar los siguientes comandos en Cloud9
 
 ```bash
@@ -147,6 +149,8 @@ TREEHASH=a78d89ed7938c9f975a3912ed983dc7e52946ac63df2e3e713cbc5d0e6b30366
 echo $TREEHASH
 ```
 
+<br>
+
 10. Completar la carga hacia AWS S3 Glacier usando el comando "complete-multipart-upload"
 
 ```bash
@@ -168,6 +172,16 @@ aws glacier complete-multipart-upload --checksum $TREEHASH --archive-size 314572
 ```bash
 #Comando AWSCLI
 aws glacier describe-vault --account-id - --vault-name aws-solutionsarchitectassociate
+
+#Respuesta
+{
+    "VaultARN": "arn:aws:glacier:us-east-1:068242378542:vaults/aws-solutionsarchitectassociate",
+    "VaultName": "aws-solutionsarchitectassociate",
+    "CreationDate": "XXXX-XX-XXTXX:XX:XX.XXXZ",
+    "LastInventoryDate": "XXXX-XX-XXTXX:XX:XX.XXXZ",
+    "NumberOfArchives": 1,
+    "SizeInBytes": 3178496
+}
 ```
 
 <br>
@@ -176,9 +190,23 @@ aws glacier describe-vault --account-id - --vault-name aws-solutionsarchitectass
 
 <br>
 
+<img src="images/Lab30_02.jpg">
+
+<br>
+
 12. Eliminar los archivos fragmentados y hash que se generaron
 
 ```bash
 #Comando
 rm chunk* hash*
+```
+
+<br>
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar Cloud9
 ```
