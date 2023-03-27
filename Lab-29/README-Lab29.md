@@ -50,7 +50,7 @@ aws cloudformation create-stack --stack-name lab29-s3-cors --template-body file:
 
 <br>
 
-6. Movemos todos los archivos que se encuentran en la carpeta Lab-29/code/lab29-s3-cors/ al bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}".
+6. Movemos todos los archivos que se encuentran en la carpeta Lab-29/code/lab29-s3-cors/ al bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" (Bucket 01).
 
 ```bash
 cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
@@ -65,7 +65,7 @@ aws s3 sync . s3://$BUCKET --include "*.html" --exclude "index2.html"
 
 <br>
 
-7. Ingresamos al servicio S3, a la propiedad "Static WebSite Hosting" del bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" y validamos la carga de nuestra aplicación.
+7. Ingresamos al servicio S3, a la propiedad "Static WebSite Hosting" del bucket "lab29-aws-solutionsarchitectassociate-bucket1-${AWS::AccountId}" (Bucket 01) y validamos la carga de nuestra aplicación. La página "index.html" invoca a la página "loadpage.html", ambas páginas se encuentran momentaneamente en el mismo bucket (Bucket 01)
 
 <br>
 
@@ -97,7 +97,7 @@ echo $BUCKET
 cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
 rm index.html
 mv index2.html index.html
-BUCKET=$(aws s3 ls | sort -r | awk 'NR ==1 { print $3 }')
+BUCKET=$(aws s3 ls | sort -r | awk 'NR ==2 { print $3 }')
 echo $BUCKET
 aws s3 cp index.html s3://$BUCKET
 ```
@@ -108,7 +108,7 @@ aws s3 cp index.html s3://$BUCKET
 <br>
 
 
-11. Con el objeto de asegurarnos que la lectura del archivo "loadpage.html" sea desde el segundo bucket, eliminamos el archivo "loadpage.html" del primer bucket S3 y subimos este al segundo bucket "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Inspeccionamos nuestra página y encontraremos problemas relacionados a CORS.
+11. Con el objeto de asegurarnos que la lectura del archivo "loadpage.html" sea desde el segundo bucket, eliminamos el archivo "loadpage.html" del primer bucket S3 y subimos este archivo al segundo bucket "lab29-aws-solutionsarchitectassociate-bucket2-${AWS::AccountId}". Inspeccionamos nuestra página y encontraremos problemas relacionados a CORS.
 
 ```bash
 cd ~/environment/aws-solutionsarchitectassociate/Lab-29/code/lab29-s3-cors/
@@ -130,7 +130,8 @@ aws s3 cp loadpage.html s3://$BUCKET
 
 <br>
 
-12. Accedemos al "Bucket 02" y agregamos la siguiente política CORS. Reemplazamos el valor BUCKET_STATICWEBSITE_HOSTING_ORIGIN por la URL generada por AWS en la sección "Static Website Hosting" (del "Bucket 02"). No debe ir un "/" al final de esta URL.
+
+12. Accedemos al "Bucket 02" y agregamos la siguiente política CORS. Reemplazamos el valor BUCKET_STATICWEBSITE_HOSTING_ORIGIN por la URL generada por AWS en la sección "Static Website Hosting" (del "Bucket 02"). No debe ir un "/" al final de esta URL. Si usamos el código de la sección "Ejemplo" reemplazar el valor "AAAAAAAAAAAA" por el "Account ID"
 
 ```bash
 #Plantilla
@@ -159,12 +160,19 @@ aws s3 cp loadpage.html s3://$BUCKET
         "MaxAgeSeconds": 3000
     }
 ]
-
 ```
 
 <br>
 
-13. Volvemos a cargar nuestra aplicación. Nuestra aplicación carga correctamente nuevamente.
+<img src="images/Lab29_07.jpg">
+
+<br>
+
+<img src="images/Lab29_08.jpg">
+
+<br>
+
+13. Volvemos a cargar nuestra aplicación. Nuestra aplicación cargará correctamente nuevamente.
 
 <br>
 
@@ -178,5 +186,6 @@ aws s3 cp loadpage.html s3://$BUCKET
 
 ```bash
 #Eliminar objetos almacenados en los Buckets S3
+aws cloudformation delete-stack --stack-name lab29-s3-cors
 #Eliminar Buckets S3
 ```
