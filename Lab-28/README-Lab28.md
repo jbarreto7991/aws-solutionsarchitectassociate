@@ -247,5 +247,5 @@ def get_file():
 
 ```bash
 #Eliminar función Lambda
-#Eliminar bucket S3
+#Eliminar bucket S3 y contenido
 ```
