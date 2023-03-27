@@ -23,6 +23,8 @@
 
 1. Acceder al servicio AWS Cloud9 y generar un nuevo (o encender nuestro) ambiente de trabajo (Ubuntu 18.04 LTS)
 
+<br>
+
 2. Ejecutar los siguinentes comandos en nuestro Cloud9
 
 ```bash
@@ -31,13 +33,17 @@ sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
+<br>
+
 3. Acceder al laboratorio 31 (Lab-31), carpeta "code". Validar que se cuenta con la plantilla de cloudformation "1_lab31-s3-glue.yaml".
+
+<br>
 
 4. Desplegar la respectiva plantilla CloudFormation ejecutando AWSCLI.
 
 <br>
 
-5. **1_lab31-s3-glue.yaml** Esta plantilla no contiene parámetros de despliegue. Después del despliegue, analizar los recursos aprovisionados: dos buckets S3 (uno para ser usado por el Crawler de Glue y el otro para ser usado por Athena) y el AWS Glue Database "lab31-glue-database".
+5. **1_lab31-s3-glue.yaml** Esta plantilla no contiene parámetros de despliegue. Después del despliegue, analizar los recursos aprovisionados: dos buckets S3 (uno para ser usado por el Crawler de Glue y el otro para ser usado por Athena) y el recurso "AWS Glue Database" "lab31-glue-database".
 
 ```bash
 aws cloudformation create-stack --stack-name lab31-s3-glue --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-31/code/1_lab31-s3-glue.yaml --capabilities CAPABILITY_IAM
@@ -45,7 +51,7 @@ aws cloudformation create-stack --stack-name lab31-s3-glue --template-body file:
 
 <br>
 
-6. Descargar el siguiente archivo ("tripdata.csv") en nuestro Cloud9 enviroment y cargar el archivo al bucket S3 "lab31-aws-solutionsarchitectassociate-s3". Analizar el contenido del archivo (valores y tipo de datos por cada columna).
+6. Descargar el siguiente archivo ("tripdata.csv") en nuestro Cloud9 enviroment y cargar el archivo al bucket S3 "lab31-aws-solutionsarchitectassociate-s3-${Account_ID}". Analizar el contenido del archivo (valores y tipo de datos por cada columna).
 
 ```bash
 #Descarga de archivo de prueba
@@ -65,7 +71,9 @@ aws s3 cp tripdata.csv s3://$BUCKET
 <br>
 
 7. Ingresar al servicio AWS Glue y analizar las siguientes secciones:
+
     * Sección "Data catalog - Databases"
+    * Sección "Data catalog - Databases - Tables"
     * Sección "Data catalog - Crawlers"
 
 <br>
@@ -75,6 +83,10 @@ aws s3 cp tripdata.csv s3://$BUCKET
 <br>
 
 <img src="images/Lab31_02.jpg">
+
+<br>
+
+<img src="images/Lab31_11.jpg">
 
 <br>
 
@@ -94,7 +106,6 @@ aws s3 cp tripdata.csv s3://$BUCKET
 9. Ir a la sección  "Data catalog - Databases - Tables". Validar la creación de la tabla "lab31-glue-crawler-lab31_aws_solutionsarchitectassociate_s3". Accedemos al detalle de la tabla. Visualizamos los siguientes valores:
 
     * Location: s3://lab31-aws-solutionsarchitectassociate-s3-AAAAAAAAAAAA/
-    * Connection: s3://lab31-aws-solutionsarchitectassociate-s3-AAAAAAAAAAAA/
     * Input format: org.apache.hadoop.mapred.TextInputFormat
     * Output format: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
     * Serde serialization lib: org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe
@@ -112,7 +123,7 @@ aws s3 cp tripdata.csv s3://$BUCKET
 
 <br>
 
-10. Ir al servicio "Athena". Luego accedemos a la opción "Settings" y damos clic en la opción "Manage". Configuramos como Bucket destino el bucket "lab31-aws-solutionsarchitectassociate-athena". Dar clic en el botón "Save".
+10. Ir al servicio "Athena". Luego accedemos a la opción "Settings" y damos clic en la opción "Manage". Configuramos como Bucket destino el bucket "lab31-aws-solutionsarchitectassociate-athena". Dar clic en el botón "Save". La plantilla CloudFormation desplegada en este laboratorio aprovision el bucket "lab31-aws-solutionsarchitectassociate-athena-AAAAAAAAAAAA". Seleccionar este bucket como destino de Athena.
 
 <br>
 
@@ -132,7 +143,8 @@ aws s3 cp tripdata.csv s3://$BUCKET
 
 <br>
 
-12. Si ingresamos al contenido del bucket "lab31-glue-crawler-lab31-aws-solutionsarchitectassociate_s3_AAAAAAAAAAAA" (bucket repositorio de Athena) podremos visualizar que se han generado dos archivos:
+12. Si ingresamos al contenido del bucket "lab31-aws-solutionsarchitectassociate-athena-AAAAAAAAAAAA" (bucket repositorio de Athena) podremos visualizar que se han generado dos archivos:
+
  * 9c311fde-fa3c-484d-8949-fd22740f0cba.csv
  * 9c311fde-fa3c-484d-8949-fd22740f0cba.csv.metadata
 
@@ -158,4 +170,13 @@ aws s3 cp tripdata.csv s3://$BUCKET
 "1036","""2013-06-27 13:06:49""","""2013-06-27 13:24:05""","151","""Cleveland Pl & Spring St""","40.722103786686034","-73.99724900722504","326","""E 11 St & 1 Ave""","40.72953837","-73.98426726","17251","""Customer""",,"0"
 "354","""2013-06-27 13:07:27""","""2013-06-27 13:13:21""","224","""Spruce St & Nassau St""","40.71146364","-74.00552427","415","""Pearl St & Hanover Square""","40.7047177","-74.00926027","16011","""Subscriber""","1985","1"
 
+```
+
+
+### Eliminación de recursos
+
+```bash
+#Eliminar objetos almacenados en los Buckets S3
+aws cloudformation delete-stack --stack-name lab31-s3-glue
+#Eliminar Buckets S3
 ```

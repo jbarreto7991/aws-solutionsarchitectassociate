@@ -37,6 +37,7 @@ Resources:
  
   MyS3BucketGlue:
     Type: AWS::S3::Bucket
+    DependsOn: MyS3BucketAthena
     Properties:
       BucketName: !Sub 'lab31-aws-solutionsarchitectassociate-s3-${AWS::AccountId}'
       
