@@ -29,7 +29,7 @@
 
 <br>
 
-3. Ejecutar los siguinentes comandos en nuestro Cloud9
+3. Ejecutar los siguientes comandos en nuestro Cloud9
 
 ```bash
 #Ubuntu 18.04
