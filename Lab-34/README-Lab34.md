@@ -37,7 +37,7 @@
 
 <br>
 
-3. En la sección "Settings", ingresamos el siguiente valor en el campo "DB instance identifier". Dejamos los otros valores tal como han sido cargados, luego damos clic en "Create read replica". Esperamos unos minutos mientras la instancia de lectura de base de datos se aprovisiona.
+3. En la nueva ventana cargada, nos dirigimos a la sección "Settings", ingresamos el siguiente valor en el campo "DB instance identifier". Dejamos los otros valores tal como han sido cargados, luego damos clic en "Create read replica". Esperamos unos minutos mientras la instancia de lectura de base de datos se aprovisiona.
 
     * DB instance identifier: readreplica
 
@@ -63,10 +63,12 @@
 
 ```bash
 nano /opt/aws-solutionsarchitectassociate/App/backend/.env
+#Reemplazar Endpoint RDS Read Replica obtenido en el paso anterior en la variable "DB_URI"
 cd /opt/aws-solutionsarchitectassociate/App/backend/
 sudo lsof -t -i:80
 #El comando anterior resolverá un ID
 kill -9 $ID
+sudo lsof -t -i:80
 npm start &
 ```
 
@@ -77,7 +79,7 @@ npm start &
 <br>
 
 
-6. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validamos la carga de nuestra aplicación. Generamos un nuevo registro. Se valida que se muestra el siguiente mensaje:
+6. Accedemos a la URL (Bucket website endpoint) de la propiedad "Static website hosting" del bucket S3. Validamos la carga de nuestra aplicación. Generamos un nuevo registro. Se valida que se muestra el mensaje "sqlMessage: The MySQL server is running with the --read-only option so it cannot execute this statement" a nivel de System Manager - Session Manager y a nivel de Navegador Web
 
 ```bash
  "{"status":500,"message":"Internal Server Error","stack":{"code":"ER_OPTION_PREVENTS_STATEMENT","errno":1290,"sqlMessage":"The MySQL server is running with the --read-only option so it cannot execute this statement","sqlState":"HY000","index":0,"sql":"INSERT INTO tasks(name,description) VALUES('Task 02','Description 02')"}}"
