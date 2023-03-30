@@ -21,19 +21,35 @@
 
 <br>
 
-1. Desde la consola de SQS, crear una cola SQS FIFO. Ejecutar los siguientes pasos:
- - Dar clic en "Create SQS"
- - Type: FIFO
- - Name: MyFirstQueue.fifo
- - Configuration:
-    - Visibility timeout: 10
- - Content-based deduplication: Enable
- - Deduplication scope: Queue
- - Encryption: Por defecto
- - Access Policy: Por defecto
- - Redrive allow policy: Por defecto
- - Dead-letter queue: Por defecto
- - Dar clic en "Create SQS"
+1. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
+
+<br>
+
+2. Ejecutar los siguientes comandos en nuestro Cloud9
+
+```bash
+#Ubuntu 18.04
+sudo apt-get update
+sudo apt-get install jq -y
+```
+
+<br>
+
+3. Desde la consola de SQS, crear una cola SQS FIFO. Ejecutar los siguientes pasos:
+
+    - Dar clic en "Create SQS"
+    - Type: FIFO
+    - Name: MyFirstQueue.fifo
+    - Configuration:
+        - Visibility timeout: 10
+    - Content-based deduplication: Enable
+    - Deduplication scope: Queue
+    - FIFO throughput limit: Per queue
+    - Encryption: Por defecto
+    - Access Policy: Por defecto
+    - Redrive allow policy: Por defecto
+    - Dead-letter queue: Por defecto
+    - Dar clic en "Create SQS"
 
 <br>
 
@@ -45,17 +61,17 @@
 
 <br>
 
-2. Desde la consola de SQS, acceder a la cola SQS "MyFirstQueue.fifo". Analizar los atributos de la cola SQS FIFO.
+4. Desde la consola de SQS, acceder a la cola SQS "MyFirstQueue.fifo". Analizar los atributos de la cola SQS FIFO.
 
 <br>
 
-3. Desde la instancia EC2 generada a través del template de CloudFormation setear las siguientes variables para la cola SQS FIFO
+5. Desde Cloud9, setear las siguientes variables para la cola SQS FIFO
 
 ```bash
 #Comando
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]'
-QUEUEFIFO_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==2{print $1}')
+QUEUEFIFO_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==1{print $1}')
 echo $QUEUEFIFO_URL
 
 #Configuración de VisibilityTimeout en 10
@@ -64,7 +80,7 @@ aws sqs set-queue-attributes --queue-url $QUEUEFIFO_URL --attributes '{"Visibili
 
 <br>
 
-4. Enviar los siguientes mensajes a la cola FIFO. 
+6. Enviar los siguientes mensajes a la cola FIFO. 
 
 ```bash
 #Comando
@@ -101,7 +117,7 @@ aws sqs send-message --queue-url $QUEUEFIFO_URL --message-body "Message FIFO 4" 
 
 <br>
 
-5. Para validar el contenido de los mensajes, ejecutar el siguiente comando. En este ejemplo, se visualiza el mensaje "Message FIFO 1" que fue el primer mensaje a entrar en la cola SQS FIFO.
+7. Para validar el contenido de los mensajes, ejecutar el siguiente comando. En este ejemplo, se visualiza el mensaje "Message FIFO 1" que fue el primer mensaje a entrar en la cola SQS FIFO.
 
 ```bash
 #Comando
@@ -122,7 +138,7 @@ aws sqs receive-message --queue-url $QUEUEFIFO_URL --region $REGION
 
 <br>
 
-6. Esperar por lo menos 10 segundos (tiempo configurado en el campo "Visibility timeout"). Ejecutar los siguientes comandos. Ejecutar los siguientes comandos. Estos comandos tienen por objetivo consumir el contenido del mensaje y borrarlo de la cola. Después de ejecutar estos mensajes se podrá consumir el contenido del segundo mensaje.
+8. Esperar por lo menos 10 segundos (tiempo configurado en el campo "Visibility timeout"). Ejecutar los siguientes comandos. Ejecutar los siguientes comandos. Estos comandos tienen por objetivo consumir el contenido del mensaje y borrarlo de la cola. Después de ejecutar estos comandos se podrá consumir el contenido del segundo mensaje.
 
 ```bash
 #Comando
@@ -133,7 +149,7 @@ aws sqs delete-message --queue-url $QUEUEFIFO_URL --region $REGION --receipt-han
 
 <br>
 
-7. Repetir los pasos 5 y 6. Analizar los resultados. Visualizaremos el consumo de los mensajes según su orden de ingreso: "Message FIFO 1", "Message FIFO 2", "Message FIFO 3" y "Message FIFO 4"
+9. Repetir los pasos 7 y 8. Analizar los resultados. Visualizaremos el consumo de los mensajes según su orden de ingreso: "Message FIFO 1", "Message FIFO 2", "Message FIFO 3" y "Message FIFO 4"
 
 <br>
 
@@ -142,7 +158,19 @@ aws sqs delete-message --queue-url $QUEUEFIFO_URL --region $REGION --receipt-han
 
 <br>
 
-8. Desde la instancia EC2 generada a través del template de CloudFormation setear las siguientes variables para la cola SQS Standard.
+10. Acceder al servicio SQS y creamos una cola Standard SQS ingresando/seleccionando los siguientes valores. Considerar por defecto los otros valores.
+
+    * Type: Standard
+    * Name: MyFirstQueue
+
+<br>
+
+<img src="images/Lab43_03.jpg">
+
+<br>
+
+
+11. Desde Cloud9, setear las siguientes variables para la cola SQS Standard.
 
 ```bash
 #Comando
@@ -157,7 +185,7 @@ aws sqs set-queue-attributes --queue-url $QUEUE_URL --attributes '{"VisibilityTi
 
 <br>
 
-9. Enviar los siguientes mensajes a la cola Standar. 
+12. Enviar los siguientes mensajes a la cola Standar. 
 
 ```bash
 #Comando
@@ -169,7 +197,7 @@ aws sqs send-message --queue-url $QUEUE_URL --message-body "Message Standard 4" 
 
 <br>
 
-10. Para validar el contenido de los mensajes, ejecutar el siguiente comando. En este ejemplo, se visualiza el mensaje "Message Standard 3" que fue el tercer mensaje a entrar en la cola SQS Standard.
+13. Para validar el contenido de los mensajes, ejecutar el siguiente comando. En este ejemplo, se visualiza el mensaje "Message Standard 3" que fue el tercer mensaje a entrar en la cola SQS Standard.
 
 ```bash
 #Comando
@@ -190,7 +218,7 @@ aws sqs receive-message --queue-url $QUEUE_URL --region $REGION
 
 <br>
 
-11. Esperar por lo menos 10 segundos (tiempo configurado en el campo "Visibility timeout"). Ejecutar los siguientes comandos. Estos comandos tienen por objetivo consumir el contenido del mensaje y borrarlo de la cola. Después de ejecutar estos mensajes se podrá consumir el contenido del segundo mensaje.
+14. Esperar por lo menos 10 segundos (tiempo configurado en el campo "Visibility timeout"). Ejecutar los siguientes comandos. Estos comandos tienen por objetivo consumir el contenido del mensaje y borrarlo de la cola. Después de ejecutar estos mensajes se podrá consumir el contenido del segundo mensaje.
 
 ```bash
 #Comando
@@ -201,16 +229,9 @@ aws sqs delete-message --queue-url $QUEUE_URL --region $REGION --receipt-handle 
 
 <br>
 
-12. Repetir los pasos 10 y 11. Analizar los resultados. Visualizaremos el consumo de los mensajes no según su orden de ingreso (desorden). Este comportamiento es propio de las colas SQS Standard.
+15. Repetir los pasos 13 y 14. Analizar los resultados. Visualizaremos el consumo de los mensajes no según su orden de ingreso (desorden). Este comportamiento es propio de las colas SQS Standard.
 
 <br>
-
-13. Al finalizar los laboratorios de SQS eliminar los siguientes recursos:
- - Cola SQS "MyFirstQueue"
- - Cola SQS "MyFirstQueueDLQ"
- - Cola SQS "MyFirstQueue.fifo"
- - Stack de CloudFormation
-
 
 ---
 
