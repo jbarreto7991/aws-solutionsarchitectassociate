@@ -379,3 +379,13 @@ tail -f /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
 <img src="images/Lab37_21.jpg">
 
 <br>
+
+---
+
+### Eliminación de recursos
+
+<br>
+
+```bash
+aws cloudformation delete-stack --stack-name 1_lab37_cloudwatch-agent --region us-east-1
+```
