@@ -9,7 +9,7 @@
 * Application Integration
 
 ### Dependencias:
-* Implementación del Laboratorio 40
+* Implementación del Laboratorio 41
 
 <br>
 
@@ -21,7 +21,7 @@
 <br>
 
 
-1. Después de ejecutar el laboratorio Lab-40, procedemos a identificar la URL de la cola SQS aprovisionada. Ejecutamos el siguiente comando en la instancia EC2. Nos conectamos a ella a través de "System Manager - Session Manager".
+1. Después de ejecutar el laboratorio Lab-41, procedemos a identificar la URL de la cola SQS aprovisionada. Ejecutamos el siguiente comando en Cloud9
 
 ```bash
 #Comando
@@ -65,18 +65,18 @@ https://queue.amazonaws.com/XXXXXXXXXXXX/MyFirstQueue
 
 <br>
 
-4. Desde la instancia EC2 generada a través del template de CloudFormation setear las siguientes variables:
+4. Desde Cloud9 setear las siguientes variables. El endpoint de "MyFirstQueue" será seteado en la variable "QUEUE_URL"
 
 ```bash
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]'
-QUEUE_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==1{print $1}')
+QUEUE_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==2{print $1}')
 echo $QUEUE_URL
 ```
 
 <br>
 
-5. (Paso opcional). Validar que la cola SQS "MyFirstQueue" aún contiene 1 mensaje disponible, de no ser así generar 1 mensaje con el siguiente comando:
+5. (Paso opcional). Desde la consola, validar que la cola SQS "MyFirstQueue" aún contiene 1 mensaje disponible (Message available), de no ser así generar 1 mensaje con el siguiente comando:
 
 ```bash
 #Comando
@@ -91,7 +91,7 @@ aws sqs send-message --queue-url $QUEUE_URL --message-body "Message 1" --region 
 
 <br>
 
-6. (Paso opcional). Validar que la cola SQS "MyFirstQueue" tenga configurado como parámetros el valor de "0" en el campo "Receive message wait time", de no ser así usar los siguientes comandos.
+6. (Paso opcional). Validar que la cola SQS "MyFirstQueue" tenga configurado como parámetros el valor de "0" en el campo "Receive message wait time", de no ser así usar los siguientes comandos. El primer comando listará las propiedades de la cola SQS. El segundo comando realizará la modificación de "ReceiveMessageWaitTimeSeconds" a "0".
 
 ```bash
 #Comando
@@ -120,7 +120,7 @@ aws sqs set-queue-attributes --queue-url $QUEUE_URL --region $REGION --attribute
 
 <br>
 
-7. (Paso opcional). Validar que la cola SQS "MyFirstQueue" tenga configurado como parámetros el valor de "10" en el campo "Default visibility timeout", de no ser así usar los siguientes comandos.
+7. (Paso opcional). Validar que la cola SQS "MyFirstQueue" tenga configurado como parámetros el valor de "10" en el campo "Default visibility timeout", de no ser así usar los siguientes comandos. El primer comando listará las propiedades de la cola SQS. El segundo comando realizará la modificación de "VisibilityTimeout" a "10".
 
 ```bash
 #Comando
@@ -149,7 +149,7 @@ aws sqs set-queue-attributes --queue-url $QUEUE_URL --attributes '{"VisibilityTi
 
 <br>
 
-8. Consumir la cola SQS "MyFirstQueue" 3 veces a través de los siguientes comandos. Esperar 15 segundos entre la ejecución de cada comando. Se validará a través de la consola SQS que la cola "MyFirstQueueDLQ" presenta con
+8. Consumir la cola SQS "MyFirstQueue" a través de los siguientes comandos. Finalizada la ejecución de los comandos, validaremos a través de la consola SQS que la cola "MyFirstQueueDLQ" presenta 1 mensaje disponible ("Messages available")
 
 ```bash
 #Comando
@@ -171,12 +171,12 @@ aws sqs receive-message --queue-url $QUEUE_URL --region $REGION
 <br>
 
 
-9. Consumir la cola SQS "MyFirstQueueDLQ"
+9. Consumir la cola SQS "MyFirstQueueDLQ". El tratamiento de una cola DLQ o no es idéntica.
 
 ```bash
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/\(.*\)[a-z]/\1/')
 aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]'
-QUEUEDLQ_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==2{print $1}')
+QUEUEDLQ_URL=$(aws sqs list-queues --region $REGION | jq -r '.QueueUrls[]' | awk 'NR==1{print $1}')
 echo $QUEUEDLQ_URL
 
 aws sqs receive-message --queue-url $QUEUEDLQ_URL --region $REGION
@@ -188,3 +188,11 @@ aws sqs receive-message --queue-url $QUEUEDLQ_URL --region $REGION
 
 <br>
 
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar Cola SQS "MyFirstQueue"
+#Eliminar Cola SQS "MyFirstQueueDLQ"
+```
