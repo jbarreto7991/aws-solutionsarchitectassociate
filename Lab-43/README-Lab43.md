@@ -10,7 +10,7 @@
 * Application Integration
 
 ### Dependencias:
-* Implementación del Laboratorio 40
+* Ninguna
 
 <br>
 
@@ -211,3 +211,12 @@ aws sqs delete-message --queue-url $QUEUE_URL --region $REGION --receipt-handle 
  - Cola SQS "MyFirstQueue.fifo"
  - Stack de CloudFormation
 
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar Cola SQS "MyFirstQueue"
+#Eliminar Cola SQS "MyFirstQueueDLQ"
+```

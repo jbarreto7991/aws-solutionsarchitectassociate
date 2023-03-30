@@ -30,7 +30,6 @@
 #Ubuntu 18.04
 sudo apt-get update
 sudo apt-get install jq -y
-git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
 <br>
