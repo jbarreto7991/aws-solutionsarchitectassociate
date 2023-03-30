@@ -13,6 +13,8 @@
 
 <br>
 
+### Referencia:
+ * https://github.com/Einsteinish/aws-sqs-node-js-example
 
 ---
 
