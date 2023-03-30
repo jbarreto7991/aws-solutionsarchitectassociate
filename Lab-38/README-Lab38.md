@@ -352,6 +352,8 @@ def lambda_handler(event, context):
 
 ```bash
 aws cloudformation delete-stack --stack-name 1_lab38-ec2-tags --region us-east-1
+#Eliminar Role "lab38_ec2_start_stop"
+#Eliminar Lambda "lab38_ec2_start_stop"
 ```
 
 
