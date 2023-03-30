@@ -269,10 +269,6 @@ def lambda_handler(event, context):
 
 <br>
 
-<img src="images/Lab38_16.jpg">
-
-<br>
-
 <img src="images/Lab38_17.jpg">
 
 <br>
@@ -293,7 +289,7 @@ def lambda_handler(event, context):
 
 <br>
 
-15. Accedemos al features de "CloudWatch Events Rules" y damos clic en el botón "Create Rule". Consideramos las siguientes configuraciones.
+15. Accedemos al features de "CloudWatch Events Rules" (existe la posibilidad que al ingresar a este features seamos redireccionados a "Event Bridge". De ser así, regresar a "CloudWatch Events Rules". Se usará directamente "Event Bridge" en los siguientes laboratorios). Damos clic en el botón "Create Rule". Consideramos las siguientes configuraciones.
 
 
 	* Event Sources
@@ -348,8 +344,15 @@ def lambda_handler(event, context):
 
 <br>
 
+---
 
+### Eliminación de recursos
 
+<br>
+
+```bash
+aws cloudformation delete-stack --stack-name 1_lab38-ec2-tags --region us-east-1
+```
 
 
 
