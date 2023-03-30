@@ -197,6 +197,11 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 55: Custom IAM Policies** [README-Lab55.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-55/README-Lab55.md)
 * Accesos de usuarios IAM a determinados buckets S3 usando Custom IAM Policies
 
+#### **Laboratorio 56: Custom IAM Policies** [README-Lab56.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-56/README-Lab56.md)
+* Aprovisionamiento de una instancia RDS Aurora usando Secrets Manager como generador de credenciales
+
+
+
 
 
 
