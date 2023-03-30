@@ -28,7 +28,8 @@ Mappings:
 
   RegionAndInstanceEC2TypeToAMIID: 
     us-east-1: 
-      "HVM64": "ami-02fe94dee086c0c37"
+      "HVM64": "ami-0263e4deb427da90e"
+      #"HVM64": "ami-02fe94dee086c0c37"
 
   RegionAndAvailabilityZoneToSubnet: 
     us-east-1: 

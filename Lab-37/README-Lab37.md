@@ -222,7 +222,7 @@ service amazon-cloudwatch-agent status
 <br>
 
 
-13. Seleccionamos el registro y damos clic en la opción "Output". Obtenemos el siguiente mensaje. El mensaje indica que el "Agente Unificado" CloudWatch ha sido encendido correctamente desde "System Manager - Paramter Store"
+13. Seleccionamos el registro y damos clic en la opción "Output". Obtenemos el siguiente mensaje. El mensaje indica que el "Agente Unificado" CloudWatch ha sido encendido correctamente desde "System Manager - Paramater Store"
 
 <br>
 
