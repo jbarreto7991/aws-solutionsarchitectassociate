@@ -9,7 +9,7 @@
 * Application Integration
 
 ### Dependencias:
-* Implementación del Laboratorio 40
+* Ninguna
 
 <br>
 
@@ -20,8 +20,37 @@
 
 <br>
 
+1. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
 
-1. Después de ejecutar el laboratorio Lab-40, procedemos a identificar la URL de la cola SQS aprovisionada. Ejecutamos el siguiente comando en la instancia EC2. Nos conectamos a ella a través de "System Manager - Session Manager".
+<br>
+
+2. Ejecutar los siguientes comandos en nuestro Cloud9
+
+```bash
+#Ubuntu 18.04
+sudo apt-get update
+sudo apt-get install jq -y
+git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
+```
+
+<br>
+
+3. Accedemos al servicio SQS y creamos una cola Standard SQS ingresando/seleccionando los siguientes valores. Considerar por defecto los otros valores.
+
+    * Type: Standard
+    * Name: MyFirstQueue
+
+<br>
+
+<img src="images/Lab41_06.jpg">
+
+<br>
+
+<img src="images/Lab41_07.jpg">
+
+<br>
+
+4. Accedemos a Cloud9 y procedemos a identificar la URL de la cola SQS aprovisionada a través del siguiente comando
 
 ```bash
 #Comando
@@ -34,7 +63,9 @@ echo $QUEUE_URL
 https://queue.amazonaws.com/XXXXXXXXXXXX/MyFirstQueue
 ```
 
-2. Desde la consola de AWS, visualizamos el valor del campo "Default visibility timeout" en el servicio SQS. Se visualizará el valor de "30 Seconds"
+<br>
+
+5. Desde la consola de AWS, visualizamos el valor del campo "Default visibility timeout" en el servicio SQS. Se visualizará el valor de "30 Seconds"
 
 <br>
 
@@ -46,14 +77,16 @@ https://queue.amazonaws.com/XXXXXXXXXXXX/MyFirstQueue
 
 <br>
 
-3. Desde la instancia EC2, modificamos el valor del campo "Default visibility timeout" a través del siguiente comando.
+6. Desde Cloud9, modificamos el valor del campo "Default visibility timeout" a través del siguiente comando.
 
 ```bash
 #Comando
 aws sqs set-queue-attributes --queue-url $QUEUE_URL --attributes '{"VisibilityTimeout": "10"}' --region $REGION
 ```
 
-4. Desde la consola de AWS, visualizamos el nuevo valor del campo "Default visibility timeout" en el servicio de SQS. Se visualizará el valor de "10 Seconds". Es posible validar el mismo valor a través del siguiente comando de AWSCLI, visualizando el campo "VisibilityTimeout".
+<br>
+
+7. Desde la consola de AWS, visualizamos el nuevo valor del campo "Default visibility timeout" en el servicio de SQS. Se visualizará el valor de "10 Seconds". Es posible validar el mismo valor a través del siguiente comando de AWSCLI, visualizando el campo "VisibilityTimeout".
 
 ```bash
 #Comando
@@ -85,7 +118,7 @@ aws sqs get-queue-attributes --queue-url $QUEUE_URL --region $REGION --attribute
 <br>
 
 
-5. Desde la consola de AWS, visualizamos el valor del campo "Receive message wait time". Tendrá un valor de "0 Seconds" (**Short Polling**). Es posible validar el mismo valor a través del siguiente comando de AWSCLI.
+8. Desde la consola de AWS, visualizamos el valor del campo "Receive message wait time". Tendrá un valor de "0 Seconds" (**Short Polling**). Es posible validar el mismo valor a través del siguiente comando de AWSCLI.
 
 ```bash
 #Comando
@@ -98,7 +131,7 @@ aws sqs get-queue-attributes --queue-url $QUEUE_URL --region $REGION --attribute
 
 <br>
 
-6. Desde la instancia EC2, enviamos el mensaje "Message 1" a la cola SQS (a través del comando awscli "send-message") y consumimos el mensaje 3 veces (a través del comando "receive-message").
+9. Desde Cloud9, enviamos el mensaje "Message 1" a la cola SQS (a través del comando awscli "send-message") y consumimos el mensaje 3 veces (a través del comando "receive-message").
 
 ```bash
 #Comandos
@@ -129,7 +162,9 @@ root@ip-172-31-11-147:/home/ubuntu# aws sqs receive-message --queue-url $QUEUE_U
 root@ip-172-31-11-147:/home/ubuntu#
 ```
 
-7. Configuramos el campo "Receive message wait time" en "20 Seconds" a través del siguiente comando:
+<br>
+
+10. Configuramos el campo "Receive message wait time" en "20 Seconds" a través del siguiente comando:
 
 ```bash
 #Comando
@@ -137,7 +172,7 @@ aws sqs set-queue-attributes --queue-url $QUEUE_URL --region $REGION --attribute
 ```
 <br>
 
-8. Desde la consola de AWS, validar el cambio realizado en el campo "Receive message wait time". Tendrá un valor de "20 Seconds" (**Long Polling**). Es posible validar el mismo valor a través del siguiente comando de AWSCLI (observar campo "ReceiveMessageWaitTimeSeconds").
+11. Desde la consola de AWS, validar el cambio realizado en el campo "Receive message wait time". Tendrá un valor de "20 Seconds" (**Long Polling**). Es posible validar el mismo valor a través del siguiente comando de AWSCLI (observar campo "ReceiveMessageWaitTimeSeconds").
 
 ```bash
 #Comando
@@ -169,7 +204,7 @@ aws sqs get-queue-attributes --queue-url $QUEUE_URL --region $REGION --attribute
 <br>
 
 
-9. Desde la instancia EC2, ejecutar los siguientes comandos. Analizar la respuesta de la cola SQS con esta nueva configuración
+12. Desde Cloud9, ejecutar los siguientes comandos. Analizar la respuesta de la cola SQS con esta nueva configuración
 
 ```bash
 #Comando
@@ -223,4 +258,16 @@ root@ip-172-31-11-147:/home/ubuntu# aws sqs receive-message --queue-url $QUEUE_U
         }
     ]
 }
+```
+
+<br>
+
+13. Comparar los resultados de las configuraciones "Short Polling" and "Long Polling" en SQS
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar Cola SQS "MyFirstQueue"
 ```
