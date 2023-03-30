@@ -10,7 +10,7 @@
 * Application Integration
 
 ### Dependencias:
-* Ninguna
+* Ninguno
 
 <br>
 
