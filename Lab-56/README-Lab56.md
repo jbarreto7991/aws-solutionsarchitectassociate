@@ -12,6 +12,9 @@
 ### Dependencias:
 * Implementación del Laboratorio 33 ("1_lab33-vpc.yaml" y "3_lab33-ec2-s3.yaml")
 
+### Costo:
+* El uso de "RDS Aurora" no está dentro de la capa gratutita debido a que los tipos de instancias a usar no se encuentran dentro de la capa gratuita. En este laboratorio se hará uso de la instancia "db.t3.small" (MySQL). Precio por hora 0,041 USD. 
+
 <br>
 
 
