@@ -143,8 +143,8 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 #### **Laboratorio 39: Event Bridge, EC2 (cripto-mining), GuardDuty y SNS** [README-Lab39.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-39/README-Lab39.md)
 * Configuración de "Event Bridge (Rule with an event pattern)", "GuardDuty" y notificaciones "SNS" para identificación de amenazas en nuestra cuenta de AWS.
 
-#### **Laboratorio 40: SQS (create,list,send,receive,delete & purge)** [README-Lab40.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-40/README-Lab40.md)
-* Configuración y gestión a través de los métodos create, send, receive, y delete de una cola SQS usando el SDK de NodeJS
+#### **Laboratorio 40: SQS (create,list,send,receive y delete)** [README-Lab40.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-40/README-Lab40.md)
+* Configuración y gestión a través de los métodos create, list, send, receive, y delete de una cola SQS usando el SDK de Python (boto3) 
 
 #### **Laboratorio 41: SQS (Visibility Timeout, Short Polling & Long Polling)** [README-Lab41.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-41/README-Lab41.md)
 * Configuración de las propiedades "Visibility Timeout", "Long-polling" y "Short-polling" en una cola SQS 
