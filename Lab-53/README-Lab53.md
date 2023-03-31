@@ -78,3 +78,11 @@ http://aws-architect-solutions-$var.s3-website-us-east-1.amazonaws.com/
 <img src="images/Lab53_01.jpg">
 
 <br>
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar bucket S3
+```
