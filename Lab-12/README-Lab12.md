@@ -22,6 +22,8 @@
 
 1. Cada vez que consumimos la URL de nuestro navegador podemos visualizar un contenido diferente a nivel de datos de "EC2 Instances ID" y "Availability Zone"
 
+<br>
+
 2. Accedemos al target group creado previamente (tg-app). Luego, accedemos a la opción "Attributes" y damos clic en el botón "Edit"
 
 <br>
