@@ -73,6 +73,7 @@ aws kms create-key --description "KMS using awscli" --region us-east-1
 ```bash
 #Command
 aws kms create-alias --target-key-id $KEY_ID --alias-name "alias/aws-training" --region us-east-1
+
 #Command Example
 aws kms create-alias --target-key-id "a074f26a-320f-48e9-ae6f-9d7c813de297" --alias-name "alias/aws-training" --region us-east-1
 ```
@@ -85,6 +86,7 @@ aws kms create-alias --target-key-id "a074f26a-320f-48e9-ae6f-9d7c813de297" --al
 #Command
 echo "my password" >> message.txt
 aws kms encrypt --plaintext file://message.txt --key-id $ARN_KEY --output text --query CiphertextBlob --region us-east-1 | base64 --decode > message.encrypted
+
 #Command Example
 aws kms encrypt --plaintext file://message.txt --key-id arn:aws:kms:us-east-1:068242378542:key/a074f26a-320f-48e9-ae6f-9d7c813de297 --output text --query CiphertextBlob --region us-east-1 | base64 --decode > message.encrypted
 ```
@@ -237,3 +239,11 @@ diff password.txt password-decrypted.txt
 ```
 
 <br>
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar llave KMS "Customer managed keys" generada
+```
