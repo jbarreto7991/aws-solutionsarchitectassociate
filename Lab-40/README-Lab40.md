@@ -129,9 +129,12 @@ ac27571c-6af6-4638-b51b-a0e0ff729780
 #Comando
 queue = sqs.get_queue_by_name(QueueName='MyFirstQueue')
 for message in queue.receive_messages():
+ print(message)
  print(message.body)
 
 #Response
+sqs.Message(queue_url='https://queue.amazonaws.com/068242378542/MyFirstQueue', receipt_handle='AQEBvGIY3fS+3SWpmBQiwpu4La3IVTaCtXMab1pzddDtkfadiGCE2TyFiw3lYxoqwf1+0TOddEnOdHJlTm7GWsl4HDb6XsE5D90kF8kIhhQb0A6zmm4aclK1qUgSV/6qqyKdZY8PtqFmtvuCRSfGd7wbOy87je4iy6//MCFndAaAJEDwILm66RC3pE2Ii1dw+ZAoRcNLDog82I9CU1v9hCVcjm/kyXPgMtAhWorUZwzSIzUJ5LTX49AMAPQMdSiD6QWtUN+p29wn2kGzd6aN+k/9D5LFOSLMtMVra+u9Ojm9vuNy8tTAdgq2u0hV/aLlkz2zky1j0iFFVe9OoQDlOlWNEAxce5l2ecjUNHK2Jlj33kpVAQujnNupdXm3mex40p+F1U5T41NkSY0LAmlkxx5ccg==')
+
 AWS Solutions Architect
 ```
 
