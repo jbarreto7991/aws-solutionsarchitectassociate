@@ -80,9 +80,14 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')
     }
+```
 
+<br>
 
+```bash
 #Nuevo Código
+import json
+
 def lambda_handler(event, context):
     print(event)
     print(context)
@@ -193,3 +198,14 @@ LambdaContext([aws_request_id=dd44dd31-3123-4312-b971-c383651e77ef,log_group_nam
 
 12. Validamos que el mensaje enviado desde el tópico SNS ha sido recepción tanto por la cola SQS como por la función Lambda.
 
+<br>
+
+---
+
+### Eliminación de recursos
+
+```bash
+#Eliminar Tópico SNS "MyFirstTopic"
+#Eliminar Cola SQS "MyQueue"
+#Eliminar función Lambda "MyLambda"
+```
