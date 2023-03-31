@@ -22,7 +22,11 @@
 
 1. Debemos tener una llave Key Pair disponible. De no ser así, acceder al servicio EC2 y luego a la opción "Key Pair". Generar llave RSA y .pem 
 
+<br>
+
 2. Acceder al servicio AWS Cloud9 y generar un nuevo ambiente de trabajo (Ubuntu 18.04 LTS)
+
+<br>
 
 3. Ejecutar los siguinentes comandos en nuestro Cloud9
 
@@ -32,7 +36,11 @@ sudo apt-get update
 git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 ```
 
+<br>
+
 4. Acceder al laboratorio 11 (Lab-11), carpeta "code". Validar que se cuenta con dos archivos CloudFormation: "1_lab11-vpc.yaml" y "2_lab11-ec2.yaml"  Analizar el contenido de estos archivos.
+
+<br>
 
 5. Desplegar cada plantilla CloudFormation ejecutando AWSCLI. Considerar los parámetros a ser ingresados.
 
@@ -44,13 +52,19 @@ git clone https://github.com/jbarreto7991/aws-solutionsarchitectassociate.git
 aws cloudformation create-stack --stack-name lab11-vpc --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-11/code/1_lab11-vpc.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
+<br>
+
 7. **2_lab11-ec2.yaml**. En la sección "ParameterValue", ingresar el nombre del KeyPair creado en el paso 1. Esta plantilla creará dos instancias EC2 ubicados, uno de ellos, en la subnet privada AZ A y el otro en la subnet privada AZ B.
 
 ```bash
 aws cloudformation create-stack --stack-name lab11-ec2 --template-body file://~/environment/aws-solutionsarchitectassociate/Lab-11/code/2_lab11-ec2.yaml --parameters ParameterKey=KeyPair,ParameterValue="aws-solutionsarchitectassociate" --capabilities CAPABILITY_IAM
 ```
 
+<br>
+
 8. En el despliegue de recursos a través de CloudFormation se han generado 6 subnets: 2 subnets públicas (a ser usadas por el BALANCEADOR), 2 subnets privadas (donde han sido desplegado dos EC2 INSTANCES BACKEND) y otras 2 subnets privadas que actualmente no tiene uso, pero serán destinadas en los siguientes laboratorios para la base de datos.
+
+<br>
 
 9. Ingresamos al servicio EC2, luego al features "Target Groups". Damos clic en el botón "Create Target Group". Seleccionamos/ingresamos los siguientes valores:
 
