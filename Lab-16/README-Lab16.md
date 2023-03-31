@@ -19,7 +19,7 @@
 
 ---
 
-### A - Despliegue de contenido estático en ClodFront
+### A - Despliegue de contenido estático en CloudFront
 
 
 <br>

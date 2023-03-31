@@ -63,7 +63,7 @@ Este repositorio tiene por objetivo desarrollar laboratorios complementarios al 
 * Configuración de "EC2 AutoScaling Group" usando "Launch Configuration", "SNS" y "CloudWatch Alarm"
 
 #### **Laboratorio 16: CloudFront & S3** [README-Lab16.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-16/README-Lab16.md)
-* Despliegue de contenido estático en ClodFront
+* Despliegue de contenido estático en CloudFront
 * Configuración de Cache con TTL 0 en CloudFront
 * Identificar la configuración OAI (Origin Access Identities) en la distribución CloudFront y el bucket S3
 
