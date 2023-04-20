@@ -10,49 +10,49 @@ Parameters:
   VPCCIDR:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.0.0/16
+     Default: 10.0.0.0/16
      Description: CIDR Block for the VPC
      Type: String
      
   SubnetCIDR1:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.1.0/24
+     Default: 10.0.1.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
      
   SubnetCIDR2:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.2.0/24
+     Default: 10.0.2.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
      
   SubnetCIDR3:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.3.0/24
+     Default: 10.0.3.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
      
   SubnetCIDR4:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.4.0/24
+     Default: 10.0.4.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
      
   SubnetCIDR5:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.5.0/24
+     Default: 10.0.5.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
      
   SubnetCIDR6:
      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
      ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
-     Default: 192.168.6.0/24
+     Default: 10.0.6.0/24
      Description: CIDR Block for the Public Subnet (Load Balancer)
      Type: String
 
@@ -121,7 +121,7 @@ Resources:
       InstanceTenancy: default
       Tags:
       - Key: Name
-        Value: 'VPC'
+        Value: 'VPC ECS'
       - Key: Enviroment
         Value: PROD
         
@@ -132,7 +132,7 @@ Resources:
     Properties:
       Tags:
       - Key: Name
-        Value: 'IG'
+        Value: 'IG ECS'
       - Key: Enviroment
         Value: PROD
             
@@ -155,7 +155,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
       - Key: Name
-        Value: 'SUBNET PUBLIC AZ A'
+        Value: 'SUBNET PUBLIC AZ A ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -168,7 +168,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
       - Key: Name
-        Value: 'SUBNET PUBLIC AZ B'
+        Value: 'SUBNET PUBLIC AZ B ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -181,7 +181,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE AZ A'
+        Value: 'SUBNET PRIVATE AZ A ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -194,7 +194,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE AZ B'
+        Value: 'SUBNET PRIVATE AZ B ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -208,7 +208,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE DB AZ A'
+        Value: 'SUBNET PRIVATE DB AZ A ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -221,7 +221,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
       - Key: Name
-        Value: 'SUBNET PRIVATE DB AZ B'
+        Value: 'SUBNET PRIVATE DB AZ B ECS'
       - Key: Enviroment
         Value: PROD
 
@@ -233,7 +233,7 @@ Resources:
       VpcId: !Ref Vpc
       Tags:
       - Key: Name
-        Value: 'RT PUBLIC'
+        Value: 'RT PUBLIC ECS'
       - Key: Enviroment
         Value: PROD
         
@@ -243,7 +243,7 @@ Resources:
       VpcId: !Ref Vpc
       Tags:
       - Key: Name
-        Value: 'RT PRIVATE'
+        Value: 'RT PRIVATE ECS'
       - Key: Enviroment
         Value: PROD
               
@@ -290,7 +290,7 @@ Resources:
       SubnetId: !Ref VpcSubnetPublicAZb
       Tags:
       - Key: Name
-        Value: 'EC2 NAT Instances'     
+        Value: 'EC2 NAT Instances ECS'     
       - Key: Enviroment
         Value: PROD
 
@@ -443,7 +443,7 @@ Resources:
           - !Ref VpcSubnetPublicAZb
         Tags:
           - Key: Name
-            Value: 'ALB'
+            Value: 'ALB ECS'
           - Key: Enviroment
             Value: PROD
         Type: application 
@@ -485,11 +485,11 @@ Resources:
 
 #Creacion del Recurso RDS Subnet Group (Base de Datos)
 
-  RDSSubnetGroup:
+  RDSSubnetGroupECS:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
       DBSubnetGroupDescription: For Launching RDS
-      DBSubnetGroupName: rds-subnet-group
+      DBSubnetGroupName: rds-subnet-group-ecs
       SubnetIds:
       - !Ref VpcSubnetPrivateDBAZa
       - !Ref VpcSubnetPrivateDBAZb
@@ -532,7 +532,7 @@ Resources:
       DBInstanceClass: !Select [ 0, !Ref InstancesDBFamily]
       DBInstanceIdentifier: !Ref DBInstanceIdentifier
       DBName: !Ref DBName
-      DBSubnetGroupName: !Ref RDSSubnetGroup
+      DBSubnetGroupName: !Ref RDSSubnetGroupECS
       Engine: mysql
 #      EngineVersion: 8.0.23
       MasterUsername: !Ref DBUser
@@ -548,7 +548,7 @@ Resources:
         - !Ref RDSSecurityGroupMySQL      
       Tags:
         - Key: Name
-          Value: RDSMySQL
+          Value: RDSMySQLECS
         - Key: Enviroment
           Value: PROD        
 
@@ -679,7 +679,7 @@ Resources:
       SubnetId: !Ref VpcSubnetPublicAZa
       Tags:
       - Key: Name
-        Value: 'EC2 TOOL'   
+        Value: 'EC2 TOOL ECS'   
       - Key: Enviroment
         Value: PROD
         
