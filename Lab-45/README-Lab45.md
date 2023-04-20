@@ -26,7 +26,7 @@
 
 1. Crear un bucket de S3
 
-  - Bucket name: lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}
+    * Bucket name: lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}
 
 <br>
 
@@ -36,11 +36,11 @@
 
 2. Ir al servicio DynamoDB y generar una tabla:
 
-  * Ingresar al features "Tables", luego dar clic en el botón "Create table"
-  * Ingresar los siguientes valores:
-    * Table name: StepFunction
-    * Partition Key (String): filename
-  * Dar clic en el botón "Create Table"
+    * Ingresar al features "Tables", luego dar clic en el botón "Create table"
+    * Ingresar los siguientes valores:
+      * Table name: StepFunction
+      * Partition Key (String): filename
+    * Dar clic en el botón "Create Table"
 
 <br>
 
@@ -54,24 +54,24 @@
 
 3. Ir al servicio Lambda y generar dos funciones lambda. La configuración de las funciones Lambda se detalla a continuación
 
-  * Dar clic en la función "Create function" en la creación de cada Lambda.
+    * Dar clic en la función "Create function" en la creación de cada Lambda.
 
 <br>
 
 4. Sobre el Lambda #01, dar clic en el botón "Create function":
 
-  * Seguir seleccionando la opción "Author from scratch" 
-  * Function name: StepFunctionMetadata
-  * Runtime: Python 3.9
-  * Permissions: 
-    * Execution role: Create a new role from AWS policy templates
-    * Role name: StepFunctionTranscodeRole
-    * Policy templates:
-      * Amazon S3 object read-only permissions
-      * Simple microservice permissions
-  * Dar clic en el botón "Create Function"
-  * Copiar el siguiente código python. Reemplazar el valor del campo <REPLACE WITH YOUR TABLE NAME> por el nombre de la tabla DynamoDB creado anteriormente "StepFunction". Luego, dar clic en "Deploy"
-  * Obtener el ARN del Lambda #01. P.ej.: arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:StepFunctionMetadata
+    * Seguir seleccionando la opción "Author from scratch" 
+    * Function name: StepFunctionMetadata
+    * Runtime: Python 3.9
+    * Permissions: 
+      * Execution role: Create a new role from AWS policy templates
+      * Role name: StepFunctionTranscodeRole
+      * Policy templates:
+        * Amazon S3 object read-only permissions
+        * Simple microservice permissions
+    * Dar clic en el botón "Create Function"
+    * Copiar el siguiente código python. Reemplazar el valor del campo "REPLACE WITH YOUR TABLE NAME" por el nombre de la tabla DynamoDB creado anteriormente "StepFunction". Luego, dar clic en "Deploy"
+    * Obtener el ARN del Lambda #01. P.ej.: arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:StepFunctionMetadata
 
 
 <br>
@@ -138,16 +138,16 @@ def lambda_handler(event,context):
 
 5. Sobre el Lambda #02, dar clic en el botón "Create function":
 
-  * Regresar a la sección "Functions" y dar clic en el botón "Create function"
-  * Seguir seleccionando la opción "Author from scratch" 
-  * Function name: Rekognition
-  * Runtime: Python 3.9
-  * Permissions: 
-    * Execution role: Use an existing role
-    * Role name: service-role/StepFunctionTranscodeRole
-  * Dar clic en el botón "Create Function"
-  * Copiar el siguiente código. Reemplazar el valor del campo <REPLACE WITH YOUR TABLE NAME> por el nombre de la tabla DynamoDB creado anteriormente "StepFunction". Dar clic en "Deploy"
-  * Obtener el ARN del Lambda. P.ej.: arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:Rekognition
+    * Regresar a la sección "Functions" y dar clic en el botón "Create function"
+    * Seguir seleccionando la opción "Author from scratch" 
+    * Function name: Rekognition
+    * Runtime: Python 3.9
+    * Permissions: 
+      * Execution role: Use an existing role
+      * Role name: service-role/StepFunctionTranscodeRole
+    * Dar clic en el botón "Create Function"
+    * Copiar el siguiente código. Reemplazar el valor del campo "REPLACE WITH YOUR TABLE NAME" por el nombre de la tabla DynamoDB creado anteriormente "StepFunction". Dar clic en "Deploy"
+    * Obtener el ARN del Lambda. P.ej.: arn:aws:lambda:us-east-1:XXXXXXXXXXXX:function:Rekognition
 
 <br>
 
@@ -235,15 +235,15 @@ def lambda_handler(event, context):
 
 7. Ir al servicio Step Functions. Ejecutar los siguientes pasos:
 
-  * Ir al features "State machines"
-  * Dar clic en "Create state machine"
-  * Define state machine: "Write your workflow in code"
-  * Type: Standard
-  * En la sección "Definition", reemplazar el código mostrado por el siguiente código. Reemplazar el ARN de los Lambdas respectivamente en las variables: "<LAMBDA ARN THAT EXTRACTS METADATA>" y "<LAMBDA ARN THAT CALLS REKOGNITION API>". La variable "LAMBDA ARN THAT EXTRACTS METADATA" corresponde a la función Lambda #01 ("StepFunctionMetadata") y la variable "LAMBDA ARN THAT CALLS REKOGNITION API" corresponde a la función Lambda #02 ("Rekognition")
-  * Dar clic en el botón "Next"
-  * Name: MyStateMachine
-  * Permissions: Create new role
-  * Dar clic en el botón "Create state machine"
+    * Ir al features "State machines"
+    * Dar clic en "Create state machine"
+    * Define state machine: "Write your workflow in code"
+    * Type: Standard
+    * En la sección "Definition", reemplazar el código mostrado por el siguiente código. Reemplazar el ARN de los Lambdas respectivamente en las variables: "LAMBDA ARN THAT EXTRACTS METADATA" y "LAMBDA ARN THAT CALLS REKOGNITION API". La variable "LAMBDA ARN THAT EXTRACTS METADATA" corresponde a la función Lambda #01 ("StepFunctionMetadata") y la variable "LAMBDA ARN THAT CALLS REKOGNITION API" corresponde a la función Lambda #02 ("Rekognition")
+    * Dar clic en el botón "Next"
+    * Name: MyStateMachine
+    * Permissions: Create new role
+    * Dar clic en el botón "Create state machine"
  
 <br>
 
@@ -312,20 +312,20 @@ def lambda_handler(event, context):
 
 8. Ir al servicio de CloudTrail. Ejecutar los siguientes pasos:
 
-  * Ir al features "Trails"
-  * Dar clic en el botón "Create trail"
-  * Ingresar los siguientes valores:
-    * Trail name: trail
-    * Deshabilitar "Log file SSE-KMS encryption"
-    * Deshabilitar "Log file validation"
-  * Dar clic en el botón "Next"
-  * En la sección "Events", seleccionar la opción "Data events"
-  * Dar clic en el botón "Switch to basic event selectors"
-  * En la sección "Data event" - "Data event type" seleccionar el valor: S3
-  * En la sección "All current and future S3 buckets", deshabilitar la opciones: "Read" y "Write"
-  * Ingresar el nombre del bucket creado en el paso 1: "lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}" 
-  * Dar clic en el botón "Next"
-  * Dar clic en el botón "Create trail"
+    * Ir al features "Trails"
+    * Dar clic en el botón "Create trail"
+    * Ingresar los siguientes valores:
+      * Trail name: trail
+      * Deshabilitar "Log file SSE-KMS encryption"
+      * Deshabilitar "Log file validation"
+    * Dar clic en el botón "Next"
+    * En la sección "Events", seleccionar la opción "Data events"
+    * Dar clic en el botón "Switch to basic event selectors"
+    * En la sección "Data event: S3" - "Data event source" seleccionar el valor: S3
+    * En la sección "All current and future S3 buckets", deshabilitar la opciones: "Read" y "Write"
+    * Ingresar el nombre del bucket creado en el paso 1: "lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}" y seleccionar las opciones "Read" y "Write"
+    * Dar clic en el botón "Next"
+    * Dar clic en el botón "Create trail"
 
 <br>
 
@@ -355,28 +355,28 @@ def lambda_handler(event, context):
 
 9. Ir al servicio de Event Bridge. Ejecutar los siguientes pasos:
 
-  * Ir al features "Events" - "Rules"
-  * Dar clic en "Create Rule"
-  * Ingresar nombre de la regla: "S3PutObject"
-  * En la sección "Rule Type", seleccionar "Rule with an event pattern"
-  * Dar clic en "Next"
-  * En la sección "Event Source", seleccionar:
-    * Event source: AWS events or EventBridge partner events
-  * En la sección "Event Pattern", seleccionar:
-    * Event source: AWS Services
-    * AWS Services: Simple Storage Service (S3)
-    * Event Type: Object Level API Call via CloudTrail
-    * Specific operation(s): Put Object
-    * Specific bucket(s) by name: Ingresar nombre del bucket creado en el paso 1 ("lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}")
+    * Ir al features "Events" - "Rules"
+    * Dar clic en "Create Rule"
+    * Ingresar nombre de la regla: "S3PutObject"
+    * En la sección "Rule Type", seleccionar "Rule with an event pattern"
+    * Dar clic en "Next"
+    * En la sección "Event Source", seleccionar:
+      * Event source: AWS events or EventBridge partner events
+    * En la sección "Event Pattern", seleccionar:
+      * Event source: AWS Services
+      * AWS Services: Simple Storage Service (S3)
+      * Event Type: Object Level API Call via CloudTrail
+      * Specific operation(s): PutObject
+      * Specific bucket(s) by name: Ingresar nombre del bucket creado en el paso 1 ("lab45-aws-solutionsarchitectassociate-{ID_ACCOUNT}")
+      * Dar clic en el botón "Next"
+    * En la sección "Select Target(s)", seleccionar:
+      * Target Types: "AWS Services"
+      * Select a target: "Step Functions state machine"
+      * State machine: MyStateMachine
+      * Execution Role: "Create a new role for this specific resource"
+      * Dar clic en el botón "Next"
     * Dar clic en el botón "Next"
-  * En la sección "Select Target(s)", seleccionar:
-    * Target Types: "AWS Services"
-    * Select a target: "Step Functions state machine"
-    * State machine: MyStateMachine
-    * Execution Role: "Create a new role for this specific resource"
-    * Dar clic en el botón "Next"
-  * Dar clic en el botón "Next"
-  * Dar clic en el botón "Create rule"
+    * Dar clic en el botón "Create rule"
 
 <br>
 
