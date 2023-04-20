@@ -194,8 +194,8 @@ Este repositorio tiene por objetivo:
 * Interactuar con la API de Amazon Polly
 
 #### **Laboratorio 54: Amazon ECS, ECR, Secrets Manager y EFS (Elastic File System)** [README-Lab54.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-54/README-Lab54.md)
-* Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
-* Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
+* Uso de los servicios ECR (Elastic Container Registry), EFS, Secrets Manager y aprovisionamiento de un cluster ECS-EC2
+* Uso de Tasks Definition & Services
 
 #### **Laboratorio 55: Custom IAM Policies** [README-Lab55.md](https://github.com/jbarreto7991/aws-solutionsarchitectassociate/blob/main/Lab-55/README-Lab55.md)
 * Accesos de usuarios IAM a determinados buckets S3 usando Custom IAM Policies

@@ -3,8 +3,8 @@
 <br>
 
 ### Objetivo: 
-* Uso del servicio ECR (Elastic Container Registry), EFS y Secrets Manager y upload de una imagen Docker
-* Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
+* Uso de los servicios ECR (Elastic Container Registry), EFS, Secrets Manager y aprovisionamiento de un cluster ECS-EC2
+* Uso de Tasks Definition & Services
 
 ### Tópico:
 * Container
@@ -274,6 +274,8 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 }
 ```
 
+<br>
+
 12. Desde el servicio IAM, generar el siguiente rol. Este rol usará la siguiente relación de confianza para "ecs.tasks.amazonaws.com" y la política creada en el paso anterior. Además se asignará la siguiente política: "AmazonECSTaskExecutionRolePolicy"
 
     * Trusted entity type: Custom trust policy
@@ -281,6 +283,7 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
     * Policies:
         * secrets_manager_ecs
         * AmazonECSTaskExecutionRolePolicy
+        * CloudWatchFullAccess
 
 ```bash
 {
@@ -367,7 +370,7 @@ latest: digest: sha256:68ef8352d74c0f6715b14e3b9430dfcb5f529107ba222411c032aa990
 
 <br>
 
-16. Desde la instancia "EC2 TOOL" montamos el EFS creado previamente. La plantilla cloudformation respectiva ha automatizada la instalación de los componetes que la distribución de Ubuntu necesita. 
+16. Desde la instancia "EC2 TOOL" montamos el EFS creado previamente. La plantilla cloudformation respectiva ha automatizada la instalación de los componetes que la distribución de Ubuntu necesita. Esperar unos segundos, desde la creación del EFS hasta la ejecución del comando "mount -a". Si el comando "mount -a" se ejecuta muy rápido se mostrará el siguiente mensaje de error "mount.nfs4: Failed to resolve server $EFS.efs.$REGION.amazonaws.com: Name or service not known"
 
 ```bash
 #Comando - Mount EFS (Elastic File System)
@@ -396,7 +399,7 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
 
 <br>
 
-### B - Creación de un cluster ECS-EC2 (Elastic Container Services) y uso de un task definition y services
+### B - Task definition & services
 
 <br>
 
@@ -507,7 +510,7 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
         * Compute options: Launch Type
         * Launch type: EC2
     * **Deployment configuration**
-        * Application type: Services
+        * Application type: Service
         * Service name: app-coffee
         * Service type: Replica
         * Desired tasks: 1
@@ -544,7 +547,7 @@ fs-084ff412b7e63bd93.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /mnt/e
 
 <br>
 
-19. Acceder al DNS del balanceador de aplicaciones y validar que la aplicación está ejecutándose. Acceder a los botones "Home" y "Coffee". La opción "Coffee" permite la conexión a la base de datos RDS.
+19. Accedemos al security group asociado al cluster de ECS-EC2 y modificamos la regla de entrada. Eliminamos el registro que se muestra y agregamos un registro "Type: All Trafic" y "Source: Security Group ID del ALB (Balanceador de Aplicaciones)". Luego, accedemos al DNS del balanceador de aplicaciones y validamos que la aplicación esté ejecutándose. Accedemos a los botones "Home" y "Coffee". La opción "Coffee" permite la conexión a la base de datos RDS.
 
 <br>
 
@@ -583,7 +586,7 @@ tail -f /mnt/efs/access.log
 
 <br>
 
-21. Desde la instancia "EC2 TOOL" acceder al Cluster ECS-EC2. Se deberá agregar permisos al security group de la instancia ECS-EC2 para poder acceder. Considerar que la llave key.pem deberá ser importado a esta instancia. Desde el cluster ECS-EC2 realizar las siguientes validaciones
+21. Desde la instancia "EC2 TOOL" acceder al Cluster ECS-EC2. Se deberá agregar permisos al security group de la instancia ECS-EC2 para poder acceder. Considerar que la llave key.pem deberá ser importada a esta instancia. Desde el cluster ECS-EC2 realizar las siguientes validaciones
 
 ```bash
 #Comando Docker
